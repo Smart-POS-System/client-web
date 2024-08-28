@@ -3,9 +3,11 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  ProductOutlined,
   UserOutlined,
   UserAddOutlined,
+  UnorderedListOutlined,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
@@ -33,9 +35,9 @@ const items = [
     getItem("My Profile", "/view", <UserOutlined />),
     getItem("Customers", "/customers", <HiOutlineUsers />),
   ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
+  getItem("Products", "sub2", <ProductOutlined />, [
+    getItem("See All Products", "/products", <UnorderedListOutlined />),
+    getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
   ]),
   getItem("Files", "9", <FileOutlined />),
 ];

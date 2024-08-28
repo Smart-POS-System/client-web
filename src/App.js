@@ -15,6 +15,8 @@ import CreateUser from "./components/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
 import Customers from "./pages/Customers";
+import AllProducts from "./pages/AllProducts";
+import CreateProduct from "./pages/CreateProduct";
 
 function App() {
   useEffect(() => {
@@ -37,9 +39,9 @@ function App() {
             <Routes>
               <Route
                 element={
-                  <ProtectedRoute>
-                    <AppLayout />
-                  </ProtectedRoute>
+                  // <ProtectedRoute>
+                  <AppLayout />
+                  // </ProtectedRoute>
                 }
               >
                 <Route index element={<Navigate replace to="dashboard" />} />
@@ -49,6 +51,8 @@ function App() {
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
+                <Route path="products" element={<AllProducts />} />
+                <Route path="create-product" element={<CreateProduct />} />
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
