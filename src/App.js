@@ -1,10 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import Bookings from "./pages/Bookings";
 import Login from "./pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
-import Booking from "./pages/Booking";
 import ProtectedRoute from "./pages/ProtectedRoute";
 
 import PageNotFound from "./pages/PageNotFound";
@@ -17,6 +15,7 @@ import ActionProvider from "./context/actionContext";
 import CreateUser from "./ui/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
+import Customers from "./pages/Customers";
 
 function App() {
   useEffect(() => {
@@ -50,8 +49,7 @@ function App() {
                 <Route path="create" element={<CreateUser />} />
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
-                <Route path="bookings" element={<Bookings />} />
-                <Route path="bookings/:bookingId" element={<Booking />} />
+                <Route path="customers" element={<Customers />} />
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />

@@ -13,6 +13,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Logo from "./Logo";
 import { useAction } from "../context/actionContext";
 import { useUserData } from "../context/userContext";
+import { useUser } from "../hooks/useUser";
 
 const { Sider } = Layout;
 
@@ -32,6 +33,7 @@ const items = [
     getItem("See All Users", "/users", <HiOutlineUsers />),
     getItem("Add New User", "/create", <UserAddOutlined />),
     getItem("My Profile", "/view", <UserOutlined />),
+    getItem("Customers", "/customers", <HiOutlineUsers />),
   ]),
   getItem("Team", "sub2", <TeamOutlined />, [
     getItem("Team 1", "6"),
@@ -44,6 +46,7 @@ function NavigationBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUpdatingUser } = useAction();
+
   const [selectedKey, setSelectedKey] = useState(location.pathname);
 
   useEffect(() => {
@@ -73,7 +76,7 @@ function NavigationBar() {
       }}
     >
       <div className="demo-logo-vertical" />
-      <div className="items-center w-3/4 h-auto pt-15 m-auto">
+      <div className="items-center w-2/4 h-auto pt-8 m-auto">
         <Logo />
       </div>
       <Menu

@@ -70,7 +70,7 @@ function AllUsers() {
           <div className="w-full md:w-auto flex-grow">
             <Search
               className="w-full"
-              placeholder="Input search text"
+              placeholder="Search Employee"
               enterButton="Search"
               size={searchSize}
               loading={false}

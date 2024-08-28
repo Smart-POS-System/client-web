@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-function Phone({ errors, control, phone }) {
+function Phone({ errors, control, phone, isLoggedUser }) {
   return (
     <>
       <div>
@@ -9,7 +9,7 @@ function Phone({ errors, control, phone }) {
           htmlFor="phone"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Mobile Number
+          {isLoggedUser ? "Contact Number" : "Mobile Number"}
         </label>
         <Controller
           name="phone"

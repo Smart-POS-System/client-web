@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
 import NavigationBar from "../ui/Navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout, theme } from "antd";
+import Profile from "../ui/Profile";
+import { useUserData } from "../context/userContext";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 const { Header, Content, Footer } = Layout;
 
@@ -9,6 +12,14 @@ function AppLayout() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const { isLoading, user } = useCurrentUser();
+  const { storeFullUser } = useUserData();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      storeFullUser(user);
+    }
+  }, [isLoading, user, storeFullUser]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -22,10 +33,12 @@ function AppLayout() {
         }}
       >
         <Header
-          className="p-0 md:h-20 h-14 w-full"
+          className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-end"
           style={{ background: colorBgContainer }}
         >
-          Header
+          <div className="flex  mr-4">
+            <Profile />
+          </div>
         </Header>
         <Content
           className="w-11/12"

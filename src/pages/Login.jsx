@@ -30,13 +30,13 @@ export default function Login() {
       <div className="container mx-auto h-full p-10 items-center justify-center fadeInAnimation">
         <div className="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
           <div className="w-full lg:w-9/12 items-center">
-            <div className="block rounded-lg bg-blue-50 shadow-lg dark:bg-neutral-800">
+            <div className="block rounded-3xl bg-blue-50 shadow-lg dark:bg-neutral-800">
               <div className="g-0 lg:flex lg:flex-wrap">
                 {/* <!-- Left column container--> */}
                 <div className="px-4 md:px-0 w-full lg:w-6/12 items-center justify-center">
                   <div className="md:mx-6 md:p-12">
                     {/* <!--Logo--> */}
-                    <div className="text-center">
+                    <div className="text-center pt-10">
                       <img
                         className="mx-auto w-48"
                         src="SmartPOS.png"
@@ -53,14 +53,21 @@ export default function Login() {
                 {/* <!-- Right column container with background and description--> */}
                 {isLargeScreen && (
                   <div
-                    className="flex bg-contain items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
+                    className="flex bg-blue-500 items-center rounded-b-3xl lg:w-6/12 lg:rounded-r-3xl lg:rounded-bl-none"
                     style={{
-                      backgroundImage: "url('/pos1.png')",
-                      backgroundSize: "cover",
-                      backgroundBlendMode: "overlay",
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(96, 165, 250, 0.8))",
+                      backgroundSize: "auto",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
                     }}
                   >
-                    <AnimatedDescriptions />
+                    <img
+                      className="w-11/12 h-auto mx-auto"
+                      src="/pos-3.png"
+                      alt="pos"
+                    />
+                    {/* <AnimatedDescriptions /> */}
                   </div>
                 )}
               </div>

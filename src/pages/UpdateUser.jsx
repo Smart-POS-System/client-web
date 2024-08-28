@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useUser } from "../hooks/useUser";
 import HourGlass from "../ui/HourGlass";
 import UserForm from "../ui/UserForm";

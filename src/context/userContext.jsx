@@ -5,6 +5,7 @@ const userContext = createContext();
 
 function UserProvider({ children }) {
   const [user, setUser] = useState({});
+  const [fullUser, setFullUser] = useState({});
 
   function setUserLogin(token) {
     localStorage.setItem("token", token);
@@ -14,8 +15,14 @@ function UserProvider({ children }) {
     console.log(Math.floor(Date.now() / 1000));
   }
 
+  function storeFullUser(user) {
+    setFullUser(user);
+  }
+
   return (
-    <userContext.Provider value={{ user, setUserLogin }}>
+    <userContext.Provider
+      value={{ user, setUserLogin, fullUser, storeFullUser }}
+    >
       {children}
     </userContext.Provider>
   );

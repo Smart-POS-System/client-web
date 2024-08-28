@@ -9,9 +9,7 @@ function Selection({ searchSize, onRoleSelect, onSearchRole }) {
     "General Manager",
     "Regional Manager",
     "Inventory Manager",
-    "Inventory Supervisor",
     "Store Manager",
-    "Store Supervisor",
     "Cashier",
   ];
 

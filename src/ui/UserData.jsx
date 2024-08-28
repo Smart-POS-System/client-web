@@ -28,7 +28,7 @@ function UserData({ user, isLoggedUser }) {
       <div
         className={`${
           isLoggedUser
-            ? "flex flex-col rounded-lg items-center border-2 border-blue-500 p-4"
+            ? "flex flex-col rounded-lg items-center border-2 border-blue-500 p-4 shadow-md"
             : ""
         }`}
       >
@@ -124,8 +124,11 @@ function UserData({ user, isLoggedUser }) {
       </div>
       {isUpdateClicked && (
         <div className="mt-4">
-          <UserForm user={user} isLoggedUser={true} />
-          <Button onClick={handleCancel}>Cancel</Button>
+          <UserForm
+            user={user}
+            isLoggedUser={true}
+            handleProfileUpdate={handleCancel}
+          />
         </div>
       )}
     </>

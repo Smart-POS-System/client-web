@@ -1,14 +1,15 @@
+import { useUserData } from "../context/userContext";
 import { useUser } from "../hooks/useUser";
 import HourGlass from "./HourGlass";
 import UserData from "./UserData";
 
 function MyDetails() {
-  const { isLoading, user } = useUser();
+  const { fullUser: user } = useUserData();
   console.log("loggeduser", user);
 
-  if (isLoading) {
-    return <HourGlass />;
-  }
+  // if (isLoading) {
+  //   return <HourGlass />;
+  // }
   return <UserData user={user} isLoggedUser={true} />;
 }
 
