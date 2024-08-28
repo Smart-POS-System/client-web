@@ -1,6 +1,4 @@
 import { useUserData } from "../context/userContext";
-import { useUser } from "../hooks/useUser";
-import HourGlass from "./HourGlass";
 import UserData from "./UserData";
 
 function MyDetails() {

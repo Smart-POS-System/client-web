@@ -1,7 +1,7 @@
 import React from "react";
 import { useUser } from "../hooks/useUser";
-import HourGlass from "../ui/HourGlass";
-import UserForm from "../ui/UserForm";
+import HourGlass from "../components/HourGlass";
+import UserForm from "../components/UserForm";
 
 function UpdateUser() {
   const { isLoading: isFetching, user } = useUser();

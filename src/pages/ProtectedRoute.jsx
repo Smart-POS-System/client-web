@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUserData } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
-import HourGlass from "../ui/HourGlass";
+import HourGlass from "../components/HourGlass";
 
 function ProtectedRoute({ children }) {
   const { user } = useUserData();

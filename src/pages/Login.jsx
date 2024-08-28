@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../login.css";
-import AnimatedDescriptions from "../ui/AnimatedDescriptions";
-import LoginForm from "../ui/LoginForm";
+import LoginForm from "../components/LoginForm";
 
 export default function Login() {
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 1024);

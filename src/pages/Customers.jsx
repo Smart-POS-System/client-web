@@ -1,4 +1,4 @@
-import TableView from "../ui/Table";
+import TableView from "../components/Table";
 function Customers() {
   return (
     <div className="mx-4 mt-4">

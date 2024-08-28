@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./pages/ProtectedRoute";
-
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./pages/AppLayout";
 import { useEffect } from "react";
@@ -12,7 +11,7 @@ import { Tooltip, initTWE } from "tw-elements";
 import UserProvider from "./context/userContext";
 import AllUsers from "./pages/AllUsers";
 import ActionProvider from "./context/actionContext";
-import CreateUser from "./ui/UserForm";
+import CreateUser from "./components/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
 import Customers from "./pages/Customers";

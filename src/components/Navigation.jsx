@@ -9,11 +9,9 @@ import {
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useAction } from "../context/actionContext";
-import { useUserData } from "../context/userContext";
-import { useUser } from "../hooks/useUser";
 
 const { Sider } = Layout;
 

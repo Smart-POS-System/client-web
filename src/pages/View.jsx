@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import { useUserData } from "../context/userContext";
-import MyDetails from "../ui/MyDetails";
+import MyDetails from "../components/MyDetails";
 import { useEffect } from "react";
 
 function View() {

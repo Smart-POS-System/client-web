@@ -1,4 +1,4 @@
-import UserForm from "../ui/UserForm";
+import UserForm from "../components/UserForm";
 
 function CreateUser() {
   return (

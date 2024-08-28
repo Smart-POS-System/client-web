@@ -1,8 +1,8 @@
 import { Input, Pagination } from "antd";
-import UserList from "../ui/UserList";
+import UserList from "../components/UserList";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Selection from "../ui/Selection";
+import Selection from "../components/Selection";
 
 function AllUsers() {
   const [searchParams, setSearchParams] = useSearchParams();

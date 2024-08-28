@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import NavigationBar from "../ui/Navigation";
+import NavigationBar from "../components/Navigation";
 import React, { useEffect } from "react";
 import { Layout, theme } from "antd";
-import Profile from "../ui/Profile";
+import Profile from "../components/Profile";
 import { useUserData } from "../context/userContext";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 
