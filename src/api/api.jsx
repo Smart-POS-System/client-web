@@ -92,7 +92,7 @@ export async function addUser(data) {
     console.log("create formData", formData);
     const response = await axiosInstance({
       method: "post",
-      url: `http://localhost:3000/api/v1/users`,
+      url: `http://localhost:3009/api/v1/users`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -117,8 +117,8 @@ export async function updateUser(id, data) {
     const response = await axiosInstance({
       method: "patch",
       url: data?.role
-        ? `http://localhost:3000/api/v1/users/${id}`
-        : `http://localhost:3000/api/v1/users/updateMe/${id}`,
+        ? `http://localhost:3009/api/v1/users/${id}`
+        : `http://localhost:3009/api/v1/users/updateMe/${id}`,
       data: data,
       headers: {
         "Content-Type": "application/json",
@@ -146,7 +146,7 @@ export async function uploadImage(id, image) {
 
     const response = await axiosInstance({
       method: "patch",
-      url: `http://localhost:3000/api/v1/users/updateImage/${id}`,
+      url: `http://localhost:3009/api/v1/users/updateImage/${id}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

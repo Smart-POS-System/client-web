@@ -15,6 +15,7 @@ import CreateUser from "./components/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
 import Customers from "./pages/Customers";
+import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 
 function App() {
   useEffect(() => {
@@ -32,7 +33,8 @@ function App() {
     <UserProvider>
       <ActionProvider>
         <QueryClientProvider client={queryClient}>
-          {/*  <ReactQueryDevtools initialIsOpen={false} /> */}
+          {/* <Cashier_Dash /> */}
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <BrowserRouter>
             <Routes>
               <Route

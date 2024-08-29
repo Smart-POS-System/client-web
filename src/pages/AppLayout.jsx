@@ -41,10 +41,11 @@ function AppLayout() {
           </div>
         </Header>
         <Content
-          className="w-11/12"
+          // className="w-full"
           style={{
+            width: "100%",
             flex: 1,
-            padding: "0 24px",
+            padding: "24px",
             overflowY: "auto", // Ensure Content can scroll if needed
           }}
         >
