@@ -72,6 +72,7 @@ function App() {
                   backdropFilter: "blur(10px)",
                 },
               },
+
               error: {
                 duration: 5000,
                 style: {

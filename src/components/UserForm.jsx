@@ -30,7 +30,7 @@ function UserForm({
   const [resetImage, setResetImage] = useState(false);
   const [isImageRemoved, setIsImageRemoved] = useState(false);
   const { isLoading, handleAddUser } = useAddUser();
-  const { updatingUser } = useAction();
+  const { updatingUser, passwordUpdateClicked } = useAction();
   const { isLoading: isUpdating, handleUpdateUser } = useUpdateUser();
   const { isLoading: isImageUploading, handleUpdateImage } = useImage();
 
@@ -119,17 +119,21 @@ function UserForm({
           {!isLoggedUser && (
             <Email errors={errors} control={control} role={user?.email} />
           )}
-          <Phone
-            errors={errors}
-            control={control}
-            phone={user?.mobile}
-            isLoggedUser={isLoggedUser}
-          />
-          <UserImage
-            onImageChange={onImageChange}
-            reset={resetImage}
-            image={imageFile}
-          />
+          {!passwordUpdateClicked && user?.role !== "Cashier" && (
+            <>
+              <Phone
+                errors={errors}
+                control={control}
+                phone={user?.mobile}
+                isLoggedUser={isLoggedUser}
+              />
+              <UserImage
+                onImageChange={onImageChange}
+                reset={resetImage}
+                image={imageFile}
+              />
+            </>
+          )}
           {isLoggedUser && <PasswordUpdate />}
 
           <div className="flex justify-center gap-4 mt-4">

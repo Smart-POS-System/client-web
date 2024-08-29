@@ -162,3 +162,16 @@ export async function uploadImage(id, image) {
     handleError(error);
   }
 }
+
+export async function logoutUser() {
+  try {
+    console.log("logout user");
+    const response = await axiosInstance.post("/users/logout");
+    if (response?.data) {
+      // console.log(response.data);
+      return true;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}

@@ -72,14 +72,15 @@ function ViewUser({ isModalOpen, handleModal }) {
             >
               Return
             </Button>
-
-            <Button
-              type="primary"
-              onClick={handleUpdate}
-              className="w-full sm:w-auto"
-            >
-              Update
-            </Button>
+            {userData.role !== "Inventory Manager" && (
+              <Button
+                type="primary"
+                onClick={handleUpdate}
+                className="w-full sm:w-auto"
+              >
+                Update
+              </Button>
+            )}
             {userData.role === "General Manager" &&
               (!user?.is_active ? (
                 <Button
