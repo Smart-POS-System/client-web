@@ -12,6 +12,7 @@ import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useAction } from "../context/actionContext";
+//import { useUserData } from "../context/userContext";
 import { useUserData } from "../context/userContext";
 
 const { Sider } = Layout;
@@ -29,26 +30,31 @@ function NavigationBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUpdatingUser } = useAction();
-  const { user } = useUserData();
-
   const [selectedKey, setSelectedKey] = useState(location.pathname);
+  const { user } = useUserData();
 
   const items = [
     getItem("Option 1", "1", <PieChartOutlined />),
     getItem("Option 2", "2", <DesktopOutlined />),
-    getItem("Users", "sub1", <UserOutlined />, [
-      user.role !== "General Manager" //created a if here
-        ? getItem("See All Users", "/users", <HiOutlineUsers />)
-        : null,
-      getItem("Add New User", "/create", <UserAddOutlined />),
-      getItem("My Profile", "/view", <UserOutlined />),
-      getItem("Customers", "/customers", <HiOutlineUsers />),
-    ]),
+    user?.role !== "Cashier"
+      ? getItem("Users", "sub1", <UserOutlined />, [
+          getItem("See All Users", "/users", <HiOutlineUsers />),
+          getItem("Add New User", "/create", <UserAddOutlined />),
+          getItem("My Profile", "/view", <UserOutlined />),
+          getItem("Customers", "/customers", <HiOutlineUsers />),
+        ])
+      : null,
     getItem("Team", "sub2", <TeamOutlined />, [
       getItem("Team 1", "6"),
       getItem("Team 2", "8"),
     ]),
     getItem("Files", "9", <FileOutlined />),
+    user.role === "Cashier"
+      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      : null,
+    user?.role === "Cashier"
+      ? getItem("My Profile", "/view", <UserOutlined />)
+      : null,
   ];
 
   useEffect(() => {

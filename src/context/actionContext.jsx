@@ -5,6 +5,7 @@ const actionContext = createContext();
 function ActionProvider({ children }) {
   const [confirmDeleteActivate, setConfirmDeleteActivate] = useState(false);
   const [updatingUser, setUpdatingUser] = useState(false);
+  const [passwordUpdateClicked, setPasswordUpdateClicked] = useState(false);
 
   function handleUpdatingUser(value) {
     setUpdatingUser(value);
@@ -21,6 +22,8 @@ function ActionProvider({ children }) {
         handleUpdatingUser,
         confirmDeleteActivate,
         handleDeleteActivate,
+        passwordUpdateClicked,
+        setPasswordUpdateClicked,
       }}
     >
       {children}
