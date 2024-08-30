@@ -56,7 +56,6 @@ const Payment = ({ sum, value }) => {
       if (response.status === 201) {
         console.log("Checkout successful:", response.data, response.status);
         // Refresh the page after successful checkout
-        //window.location.reload();
         window.location.reload();
         // Show success notification
         // Show success notification
