@@ -1,17 +1,35 @@
 import React, { useState } from "react";
-import { Button, Input, Space, Typography, Row, Col, Divider } from "antd";
+import {
+  Button,
+  Input,
+  Space,
+  Typography,
+  Row,
+  Col,
+  Divider,
+  notification,
+} from "antd";
 import { DollarOutlined, CreditCardOutlined } from "@ant-design/icons";
 import PopUp from "./PopUpModel";
 import axiosInstance_sales from "../../api/axiosConfig_Sales";
+import { useUserData } from "../../context/userContext";
+import Notification from "./Notification";
+import Stash from "./StashBill";
 
 const { Title, Text } = Typography;
 
 const Payment = ({ sum, value }) => {
   const [amountReceived, setAmountReceived] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [billState, setBillState] = useState("pending");
 
   const handleInputChange = (e) => {
     setAmountReceived(e.target.value);
   };
+
+  //getting the userdata of the cashier currently working
+  const userData = useUserData();
+  console.log(userData);
 
   const calculateBalance = () => {
     const received = Number(amountReceived);
@@ -21,11 +39,11 @@ const Payment = ({ sum, value }) => {
   const handleCheckout = async () => {
     const data = {
       discount: 10,
-      cashier_id: 1,
+      cashier_id: userData.fullUser.employee_id,
       store_id: 1,
       customer_id: 1,
       items: { value }, // Replace with actual items data
-      paymentmethod: "cash",
+      paymentmethod: paymentMethod,
     };
 
     try {
@@ -38,7 +56,68 @@ const Payment = ({ sum, value }) => {
       if (response.status === 201) {
         console.log("Checkout successful:", response.data, response.status);
         // Refresh the page after successful checkout
-        window.location.reload();
+        //window.location.reload();
+        // Show success notification
+        // Show success notification
+        notification.success({
+          message: "Checkout Successful",
+          description: "The payment has been processed successfully.",
+          icon: <DollarOutlined style={{ color: "#108ee9" }} />,
+          placement: "topRight",
+          style: {
+            backgroundColor: "#cefad0", // Red background color
+            //color: "#fff", // White text color for better contrast
+          },
+        });
+
+        // Reload the page after a few seconds
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 3000); // 3 seconds delay before reload
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
+  };
+  const handleStash = async () => {
+    const data = {
+      discount: 10,
+      cashier_id: userData.fullUser.employee_id,
+      store_id: 1,
+      customer_id: 1,
+      items: { value }, // Replace with actual items data
+      paymentmethod: paymentMethod,
+      status: "stashed",
+    };
+
+    try {
+      const response = await axiosInstance_sales.post("/newOrder", data);
+      // console.log("API request made. Response:", response);
+
+      // Log the status code directly
+      // console.log("Status code:", response.status);
+      // console.log("Checkout successful:", response.data);
+      if (response.status === 201) {
+        console.log("Checkout successful:", response.data, response.status);
+        // Refresh the page after successful checkout
+        //window.location.reload();
+        // Show success notification
+        // Show success notification
+        notification.success({
+          message: "Checkout Successful",
+          description: "The payment has been processed successfully.",
+          icon: <DollarOutlined style={{ color: "#108ee9" }} />,
+          placement: "topRight",
+          style: {
+            backgroundColor: "#cefad0", // Red background color
+            //color: "#fff", // White text color for better contrast
+          },
+        });
+
+        // Reload the page after a few seconds
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 3000); // 3 seconds delay before reload
       }
     } catch (error) {
       console.error("Error during checkout:", error);
@@ -60,12 +139,36 @@ const Payment = ({ sum, value }) => {
 
       <Row gutter={[16, 16]} justify="center">
         <Col>
-          <Button type="primary" icon={<DollarOutlined />} size="large">
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: paymentMethod === "cash" ? "#1890ff" : "#ffffff", // Inverted background
+              color: paymentMethod === "cash" ? "#ffffff" : "#1890ff", // Inverted text color
+              borderColor: paymentMethod === "cash" ? "#1890ff" : "#1890ff", // Border color
+            }}
+            onClick={() => {
+              setPaymentMethod("cash");
+            }}
+            icon={<DollarOutlined />}
+            size="large"
+          >
             Cash
           </Button>
         </Col>
         <Col>
-          <Button type="primary" icon={<CreditCardOutlined />} size="large">
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: paymentMethod === "card" ? "#1890ff" : "#ffffff", // Inverted background
+              color: paymentMethod === "card" ? "#ffffff" : "#1890ff", // Inverted text color
+              borderColor: paymentMethod === "card" ? "#1890ff" : "#1890ff", // Border color
+            }}
+            onClick={() => {
+              setPaymentMethod("card");
+            }}
+            icon={<CreditCardOutlined />}
+            size="large"
+          >
             Card
           </Button>
         </Col>
@@ -107,8 +210,21 @@ const Payment = ({ sum, value }) => {
       </Row>
 
       <Divider />
-      <Button onClick={handleCheckout}>checkout</Button>
-      <PopUp />
+
+      {/* <PopUp popup asking cash or card? /> */}
+      <div className="flex justify-center" style={{ marginTop: "24px" }}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={handleCheckout}
+          style={{ margin: 8 }}
+        >
+          checkout
+        </Button>
+        <div className="m-[8px]">
+          <Stash func={handleStash} />
+        </div>
+      </div>
     </div>
   );
 };

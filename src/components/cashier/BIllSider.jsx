@@ -60,7 +60,7 @@ const BillSider = ({ value }) => {
         >
           <Bill value={value} sum={sum} />
         </div>
-        {calculateTotalBill(value)}
+        {/* {calculateTotalBill(value)} */}
       </div>
       <div className="mt-5">
         <div

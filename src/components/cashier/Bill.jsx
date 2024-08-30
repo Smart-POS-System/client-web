@@ -62,9 +62,11 @@ const columns = [
     title: "Total",
     dataIndex: "total",
     key: "total",
+
     render: (text, record) => (
-      <Text>
-        ${record.price} × {record.quantity} = ${record.price * record.quantity}
+      <Text style={{ textAlign: "right", display: "block" }}>
+        {/* ${record.price} × {record.quantity} = */}$
+        {record.price * record.quantity}
       </Text>
     ),
   },
@@ -76,7 +78,7 @@ const columns = [
 
 const Bill = ({ value, sum }) => {
   // const grandTotal = calculateGrandTotal(value);
-
+  console.log(value);
   return (
     <>
       <Divider
@@ -108,9 +110,9 @@ const Bill = ({ value, sum }) => {
         )}
       />
 
-      <div className="flex justify-center" style={{ marginTop: "24px" }}>
+      {/* <div className="flex justify-center" style={{ marginTop: "24px" }}>
         <Stash />
-      </div>
+      </div> */}
     </>
   );
 };

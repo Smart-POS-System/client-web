@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
-const Stash = () => {
+const Stash = ({ func }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
+    func();
     setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -13,7 +14,16 @@ const Stash = () => {
   };
   return (
     <>
-      <Button type="primary" onClick={showModal}>
+      <Button
+        type="primary"
+        size="large"
+        onClick={showModal}
+        style={{
+          backgroundColor: "#fff77d",
+          color: "#1890ff",
+          borderColor: "#1890ff",
+        }}
+      >
         Hold Bill
       </Button>
       <Modal
