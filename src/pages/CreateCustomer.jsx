@@ -1,7 +1,9 @@
+import UserForm from "../components/UserForm";
+
 function CreateCustomer() {
   return (
     <div>
-      <h1>Create Customer</h1>
+      <UserForm isLoggedUser={false} />
     </div>
   );
 }

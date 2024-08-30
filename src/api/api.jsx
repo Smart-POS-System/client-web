@@ -223,3 +223,17 @@ export async function resetPassword(token, data) {
     handleError(error);
   }
 }
+
+export async function addCustomer(data) {
+  try {
+    console.log("add customer data", data);
+    const response = await axiosInstance.post(`/customers`, data);
+
+    if (response?.data) {
+      console.log(response.data.data);
+      return response.data.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}

@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import { Controller } from "react-hook-form";
 
-function Name({ errors, control, name }) {
+function Name({ errors, control, name, currentUserRole }) {
   return (
     <>
       {" "}
@@ -10,23 +10,39 @@ function Name({ errors, control, name }) {
           htmlFor="name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Employee Name
+          {currentUserRole !== "Cashier" ? "Employee Name" : "Customer Name"}
         </label>
         <Controller
           name="name"
           defaultValue={name}
           control={control}
           rules={{
-            required: "Employee Name is required",
-
+            required: {
+              value: true,
+              message:
+                currentUserRole !== "Cashier"
+                  ? "Employee Name is required"
+                  : "Customer Name is required",
+            },
             pattern: {
               value: /^[A-Za-z_ ]+$/,
-              message:
-                "Employee Name can only contain letters, spaces, or underscores",
+              message: `${
+                currentUserRole !== "Cashier"
+                  ? "Employee Name"
+                  : "Customer Name"
+              } can only contain letters, spaces, or underscores`,
             },
           }}
           render={({ field }) => (
-            <Input {...field} id="name" placeholder="Enter Employee Name" />
+            <Input
+              {...field}
+              id="name"
+              placeholder={
+                currentUserRole !== "Cashier"
+                  ? "Enter Employee Name"
+                  : "Enter Customer Name"
+              }
+            />
           )}
         />
         {errors.name && (
