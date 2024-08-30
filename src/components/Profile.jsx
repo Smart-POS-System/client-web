@@ -1,9 +1,12 @@
 import { Dropdown } from "antd";
 import UserHeader from "./UserHeader";
 import { useNavigate } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
+import HourGlass from "./HourGlass";
 
 function Profile() {
   const navigate = useNavigate();
+  const { isLoading: isLoggingout, handleLogoutUser } = useLogout();
   const items = [
     {
       key: "1",
@@ -11,9 +14,14 @@ function Profile() {
     },
     {
       key: "2",
-      label: <span>Logout</span>,
+      label: <span onClick={handleLogoutUser}>Logout</span>,
     },
   ];
+
+  if (isLoggingout) {
+    return <HourGlass />;
+  }
+
   return (
     <Dropdown
       autoFocus
