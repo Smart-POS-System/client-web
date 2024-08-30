@@ -15,6 +15,8 @@ import CreateUser from "./components/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
 import Customers from "./pages/Customers";
+import ResetPassword from "./pages/ResetPassword";
+import CreateCustomer from "./pages/CreateCustomer";
 
 function App() {
   useEffect(() => {
@@ -49,8 +51,10 @@ function App() {
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
+                <Route path="customers/register" element={<CreateCustomer />} />
               </Route>
               <Route path="login" element={<Login />} />
+              <Route path="reset/:token" element={<ResetPassword />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>

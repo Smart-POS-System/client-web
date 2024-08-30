@@ -122,12 +122,12 @@ function UserData({ user, isLoggedUser }) {
           <div className="pb-4">
             {" "}
             <Button type="primary" onClick={handleUpdate}>
-              Update
+              Update Password
             </Button>{" "}
           </div>
         )}
       </div>
-      {(isUpdateClicked || passwordUpdateClicked) && (
+      {isLoggedUser && (isUpdateClicked || passwordUpdateClicked) && (
         <div className="mt-4">
           <UserForm
             user={user}

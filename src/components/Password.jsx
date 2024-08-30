@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
-function Password({ text, register, error }) {
+function Password({ text, error, ...field }) {
   return (
     <div className="flex flex-col mb-4">
       <label
@@ -14,7 +14,7 @@ function Password({ text, register, error }) {
       <Input.Password
         id={text.toLowerCase().replace(/ /g, "")}
         placeholder={text}
-        {...register}
+        {...field}
         iconRender={(visible) =>
           visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
         }

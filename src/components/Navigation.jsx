@@ -48,6 +48,9 @@ function NavigationBar() {
       getItem("Team 2", "8"),
     ]),
     getItem("Files", "9", <FileOutlined />),
+    user.role === "Cashier"
+      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      : null,
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
       : null,

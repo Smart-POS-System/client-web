@@ -5,6 +5,7 @@ import ViewUser from "./ViewUser";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAction } from "../context/actionContext";
 import DeleteUser from "./DeleteUser";
+import { useUserData } from "../context/userContext";
 
 function User({ userData }) {
   const { employee_id, name, role, image, is_active } = userData;
@@ -13,6 +14,7 @@ function User({ userData }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { handleUpdatingUser, handleDeleteActivate, confirmDeleteActivate } =
     useAction();
+  const { user } = useUserData();
   const navigate = useNavigate();
   const items = [
     {
@@ -25,11 +27,12 @@ function User({ userData }) {
     },
     {
       key: "3",
-      label: (
-        <span onClick={handleDeleteUserClick}>
-          {is_active ? "Delete User" : "Activate User"}
-        </span>
-      ),
+      label:
+        user?.role === "General Manager" ? (
+          <span onClick={handleDeleteUserClick}>
+            {is_active ? "Delete User" : "Activate User"}
+          </span>
+        ) : null,
     },
   ];
 

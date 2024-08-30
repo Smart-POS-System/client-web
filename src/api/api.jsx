@@ -1,3 +1,4 @@
+import axios from "axios";
 import { handleError } from "../helpers/error";
 import axiosInstance from "./axiosConfig";
 
@@ -170,6 +171,53 @@ export async function logoutUser() {
     if (response?.data) {
       // console.log(response.data);
       return true;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function updateUserPassword(data) {
+  try {
+    console.log("update password data", data);
+    const response = await axios.patch(
+      "http://localhost:3000/api/v1/user/updatePassword",
+      data,
+      { withCredentials: true }
+    );
+    if (response?.data) {
+      console.log(response.data.data);
+      return response.data.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function forgotPassword(email) {
+  try {
+    const response = await axiosInstance.post("/users/forgotPassword", {
+      email,
+    });
+    if (response?.data) {
+      // console.log(response.data);
+      return response.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function resetPassword(token, data) {
+  console.log("reset password data", data);
+  console.log("reset password token", token);
+  try {
+    const response = await axiosInstance.patch(
+      `/users/resetPassword/${token}`,
+      data
+    );
+    if (response?.data) {
+      return response.data;
     }
   } catch (error) {
     handleError(error);

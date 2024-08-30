@@ -6,6 +6,8 @@ import { useUserData } from "../context/userContext";
 import DeleteUser from "./DeleteUser";
 import UserData from "./UserData";
 import { useAction } from "../context/actionContext";
+import { useState } from "react";
+import PasswordReset from "./PasswordReset";
 
 function ViewUser({ isModalOpen, handleModal }) {
   const { isLoading, user } = useUser();
@@ -14,6 +16,7 @@ function ViewUser({ isModalOpen, handleModal }) {
   const navigate = useNavigate();
   const { confirmDeleteActivate, handleDeleteActivate, handleUpdatingUser } =
     useAction();
+  const [isPasswordResetClicked, setIsPasswordResetClicked] = useState(false);
 
   function handleUpdate() {
     handleUpdatingUser(true);
@@ -61,8 +64,7 @@ function ViewUser({ isModalOpen, handleModal }) {
         onOk={handleModal}
         onCancel={handleModal}
         width="90%"
-        style={{ maxWidth: "600px" }}
-        bodyStyle={{ padding: "16px" }}
+        style={{ maxWidth: "600px", padding: "16px" }}
         footer={[
           <div className="flex flex-col sm:flex-row sm:justify-end justify-center gap-2 sm:w-full w-1/2 mx-auto">
             <Button
@@ -81,6 +83,16 @@ function ViewUser({ isModalOpen, handleModal }) {
                 Update
               </Button>
             )}
+            {userData.role !== "Cashier" &&
+              userData.role !== "Inventory Manager" && (
+                <Button
+                  danger
+                  type="primary"
+                  onClick={() => setIsPasswordResetClicked(true)}
+                >
+                  Reset Password
+                </Button>
+              )}
             {userData.role === "General Manager" &&
               (!user?.is_active ? (
                 <Button
@@ -112,6 +124,13 @@ function ViewUser({ isModalOpen, handleModal }) {
           isActive={user.is_active}
           id={user.employee_id}
           handleDeleteActivate={handleDeleteActivate}
+        />
+      )}
+      {isPasswordResetClicked && (
+        <PasswordReset
+          isPasswordResetClicked={isPasswordResetClicked}
+          onClick={() => setIsPasswordResetClicked(false)}
+          email={user.email}
         />
       )}
     </>

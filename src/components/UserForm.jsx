@@ -119,41 +119,43 @@ function UserForm({
           {!isLoggedUser && (
             <Email errors={errors} control={control} role={user?.email} />
           )}
-          {!passwordUpdateClicked && user?.role !== "Cashier" && (
+          {!isLoggedUser && (
+            <Phone
+              errors={errors}
+              control={control}
+              phone={user?.mobile}
+              isLoggedUser={isLoggedUser}
+            />
+          )}
+          {!isLoggedUser && (
             <>
-              <Phone
-                errors={errors}
-                control={control}
-                phone={user?.mobile}
-                isLoggedUser={isLoggedUser}
-              />
               <UserImage
                 onImageChange={onImageChange}
                 reset={resetImage}
                 image={imageFile}
               />
+
+              <div className="flex justify-center gap-4 mt-4">
+                {isLoggedUser ? (
+                  <Button onClick={handleProfileUpdate}>Cancel</Button>
+                ) : (
+                  <Button type="default" htmlType="reset" onClick={handleClear}>
+                    Clear All
+                  </Button>
+                )}
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!isValid || isLoading || isUpdating}
+                >
+                  Submit
+                </Button>
+              </div>
             </>
           )}
-          {isLoggedUser && <PasswordUpdate />}
-
-          <div className="flex justify-center gap-4 mt-4">
-            {isLoggedUser ? (
-              <Button onClick={handleProfileUpdate}>Cancel</Button>
-            ) : (
-              <Button type="default" htmlType="reset" onClick={handleClear}>
-                Clear All
-              </Button>
-            )}
-
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={!isValid || isLoading || isUpdating}
-            >
-              Submit
-            </Button>
-          </div>
         </form>
+        {isLoggedUser && <PasswordUpdate />}
       </div>
     </>
   );

@@ -1,65 +1,104 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import Password from "./Password";
+import { Button } from "antd";
+import useUpdatePassword from "../hooks/useUpdatePassword";
+import HourGlass from "./HourGlass";
 
 function PasswordUpdate() {
   const {
-    register,
+    control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const { isLoading, handlePasswordUpdate } = useUpdatePassword();
+
   const onSubmit = (data) => {
-    console.log(data);
+    console.log("Form Data:", data);
+    handlePasswordUpdate({
+      currentPassword: data.currentPassword,
+      password: data.password,
+      passwordConfirm: data.passwordConfirm,
+    });
   };
 
-  const newPassword = watch("newpassword");
+  const newPassword = watch("password");
+
+  if (isLoading) {
+    return <HourGlass />;
+  }
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="bg-red-100 rounded-xl p-6 shadow-md"
     >
+      <h1 className="text-lg font-bold text-center mb-4 text-red-500">
+        Password Update Section
+      </h1>
       <h1 className="text-sm font-poppins text-red-500 font-semibold mb-4">
         Note: If you update your password, you will have to log out from the
         system and log in with the new password.
       </h1>
       <div className="w-full md:w-1/2">
-        <Password
-          text="Current Password"
-          register={register("currentpassword", {
+        <Controller
+          name="currentPassword"
+          control={control}
+          rules={{
             required: "Current Password is required",
-          })}
-          error={errors.currentpassword}
+          }}
+          render={({ field }) => (
+            <Password
+              text="Current Password"
+              {...field}
+              error={errors.currentPassword}
+            />
+          )}
         />
-        <Password
-          text="New Password"
-          register={register("newpassword", {
+
+        <Controller
+          name="password"
+          control={control}
+          rules={{
             required: "New Password is required",
             minLength: {
               value: 8,
               message: "Password must have at least 8 characters",
             },
-          })}
-          error={errors.newpassword}
+          }}
+          render={({ field }) => (
+            <Password text="New Password" {...field} error={errors.password} />
+          )}
         />
-        <Password
-          text="Confirm Password"
-          register={register("confirmpassword", {
+
+        <Controller
+          name="passwordConfirm"
+          control={control}
+          rules={{
             required: "Confirm Password is required",
             validate: (value) =>
               value === newPassword || "The passwords do not match",
-          })}
-          error={errors.confirmpassword}
+          }}
+          render={({ field }) => (
+            <Password
+              text="Confirm Password"
+              {...field}
+              error={errors.passwordConfirm}
+            />
+          )}
         />
       </div>
-      <button
-        type="submit"
-        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Update Password
-      </button>
+      <div className="flex flex-row justify-center">
+        <Button className="mr-4" type="default" onClick={() => reset()}>
+          Reset
+        </Button>
+        <Button type="primary" htmlType="submit">
+          Update Password
+        </Button>
+      </div>
     </form>
   );
 }
