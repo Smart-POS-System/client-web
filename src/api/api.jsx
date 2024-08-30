@@ -162,3 +162,25 @@ export async function uploadImage(id, image) {
     handleError(error);
   }
 }
+
+export async function getProducts(pageNumber, itemsPerPage, name = "") {
+  console.log(pageNumber, itemsPerPage, name);
+
+  try {
+    const queryParams = new URLSearchParams({
+      page: pageNumber,
+      limit: itemsPerPage,
+      ...(name && { name }),
+    }).toString();
+
+    const response = await axiosInstance.get(`/products?${queryParams}`);
+
+    if (response?.data) {
+      return response.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function addProduct() {}

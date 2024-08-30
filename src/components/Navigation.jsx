@@ -3,6 +3,7 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
+  PlusCircleOutlined,
   ProductOutlined,
   UserOutlined,
   UserAddOutlined,
@@ -38,6 +39,8 @@ const items = [
   getItem("Products", "sub2", <ProductOutlined />, [
     getItem("See All Products", "/products", <UnorderedListOutlined />),
     getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
+    getItem("See All Items", "/items", <UnorderedListOutlined />),
+    getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
   ]),
   getItem("Files", "9", <FileOutlined />),
 ];

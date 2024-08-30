@@ -17,6 +17,8 @@ import View from "./pages/View";
 import Customers from "./pages/Customers";
 import AllProducts from "./pages/AllProducts";
 import CreateProduct from "./pages/CreateProduct";
+import CreateItem from "./pages/CreateItem";
+import AllItems from "./pages/AllItems";
 
 function App() {
   useEffect(() => {
@@ -52,7 +54,9 @@ function App() {
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="products" element={<AllProducts />} />
+                <Route path="items" element={<AllItems />} />
                 <Route path="create-product" element={<CreateProduct />} />
+                <Route path="create-item" element={<CreateItem />} />
               </Route>
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />

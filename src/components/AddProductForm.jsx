@@ -5,13 +5,6 @@ import UnitWeight from "./UnitWeight";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../api/axiosConfig";
 
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
-
 const AddProductForm = () => {
   const {
     control,
@@ -47,6 +40,11 @@ const AddProductForm = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      reset({
+        product_name: "",
+        unit_weight: "",
+      });
     }
   }
 
