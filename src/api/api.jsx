@@ -182,6 +182,7 @@ export async function updateUserPassword(data) {
     console.log("update password data", data);
     const response = await axios.patch(
       "http://localhost:3000/api/v1/user/updatePassword",
+      "http://localhost:3009/api/v1/user/updatePassword",
       data,
       { withCredentials: true }
     );

@@ -36,6 +36,8 @@ function NavigationBar() {
   const items = [
     getItem("Option 1", "1", <PieChartOutlined />),
     getItem("Option 2", "2", <DesktopOutlined />),
+    // getItem("Option 1", "1", <PieChartOutlined />),
+    // getItem("Option 2", "2", <DesktopOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
           getItem("See All Users", "/users", <HiOutlineUsers />),
@@ -49,11 +51,23 @@ function NavigationBar() {
       getItem("Team 2", "8"),
     ]),
     getItem("Files", "9", <FileOutlined />),
+    // getItem("Team", "sub2", <TeamOutlined />, [
+    //   getItem("Team 1", "6"),
+    //   getItem("Team 2", "8"),
+    // ]),
+    // getItem("Files", "9", <FileOutlined />),
+    user?.role === "Cashier"
+      ? getItem("Dashboard", "/dashboard", <UserOutlined />)
+      : null,
     user.role === "Cashier"
       ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
       : null,
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
+      : null,
+
+    user?.role === "Cashier"
+      ? getItem("Stashed Bills", "/stashedBills", <UserOutlined />)
       : null,
   ];
 

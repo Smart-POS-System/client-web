@@ -51,8 +51,10 @@ const Cashier = () => {
         </Sider>
       </Layout>
       <Content>
+      {/* <Content>
         <ShowStashedBills />
       </Content>
+      </Content> */}
     </>
   );
 };

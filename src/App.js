@@ -18,6 +18,7 @@ import Customers from "./pages/Customers";
 import ResetPassword from "./pages/ResetPassword";
 import CreateCustomer from "./pages/CreateCustomer";
 import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
+import ShowStashedBills from "./components/cashier/ShowStashedBills";
 
 function App() {
   useEffect(() => {
@@ -47,6 +48,7 @@ function App() {
                 }
               >
                 <Route index element={<Navigate replace to="dashboard" />} />
+                <Route path="stashedBills" element={<ShowStashedBills />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<AllUsers />} />
                 <Route path="create" element={<CreateUser />} />
