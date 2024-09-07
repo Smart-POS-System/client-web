@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "antd";
 import MfdExp from "./MfdExp";
 import axiosInstance from "../api/axiosConfig";
+import toast from "react-hot-toast";
 
 const AddItemForm = () => {
   const {
@@ -17,8 +18,6 @@ const AddItemForm = () => {
   } = useForm();
 
   async function onSubmit(data) {
-    console.log(data);
-
     try {
       // For now, add post to database logic here, but should be abstracted using api/api.js
       const formData = new FormData();
@@ -34,14 +33,11 @@ const AddItemForm = () => {
 
       if (data?.batch_no) {
         formData.append("batch_no", data.batch_no);
-      } // Log the contents of FormData
-      // for (const [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
+      }
 
-      const response = await axiosInstance({
+      const savePromise = axiosInstance({
         method: "post",
-        url: `http://localhost:3008/items`,
+        url: `http://localhost:49160/items`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -49,9 +45,29 @@ const AddItemForm = () => {
         withCredentials: true,
       });
 
+      await toast.promise(
+        savePromise,
+        {
+          loading: "Saving...",
+          success: "Successfully saved!",
+          error: "Couldn't save...",
+        },
+        {
+          style: {
+            minWidth: "250px",
+          },
+          success: {
+            duration: 2000,
+          },
+        }
+      );
+
+      const response = await savePromise;
+
       if (response.data) {
         console.log(response.data);
       }
+
       reset({
         product_id: "",
         batch_no: "",

@@ -32,10 +32,10 @@ const AllItems = () => {
     };
   }, []);
 
-  function onSearchProduct(value) {
-    searchParams.set("name", value);
-    setSearchParams(searchParams);
-  }
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchParams({ name: value });
+  };
 
   return (
     <div className="mx-4 mt-4">
@@ -54,7 +54,8 @@ const AllItems = () => {
               enterButton="Search"
               size={searchSize}
               loading={false}
-              onSearch={onSearchProduct}
+              // onSearch={onSearchItem}
+              onChange={handleInputChange}
             />
           </div>
         </div>

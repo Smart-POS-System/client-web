@@ -11,7 +11,7 @@ const Products = ({ errors, control, product }) => {
     const fetchProducts = async () => {
       try {
         const productsResponse = await axiosInstance.get(
-          "http://localhost:3008/products"
+          "http://localhost:49160/products"
         );
         setProducts(productsResponse.data);
       } catch (error) {

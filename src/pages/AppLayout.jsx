@@ -49,7 +49,7 @@ function AppLayout() {
           }}
         >
           <div
-            className="p-6 min-h-[360px] my-3"
+            className="py-6 min-h-[360px] my-3"
             style={{
               background: `linear-gradient(150deg, #ffffff, #ffffff)`,
               borderRadius: borderRadiusLG,

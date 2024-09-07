@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "antd";
 import ProductName from "./ProductName";
 import UnitWeight from "./UnitWeight";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../api/axiosConfig";
+import toast from "react-hot-toast";
 
 const AddProductForm = () => {
   const {
@@ -20,14 +21,9 @@ const AddProductForm = () => {
       formData.append("product_name", data?.product_name);
       formData.append("unit_weight", data?.unit_weight);
 
-      // Log the contents of FormData
-      // for (const [key, value] of formData.entries()) {
-      //   console.log(`${key}: ${value}`);
-      // }
-
-      const response = await axiosInstance({
+      const savePromise = axiosInstance({
         method: "post",
-        url: `http://localhost:3008/products`,
+        url: `http://localhost:49160/products`,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -35,16 +31,35 @@ const AddProductForm = () => {
         withCredentials: true,
       });
 
+      await toast.promise(
+        savePromise,
+        {
+          loading: "Saving...",
+          success: "Successfully saved!",
+          error: "Couldn't save...",
+        },
+        {
+          style: {
+            minWidth: "250px",
+          },
+          success: {
+            duration: 2000,
+          },
+        }
+      );
+
+      const response = await savePromise;
+
       if (response.data) {
         console.log(response.data);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
+
       reset({
         product_name: "",
         unit_weight: "",
       });
+    } catch (error) {
+      console.log(error);
     }
   }
 

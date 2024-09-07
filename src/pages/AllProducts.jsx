@@ -46,14 +46,10 @@ const AllProducts = () => {
     setLimit(size);
   }
 
-  function onSearchRole(value) {
-    if (value === "All") {
-      searchParams.set("role", "");
-    } else {
-      searchParams.set("role", value);
-    }
-    setSearchParams(searchParams);
-  }
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchParams({ name: value });
+  };
 
   return (
     <div className="mx-4 mt-4">
@@ -72,7 +68,7 @@ const AllProducts = () => {
               enterButton="Search"
               size={searchSize}
               loading={false}
-              onSearch={onSearchProduct}
+              onChange={handleInputChange}
             />
           </div>
         </div>
