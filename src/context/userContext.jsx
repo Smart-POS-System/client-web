@@ -7,6 +7,8 @@ function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [fullUser, setFullUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,10 +39,20 @@ function UserProvider({ children }) {
     localStorage.removeItem("token");
     setUser(null);
     setFullUser({});
+    setEmail("");
+    setRole("");
   };
 
   function storeFullUser(user) {
     setFullUser(user);
+  }
+
+  function handleEmailChange(value) {
+    setEmail((email) => value);
+  }
+
+  function handleRoleChange(newRole) {
+    setRole((role) => newRole);
   }
 
   return (
@@ -52,6 +64,10 @@ function UserProvider({ children }) {
         setUserLogin,
         setUserLogout,
         loading,
+        handleEmailChange,
+        handleRoleChange,
+        role,
+        email,
       }}
     >
       {children}

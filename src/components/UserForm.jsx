@@ -47,7 +47,7 @@ function UserForm({
         email: user.email || "",
         phone: user.mobile || "",
       });
-      setImageFile(user.image || null);
+      setImageFile(user.image || "");
     }
   }, [user, updatingUser, reset]);
 
@@ -93,10 +93,8 @@ function UserForm({
       }
     } else {
       // console.log("Creating new user with data:", newUser);
+      console.log("new user data", newUser);
       handleAddUser(newUser);
-      if (imageFile) {
-        handleUpdateImage(imageFile); // Handle the image upload
-      }
     }
   }
 

@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
   UserOutlined,
   UserAddOutlined,
+  AreaChartOutlined,
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
@@ -33,21 +30,16 @@ function NavigationBar() {
   const { user } = useUserData();
 
   const items = [
-    getItem("Option 1", "1", <PieChartOutlined />),
-    getItem("Option 2", "2", <DesktopOutlined />),
+    getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
           getItem("See All Users", "/users", <HiOutlineUsers />),
+
           getItem("Add New User", "/create", <UserAddOutlined />),
           getItem("My Profile", "/view", <UserOutlined />),
           getItem("Customers", "/customers", <HiOutlineUsers />),
         ])
       : null,
-    getItem("Team", "sub2", <TeamOutlined />, [
-      getItem("Team 1", "6"),
-      getItem("Team 2", "8"),
-    ]),
-    getItem("Files", "9", <FileOutlined />),
     user.role === "Cashier"
       ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
       : null,
