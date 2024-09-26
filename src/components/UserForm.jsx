@@ -77,6 +77,8 @@ function UserForm({
       phone: formattedPhoneNumber,
     };
 
+    console.log(updatingUser);
+
     if (updatingUser) {
       console.log("Updating user with data:", newUser);
       handleUpdateUser(newUser);

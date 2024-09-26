@@ -92,7 +92,7 @@ export async function addUser(data) {
     console.log("create formData", formData);
     const response = await axiosInstance({
       method: "post",
-      url: `http://localhost:3000/api/v1/users`,
+      url: `http://localhost:49161/api/v1/users`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",

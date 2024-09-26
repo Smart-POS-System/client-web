@@ -38,7 +38,7 @@ const AllItems = () => {
   };
 
   return (
-    <div className="mx-4 mt-4">
+    <div>
       <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
         <strong>All Items</strong>
       </h1>

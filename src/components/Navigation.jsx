@@ -67,7 +67,7 @@ function NavigationBar() {
 
   return (
     <Sider
-      theme="light"
+      // theme="light"
       breakpoint="lg"
       collapsedWidth="0"
       width={250} // Set the width here (adjust as needed)
@@ -77,13 +77,14 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
+      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
     >
       <div className="demo-logo-vertical" />
       <div className="items-center w-2/4 h-auto pt-8 m-auto">
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold"
+        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
         theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}
