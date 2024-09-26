@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-function AnimatedGraph() {
-  // Inline styles for container and image
+function AnimatedGraph({ role }) {
+  console.log("Fuck", role);
   const containerStyles = {
     display: "flex",
     justifyContent: "center",
@@ -11,15 +11,16 @@ function AnimatedGraph() {
   };
 
   const imageStyles = {
-    width: "700px", // Control the size of the image
+    width: role === "Cashier" ? "500px" : "700px", // Control the size of the image
     maxWidth: "100%", // Ensures the image is responsive
+    opacity: role === "Cashier" ? 0.9 : 1,
   };
 
   return (
     <div style={containerStyles}>
       {/* Rotating Graph Image Horizontally */}
       <motion.img
-        src="/graph.png" // Ensure this is the correct path to your image
+        src={role !== "Cashier" ? "/graph.png" : "/cash.png"} // Ensure this is the correct path to your image
         alt="Rotating Graph"
         style={imageStyles}
         initial={{ rotateY: 0 }} // Initial state of the rotation around Y-axis

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { handleError } from "../helpers/error";
 import axiosInstance from "./axiosConfig";
+import { PORT } from "../helpers/port";
 
 export async function loginUser({ email, password }) {
   try {
@@ -94,7 +95,7 @@ export async function addUser(data) {
     console.log("create formData", formData);
     const response = await axiosInstance({
       method: "post",
-      url: `http://localhost:3000/api/v1/users`,
+      url: `http://localhost:${PORT}/api/v1/users`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -119,8 +120,8 @@ export async function updateUser(id, data) {
     const response = await axiosInstance({
       method: "patch",
       url: data?.role
-        ? `http://localhost:3000/api/v1/users/${id}`
-        : `http://localhost:3000/api/v1/users/updateMe/${id}`,
+        ? `http://localhost:${PORT}/api/v1/users/${id}`
+        : `http://localhost:${PORT}/api/v1/users/updateMe/${id}`,
       data: data,
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +149,7 @@ export async function uploadImage(id, image) {
 
     const response = await axiosInstance({
       method: "patch",
-      url: `http://localhost:3000/api/v1/users/updateImage/${id}`,
+      url: `http://localhost:${PORT}/api/v1/users/updateImage/${id}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -182,7 +183,7 @@ export async function updateUserPassword(data) {
   try {
     console.log("update password data", data);
     const response = await axios.patch(
-      "http://localhost:3000/api/v1/users/updatePassword",
+      `http://localhost:${PORT}/api/v1/users/updatePassword`,
       data,
       { withCredentials: true }
     );
@@ -247,6 +248,47 @@ export async function checkMailAccess(email) {
     if (response?.data) {
       console.log(response.data.data);
       return response.data.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getSummarySalesAndPurchases(startDate, endDate) {
+  try {
+    console.log("fetching data", startDate, endDate);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getTransactions(dateRange, store, cashier) {
+  try {
+    const response = await axiosInstance.get(`/transactions`, {
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      store,
+      cashier,
+    });
+
+    if (response?.data) {
+      return response.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getPurchase(dateRange, inventory) {
+  try {
+    const response = await axiosInstance.get(`/transactions`, {
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      inventory,
+    });
+
+    if (response?.data) {
+      return response.data;
     }
   } catch (error) {
     handleError(error);

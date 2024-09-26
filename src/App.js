@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import CreateCustomer from "./pages/CreateCustomer";
 import NewLogin from "./pages/NewLogin";
 import RestrictAccess from "./pages/RestrictAccess";
+import Transaction from "./pages/Transactions";
 
 function App() {
   useEffect(() => {
@@ -60,6 +61,7 @@ function App() {
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="customers/register" element={<CreateCustomer />} />
+                <Route path="transactions" element={<Transaction />} />
               </Route>
               <Route path="login" element={<NewLogin />} />
               <Route path="reset/:token" element={<ResetPassword />} />

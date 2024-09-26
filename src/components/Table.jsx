@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import axios from "axios";
 import { formatDate } from "../helpers/formatDate";
+import "./../CustomersTable.css";
+import { PORT } from "../helpers/port";
 
 const CustomersTable = () => {
   const [data, setData] = useState([]);
@@ -9,7 +11,7 @@ const CustomersTable = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/v1/customers/", {
+      .get(`http://localhost:${PORT}/api/v1/customers/`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -79,6 +81,7 @@ const CustomersTable = () => {
       loading={loading}
       pagination={{ pageSize: 10 }}
       rowKey="id"
+      className="custom-table" // Add the custom class
     />
   );
 };

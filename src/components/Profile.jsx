@@ -3,6 +3,12 @@ import UserHeader from "./UserHeader";
 import { useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import HourGlass from "./HourGlass";
+import {
+  ArrowDownOutlined,
+  CaretDownOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 function Profile() {
   const navigate = useNavigate();
@@ -10,11 +16,27 @@ function Profile() {
   const items = [
     {
       key: "1",
-      label: <span onClick={() => navigate("/view")}>My Profile</span>,
+      label: (
+        <span
+          className="font-poppins font-semibold p-2"
+          onClick={() => navigate("/view")}
+        >
+          <UserOutlined style={{ marginRight: "4px" }} />{" "}
+          <strong>My Profile</strong>
+        </span>
+      ),
     },
     {
       key: "2",
-      label: <span onClick={handleLogoutUser}>Logout</span>,
+      label: (
+        <span
+          className="font-poppins font-semibold p-2"
+          onClick={handleLogoutUser}
+        >
+          <LogoutOutlined style={{ marginRight: "4px" }} />{" "}
+          <strong>Log Out</strong>
+        </span>
+      ),
     },
   ];
 
@@ -31,8 +53,9 @@ function Profile() {
       }}
       placement="bottomRight"
     >
-      <button>
+      <button className="flex flex-row items-center justify-between">
         <UserHeader />
+        <CaretDownOutlined />
       </button>
     </Dropdown>
   );

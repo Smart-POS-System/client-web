@@ -4,7 +4,6 @@ import PosAnimation from "./POSAnimation";
 function FirstLogin({ isValidated }) {
   return (
     <>
-      {/* Left side - Login Form */}
       <div className="bg-white bg-opacity-90 p-10 rounded-2xl shadow-2xl lg:w-1/3 w-4/5 mb-8 lg:mb-0 flex flex-col items-center lg:ml-48 animate-fadeIn">
         <div className="text-center mb-6">
           <img
@@ -18,7 +17,6 @@ function FirstLogin({ isValidated }) {
         </div>
       </div>
 
-      {/* Right side - POS Animation (only visible on large screens) */}
       <div className="hidden lg:flex lg:w-1/2 w-full justify-center items-center ml-auto mt-8 animate-fadeIn">
         <PosAnimation />
       </div>

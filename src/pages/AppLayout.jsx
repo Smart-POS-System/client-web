@@ -7,6 +7,9 @@ import { useUserData } from "../context/userContext";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import HourGlass from "../components/HourGlass";
 import PasswordAlert from "../components/PasswordAlert";
+import HeaderSearch from "../components/HeaderSearch";
+import Notifications from "../components/Notifications";
+import NightModeButton from "../components/NightModeButton";
 
 const { Header, Content, Footer } = Layout;
 
@@ -54,33 +57,34 @@ function AppLayout() {
           }}
         >
           <Header
-            className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-end"
+            className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-center"
             style={{ background: colorBgContainer }}
           >
-            <div className="flex  mr-4">
-              <Profile />
+            <div className="w-11/12 flex flex-row items-center justify-between">
+              <div className="w-5/12">
+                <HeaderSearch />
+              </div>
+
+              <div className="flex flex-row items-center justify-between gap-6 mr-4">
+                <Notifications />
+                <NightModeButton />
+                <Profile />
+              </div>
             </div>
           </Header>
-          <Content
-            className="w-11/12"
-            style={{
-              flex: 1,
-              padding: "0 24px",
-              overflowY: "auto",
-            }}
-          >
+          <Content className="w-full h-auto flex flex-col items-center justify-center ">
             <div
-              className="p-6 min-h-[360px] my-3"
+              className="p-6 w-11/12 h-full rounded-lg bg-white my-12"
               style={{
-                background: `linear-gradient(150deg, #ffffff, #ffffff)`,
-                borderRadius: borderRadiusLG,
+                borderRadius: borderRadiusLG, // This needs to remain inline as Tailwind doesn't support dynamic values directly
               }}
             >
               <Outlet />
             </div>
           </Content>
-          <Footer className="text-center h-10 flex justify-center items-center">
-            <h3 className="text-sm mb-6">
+
+          <Footer className="text-center h-10 bg-white w-full  flex justify-center items-center">
+            <h3 className="text-sm">
               Smart POS System ©{new Date().getFullYear()} Created by Polos
               Community
             </h3>

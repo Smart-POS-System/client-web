@@ -3,6 +3,7 @@ import {
   UserOutlined,
   UserAddOutlined,
   AreaChartOutlined,
+  TransactionOutlined,
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
@@ -46,6 +47,7 @@ function NavigationBar() {
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
       : null,
+    getItem("Transactions", "/transactions", <TransactionOutlined />),
   ];
 
   useEffect(() => {

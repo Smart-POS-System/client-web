@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useUserData } from "../context/userContext";
 import AnimatedGraph from "./AnimatedGraph";
 import PasswordInput from "./PasswordInput";
@@ -7,8 +6,6 @@ function SecondLogin({ isValidated }) {
   const { email, role } = useUserData();
   return (
     <div className="h-screen w-full flex flex-col lg:flex-row items-center justify-center bg-cover bg-center">
-      {/* Left side - Login Form */}
-
       <div
         className={`bg-white bg-opacity-90 ${
           role === "Cashier" ? "mr-44" : null
