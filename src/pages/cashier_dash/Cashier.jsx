@@ -26,8 +26,10 @@ const Cashier = () => {
             <AddSale setVariable={setBill} />
           </div>
           <div>
-            <div className="text-2xl my-8">Find Item</div>
-            <SearchItem setVariable={setBill} />
+            <div className="text-2xl my-4">Find Item</div>
+            <div className="mr-5">
+              <SearchItem setVariable={setBill} />
+            </div>
           </div>
           {console.log({ bill })}
         </Content>
@@ -46,14 +48,12 @@ const Cashier = () => {
               borderRadius: 1,
             }}
           >
-            <BillSider value={bill} />
+            <BillSider value={bill} setValue={setBill} />
           </div>
         </Sider>
       </Layout>
-      <Content>
       {/* <Content>
         <ShowStashedBills />
-      </Content>
       </Content> */}
     </>
   );

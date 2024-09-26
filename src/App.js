@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import CreateCustomer from "./pages/CreateCustomer";
 import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 import ShowStashedBills from "./components/cashier/ShowStashedBills";
+import CashierLayout from "./pages/CashierLayout";
 
 function App() {
   useEffect(() => {
@@ -43,7 +44,7 @@ function App() {
               <Route
                 element={
                   <ProtectedRoute>
-                    <AppLayout />
+                    <CashierLayout />
                   </ProtectedRoute>
                 }
               >

@@ -6,9 +6,6 @@ function Dashboard() {
   const { user } = useUserData();
 
   return (
-    <div>
-      {user.role === "General Manager" ? <Cashier /> : <h1>Not Dashboard</h1>}
-    </div>
     <div>{user.role === "Cashier" ? <Cashier /> : <h1>Not Dashboard</h1>}</div>
   );
 }

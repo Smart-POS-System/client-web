@@ -1,6 +1,6 @@
 import { Button, Input, Space } from "antd";
 import React, { useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { ScanOutlined, SearchOutlined } from "@ant-design/icons";
 
 const AddSale = (props) => {
   const [barcode, setBarcode] = useState("");
@@ -37,27 +37,38 @@ const AddSale = (props) => {
   return (
     <div>
       <div>
-        <Space>
-          <Space.Compact size="large">
-            <Input
-              placeholder="Enter BarCode"
-              value={barcode}
-              onChange={(e) => setBarcode(e.target.value)}
-            />
-            <Input
-              placeholder="Enter Quantity"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-            <Button type="primary" onClick={handleSubmit}>
-              Submit
+        <div className="flex justify-between">
+          <Space>
+            <Space.Compact size="medium">
+              <Input
+                placeholder="Enter BarCode"
+                value={barcode}
+                onChange={(e) => setBarcode(e.target.value)}
+              />
+              <Input
+                placeholder="Enter Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+              <Button type="primary" onClick={handleSubmit}>
+                Submit
+              </Button>
+            </Space.Compact>
+          </Space>
+          <div className="px-5">
+            <Button type="primary">
+              <ScanOutlined />
+              Scan Barcode
             </Button>
-          </Space.Compact>
-        </Space>
+          </div>
+        </div>
       </div>
-      <div className="mt-5">
-        <Button type="primary">Scan Barcode</Button>
-      </div>
+      {/* <div className="mt-5">
+        <Button type="primary">
+          <ScanOutlined />
+          Scan Barcode
+        </Button>
+      </div> */}
     </div>
   );
 };

@@ -84,7 +84,7 @@ const ShowStashedBills = ({ onRestore }) => {
 
   return (
     <div>
-      <h2>Stashed Bills</h2>
+      <div className="font-bold text-3xl mb-10">Stashed Bills</div>
       <Table
         columns={columns}
         dataSource={pendingBills}
