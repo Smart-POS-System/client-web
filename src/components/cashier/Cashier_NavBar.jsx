@@ -3,25 +3,29 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  PlusCircleOutlined,
-  ProductOutlined,
+  TeamOutlined,
   UserOutlined,
   UserAddOutlined,
-  AreaChartOutlined,
-  TransactionOutlined,
-  UnorderedListOutlined,
-  AppstoreAddOutlined,
   DashboardOutlined,
   FileTextOutlined,
+  AreaChartOutlined,
+  ProductOutlined,
+  UnorderedListOutlined,
+  AppstoreAddOutlined,
+  PlusCircleOutlined,
+  TransactionOutlined,
 } from "@ant-design/icons";
 import { VideoCameraOutlined, UploadOutlined } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import Logo from "./Logo";
-import { useAction } from "../context/actionContext";
+
 //import { useUserData } from "../context/userContext";
-import { useUserData } from "../context/userContext";
+
+import Logo from "../Logo";
+import { useAction } from "../../context/actionContext";
+import UserData from "../UserData";
+import { useUserData } from "../../context/userContext";
 
 const { Sider } = Layout;
 
@@ -34,7 +38,7 @@ function getItem(label, key, icon, children) {
   };
 }
 
-function NavigationBar() {
+function Cashier_NavBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUpdatingUser } = useAction();
@@ -112,17 +116,28 @@ function NavigationBar() {
     //   />
     // </Sider>
     <Sider
-      // theme="light"
-      breakpoint="lg"
-      collapsedWidth="0"
-      width={250} // Set the width here (adjust as needed)
+      collapsible
+      collapsed={collapsed}
+      onCollapse={(value) => setCollapsed(value)}
+      style={{
+        position: "sticky",
+        left: 0,
+        top: 0,
+        height: "100vh", // Full viewport height
+        overflow: "hidden", // Prevents scrolling
+      }}
       onBreakpoint={(broken) => {
         console.log(broken);
       }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
+      // onCollapse={(collapsed, type) => {
+      //   console.log(collapsed, type);
+      // }}
+      // style={{
+      //   backgroundColor: "#f0f0f5",
+      //   background: "#f7f7f7 !important",
+      //   height: "100vh", // Full viewport height
+      //   overflow: "hidden", // Prevents scrolling
+      // }}
     >
       <div className="demo-logo-vertical" />
 
@@ -131,7 +146,7 @@ function NavigationBar() {
       </div>
       <Menu
         className="mt-8 text-sm font-poppins font-semibold bg-inherit"
-        theme="light"
+        theme="dark"
         mode="inline"
         selectedKeys={[selectedKey]}
         onClick={handleMenuClick}
@@ -164,4 +179,4 @@ function NavigationBar() {
   );
 }
 
-export default NavigationBar;
+export default Cashier_NavBar;
