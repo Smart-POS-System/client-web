@@ -1,9 +1,23 @@
 import { Select } from "antd";
 import { Controller } from "react-hook-form";
+import { useUserData } from "../context/userContext";
 
 const { Option } = Select;
 
 function Role({ errors, control, role }) {
+  const { user } = useUserData();
+  const rolesList = [
+    "General Manager",
+    "Regional Manager",
+    "Inventory Manager",
+    "Store Manager",
+    "Cashier",
+  ];
+
+  const allowedRoles = rolesList.filter(
+    (role) => rolesList.indexOf(role) > rolesList.indexOf(user.role)
+  );
+  const options = allowedRoles.map((role) => ({ value: role, label: role }));
   return (
     <>
       <div>
@@ -26,12 +40,8 @@ function Role({ errors, control, role }) {
                 borderColor: errors.role ? "red" : "green",
               }}
               placeholder="Select Role"
-            >
-              <Option value="Regional Manager">Regional Manager</Option>
-              <Option value="Inventory Manager">Inventory Manager</Option>
-              <Option value="Store Manager">Store Manager</Option>
-              <Option value="Cashier">Cashier</Option>
-            </Select>
+              options={options}
+            />
           )}
         />
         {errors.role && (

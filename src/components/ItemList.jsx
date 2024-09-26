@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import HourGlass from "./HourGlass.jsx";
-import { Space, Table, Tag } from "antd";
 import axiosInstance from "../api/axiosConfig.js";
+import { Space, Table } from "antd";
+import toast from "react-hot-toast";
 
 const { Column } = Table;
 
 const ItemList = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
       try {
         const itemsResponse = await axiosInstance.get(
-          "http://localhost:3008/items"
+          "http://localhost:49160/items"
         );
 
         // Sorting items by product_name
@@ -30,7 +33,7 @@ const ItemList = () => {
 
         setItems(sortedItems);
       } catch (error) {
-        setError(error);
+        setError(error.message);
         console.log(error);
       } finally {
         setLoading(false);
@@ -39,7 +42,50 @@ const ItemList = () => {
 
     fetchItems();
   }, []);
-  console.log(items);
+
+  // const handleDelete = async (item_id) => {
+  //   const oldItems = [...items];
+  //   console.log(item_id);
+
+  //   const updatedItems = oldItems.filter((item) => item.item_id !== item_id);
+  //   setItems(updatedItems);
+
+  //   try {
+  //     const deleteResponse = await axiosInstance.delete(
+  //       `http://localhost:49160/items/${item_id}`
+  //     );
+
+  //     console.log(deleteResponse.data);
+  //   } catch (error) {
+  //     setError(error.message);
+  //     setItems(oldItems);
+  //   }
+  // };
+
+  const handleDelete = async (item_id) => {
+    const oldItems = [...items];
+    const updatedItems = oldItems.filter((item) => item.item_id !== item_id);
+    setItems(updatedItems);
+
+    try {
+      // Use toast.promise to handle the loading, success, and error states
+      const deleteResponse = await toast.promise(
+        axiosInstance.delete(`http://localhost:49160/items/${item_id}`),
+        {
+          loading: "Deleting...",
+          success: "Successfully deleted!",
+          error: "Couldn't delete",
+        }
+      );
+
+      console.log(deleteResponse.data);
+    } catch (error) {
+      console.log(error);
+
+      // Revert to the old product list if the delete fails
+      setItems(oldItems);
+    }
+  };
 
   if (loading) {
     return <HourGlass />;
@@ -54,11 +100,20 @@ const ItemList = () => {
     );
   }
 
+  const filterName = searchParams.get("name");
+  const filteredItems = filterName
+    ? items.filter((item) =>
+        item.product.product_name
+          .toLowerCase()
+          .includes(filterName.toLowerCase())
+      )
+    : items;
+
   return (
-    <Table dataSource={items} rowKey={(item) => item.item_id}>
+    <Table dataSource={filteredItems} rowKey={(item) => item?.item_id}>
       <Column
         title="Product Name"
-        render={(text, record) => record.product.product_name}
+        render={(record) => record?.product?.product_name}
         key="product_name"
       />
       <Column title="Batch Number" dataIndex="batch_no" key="batch_no" />
@@ -72,14 +127,18 @@ const ItemList = () => {
         dataIndex="selling_price"
         key="selling_price"
       />
-      <Column title="Manufactured Date" dataIndex="mfd" key="mfd" />
-      <Column title="Expiry Date" dataIndex="exp" key="exp" />
+      <Column title="MFD" dataIndex="mfd" key="mfd" />
+      <Column title="EXP" dataIndex="exp" key="exp" />
       <Column
-        title="Action"
+        title="Remove Item"
         key="action"
-        render={(_) => (
-          <Space size="middle">
-            <a>Delete</a>
+        render={(item) => (
+          <Space
+            size="middle"
+            onClick={() => handleDelete(item?.item_id)}
+            className="bg-red-400 py-2 px-4 hover:bg-red-600 cursor-pointer rounded-xl hover:text-white"
+          >
+            <a className="hover:text-white font-semibold">Delete</a>
           </Space>
         )}
       />

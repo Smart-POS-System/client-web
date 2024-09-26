@@ -7,7 +7,11 @@ import { useAction } from "../context/actionContext";
 
 function UserData({ user, isLoggedUser }) {
   const [isUpdateClicked, setIsUpdateClicked] = useState(false);
-  const { handleUpdatingUser } = useAction();
+  const {
+    handleUpdatingUser,
+    passwordUpdateClicked,
+    setPasswordUpdateClicked,
+  } = useAction();
 
   function handleUpdate() {
     handleUpdatingUser(true);
@@ -17,6 +21,7 @@ function UserData({ user, isLoggedUser }) {
   function handleCancel() {
     handleUpdatingUser(false);
     setIsUpdateClicked(false);
+    setPasswordUpdateClicked(false);
   }
 
   if (!user) {
@@ -113,16 +118,16 @@ function UserData({ user, isLoggedUser }) {
             </div>
           </div>
         </div>
-        {isLoggedUser && !isUpdateClicked && (
+        {isLoggedUser && !isUpdateClicked && !passwordUpdateClicked && (
           <div className="pb-4">
             {" "}
             <Button type="primary" onClick={handleUpdate}>
-              Update
+              Update Password
             </Button>{" "}
           </div>
         )}
       </div>
-      {isUpdateClicked && (
+      {isLoggedUser && (isUpdateClicked || passwordUpdateClicked) && (
         <div className="mt-4">
           <UserForm
             user={user}

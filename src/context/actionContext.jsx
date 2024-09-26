@@ -5,6 +5,8 @@ const actionContext = createContext();
 function ActionProvider({ children }) {
   const [confirmDeleteActivate, setConfirmDeleteActivate] = useState(false);
   const [updatingUser, setUpdatingUser] = useState(false);
+  const [passwordUpdateClicked, setPasswordUpdateClicked] = useState(false);
+  const [isNightModeOn, setIsNightModeOn] = useState(false);
 
   function handleUpdatingUser(value) {
     setUpdatingUser(value);
@@ -14,6 +16,10 @@ function ActionProvider({ children }) {
     setConfirmDeleteActivate(value);
   }
 
+  function toggleNightMode() {
+    setIsNightModeOn((value) => !value);
+  }
+
   return (
     <actionContext.Provider
       value={{
@@ -21,6 +27,10 @@ function ActionProvider({ children }) {
         handleUpdatingUser,
         confirmDeleteActivate,
         handleDeleteActivate,
+        passwordUpdateClicked,
+        setPasswordUpdateClicked,
+        isNightModeOn,
+        toggleNightMode,
       }}
     >
       {children}

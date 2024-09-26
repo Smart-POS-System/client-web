@@ -3,15 +3,21 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  PlusCircleOutlined,
+  ProductOutlined,
   UserOutlined,
   UserAddOutlined,
+  AreaChartOutlined,
+  TransactionOutlined,
+  UnorderedListOutlined,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useAction } from "../context/actionContext";
+import { useUserData } from "../context/userContext";
 
 const { Sider } = Layout;
 
@@ -24,28 +30,38 @@ function getItem(label, key, icon, children) {
   };
 }
 
-const items = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("Users", "sub1", <UserOutlined />, [
-    getItem("See All Users", "/users", <HiOutlineUsers />),
-    getItem("Add New User", "/create", <UserAddOutlined />),
-    getItem("My Profile", "/view", <UserOutlined />),
-    getItem("Customers", "/customers", <HiOutlineUsers />),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
-];
-
 function NavigationBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUpdatingUser } = useAction();
-
   const [selectedKey, setSelectedKey] = useState(location.pathname);
+  const { user } = useUserData();
+
+  const items = [
+    getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
+    user?.role !== "Cashier"
+      ? getItem("Users", "sub1", <UserOutlined />, [
+          getItem("See All Users", "/users", <HiOutlineUsers />),
+
+          getItem("Add New User", "/create", <UserAddOutlined />),
+          getItem("My Profile", "/view", <UserOutlined />),
+          getItem("Customers", "/customers", <HiOutlineUsers />),
+        ])
+      : null,
+    user.role === "Cashier"
+      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      : null,
+    user?.role === "Cashier"
+      ? getItem("My Profile", "/view", <UserOutlined />)
+      : null,
+    getItem("Products", "sub2", <ProductOutlined />, [
+      getItem("See All Products", "/products", <UnorderedListOutlined />),
+      getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
+      getItem("See All Items", "/items", <UnorderedListOutlined />),
+      getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+    ]),
+    getItem("Transactions", "/transactions", <TransactionOutlined />),
+  ];
 
   useEffect(() => {
     setSelectedKey(location.pathname);
@@ -62,7 +78,7 @@ function NavigationBar() {
 
   return (
     <Sider
-      theme="light"
+      // theme="light"
       breakpoint="lg"
       collapsedWidth="0"
       width={250} // Set the width here (adjust as needed)
@@ -72,13 +88,14 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
+      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
     >
       <div className="demo-logo-vertical" />
       <div className="items-center w-2/4 h-auto pt-8 m-auto">
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold"
+        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
         theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}
