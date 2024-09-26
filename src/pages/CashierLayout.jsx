@@ -69,6 +69,7 @@ function CashierLayout() {
           <Header
             className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-center  "
             style={{
+              position: "sticky",
               backgroundColor: "#f0f0f5",
               color: "#333333",
               overflow: "hidden",

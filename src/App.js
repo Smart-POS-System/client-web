@@ -28,6 +28,7 @@ import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 import ShowStashedBills from "./components/cashier/ShowStashedBills";
 import CashierLayout from "./pages/CashierLayout";
 import Layout from "./pages/Layout";
+import Stashed from "./components/cashier/Stashed";
 
 function App() {
   useEffect(() => {
@@ -57,7 +58,8 @@ function App() {
                 }
               >
                 <Route index element={<Navigate replace to="dashboard" />} />
-                <Route path="stashedBills" element={<ShowStashedBills />} />
+                {/* <Route path="stashedBills" element={<ShowStashedBills />} /> */}
+                <Route path="stashedBills" element={<Stashed />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<AllUsers />} />
                 <Route
