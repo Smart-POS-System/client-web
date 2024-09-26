@@ -1,6 +1,7 @@
 import axios from "axios";
 import { handleError } from "../helpers/error";
 import axiosInstance from "./axiosConfig";
+import { PORT } from "../helpers/port";
 
 export async function loginUser({ email, password }) {
   try {
@@ -42,7 +43,7 @@ export async function getUser(id) {
   try {
     const response = await axiosInstance.get(`/users/${id}`);
     if (response?.data) {
-      console.log("fetched data", response.data.data);
+      // console.log("fetched data", response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -75,6 +76,7 @@ export async function activateUser(id) {
 }
 
 export async function addUser(data) {
+  console.log("creating new user", data);
   try {
     const formData = new FormData();
     formData.append("name", data?.name);
@@ -93,7 +95,7 @@ export async function addUser(data) {
     console.log("create formData", formData);
     const response = await axiosInstance({
       method: "post",
-      url: `http://localhost:3000/api/v1/users`,
+      url: `http://localhost:${PORT}/api/v1/users`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -118,8 +120,8 @@ export async function updateUser(id, data) {
     const response = await axiosInstance({
       method: "patch",
       url: data?.role
-        ? `http://localhost:3000/api/v1/users/${id}`
-        : `http://localhost:3000/api/v1/users/updateMe/${id}`,
+        ? `http://localhost:${PORT}/api/v1/users/${id}`
+        : `http://localhost:${PORT}/api/v1/users/updateMe/${id}`,
       data: data,
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +140,7 @@ export async function updateUser(id, data) {
 
 export async function uploadImage(id, image) {
   try {
-    console.log("upload imag", image);
+    console.log("upload image", image);
     const formData = new FormData();
     const file = new File([image], `employee_${id}_${Date.now()}.jpg`, {
       type: "image/jpeg",
@@ -147,7 +149,7 @@ export async function uploadImage(id, image) {
 
     const response = await axiosInstance({
       method: "patch",
-      url: `http://localhost:3000/api/v1/users/updateImage/${id}`,
+      url: `http://localhost:${PORT}/api/v1/users/updateImage/${id}`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -181,7 +183,7 @@ export async function updateUserPassword(data) {
   try {
     console.log("update password data", data);
     const response = await axios.patch(
-      "http://localhost:3000/api/v1/user/updatePassword",
+      `http://localhost:${PORT}/api/v1/users/updatePassword`,
       data,
       { withCredentials: true }
     );
@@ -232,6 +234,61 @@ export async function addCustomer(data) {
     if (response?.data) {
       console.log(response.data.data);
       return response.data.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function checkMailAccess(email) {
+  try {
+    console.log("add customer data", email);
+    const response = await axiosInstance.post(`/users/checkMail`, email);
+
+    if (response?.data) {
+      console.log(response.data.data);
+      return response.data.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getSummarySalesAndPurchases(startDate, endDate) {
+  try {
+    console.log("fetching data", startDate, endDate);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getTransactions(dateRange, store, cashier) {
+  try {
+    const response = await axiosInstance.get(`/transactions`, {
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      store,
+      cashier,
+    });
+
+    if (response?.data) {
+      return response.data;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+export async function getPurchase(dateRange, inventory) {
+  try {
+    const response = await axiosInstance.get(`/transactions`, {
+      startDate: dateRange[0],
+      endDate: dateRange[1],
+      inventory,
+    });
+
+    if (response?.data) {
+      return response.data;
     }
   } catch (error) {
     handleError(error);

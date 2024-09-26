@@ -17,6 +17,9 @@ import View from "./pages/View";
 import Customers from "./pages/Customers";
 import ResetPassword from "./pages/ResetPassword";
 import CreateCustomer from "./pages/CreateCustomer";
+import NewLogin from "./pages/NewLogin";
+import RestrictAccess from "./pages/RestrictAccess";
+import Transaction from "./pages/Transactions";
 
 function App() {
   useEffect(() => {
@@ -34,7 +37,6 @@ function App() {
     <UserProvider>
       <ActionProvider>
         <QueryClientProvider client={queryClient}>
-          {/*  <ReactQueryDevtools initialIsOpen={false} /> */}
           <BrowserRouter>
             <Routes>
               <Route
@@ -47,15 +49,24 @@ function App() {
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<AllUsers />} />
-                <Route path="create" element={<CreateUser />} />
+                <Route
+                  path="create"
+                  element={
+                    <RestrictAccess allowedRoles={["General Manager"]}>
+                      <CreateUser />
+                    </RestrictAccess>
+                  }
+                />
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="customers/register" element={<CreateCustomer />} />
+                <Route path="transactions" element={<Transaction />} />
               </Route>
-              <Route path="login" element={<Login />} />
+              <Route path="login" element={<NewLogin />} />
               <Route path="reset/:token" element={<ResetPassword />} />
               <Route path="*" element={<PageNotFound />} />
+              <Route path="not-found" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
           <Toaster

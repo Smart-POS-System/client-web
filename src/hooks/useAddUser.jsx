@@ -13,6 +13,7 @@ function useAddUser() {
       toast.error(error.message || "Failed to add user");
     },
   });
+  console.log("Is the new user creating", isLoading);
   return { isLoading, handleAddUser };
 }
 
