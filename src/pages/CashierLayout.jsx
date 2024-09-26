@@ -7,6 +7,10 @@ import { useUserData } from "../context/userContext";
 import { useCurrentUser } from "../hooks/useCurrentUser";
 import HourGlass from "../components/HourGlass";
 import PasswordAlert from "../components/PasswordAlert";
+import Cashier_NavBar from "../components/cashier/Cashier_NavBar";
+import HeaderSearch from "../components/HeaderSearch";
+import Notifications from "../components/Notifications";
+import NightModeButton from "../components/NightModeButton";
 
 const { Header, Content, Footer } = Layout;
 
@@ -44,11 +48,16 @@ function CashierLayout() {
         setVisible={setVisible}
       />
       <Layout style={{ minHeight: "100vh" }}>
-        <NavigationBar
+        <Cashier_NavBar
           style={{
             width: "100%",
           }}
         />
+        {/* <NavigationBar
+          style={{
+            width: "100%",
+          }}
+        /> */}
         <Layout
           style={{
             display: "flex",
@@ -58,11 +67,23 @@ function CashierLayout() {
           }}
         >
           <Header
-            className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-end"
-            style={{ background: colorBgContainer }}
+            className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-center  "
+            style={{
+              backgroundColor: "#f0f0f5",
+              color: "#333333",
+              overflow: "hidden",
+            }}
           >
-            <div className="flex  mr-4">
-              <Profile />;
+            <div className="w-11/12 flex flex-row items-center justify-between ">
+              <div className="w-5/12">
+                <HeaderSearch />
+              </div>
+
+              <div className="flex flex-row items-center justify-between gap-6 mr-4">
+                <Notifications />
+                <NightModeButton />
+                <Profile />
+              </div>
             </div>
           </Header>
           <Content
@@ -75,7 +96,7 @@ function CashierLayout() {
             }}
           >
             <div
-              className="p-6 min-h-[360px] my-3"
+              className="p-6 min-h-[360px] "
               style={{
                 background: `linear-gradient(150deg, #ffffff, #ffffff)`,
                 borderRadius: borderRadiusLG,

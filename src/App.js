@@ -52,7 +52,7 @@ function App() {
               <Route
                 element={
                   <ProtectedRoute>
-                    <CashierLayout />
+                    <Layout />
                   </ProtectedRoute>
                 }
               >
