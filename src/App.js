@@ -27,6 +27,7 @@ import AllItems from "./pages/AllItems";
 import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 import ShowStashedBills from "./components/cashier/ShowStashedBills";
 import CashierLayout from "./pages/CashierLayout";
+import Layout from "./pages/Layout";
 
 function App() {
   useEffect(() => {
