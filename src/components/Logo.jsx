@@ -1,7 +1,7 @@
 function Logo() {
   return (
     <div>
-      <img src={"SmartPOS.png"} alt="logo" />
+      <img src="/SmartPOS.png" alt="logo" />
     </div>
   );
 }

@@ -27,7 +27,7 @@ function LoginForm() {
     <div className="flex flex-col justify-center items-center">
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <p className="mb-4 font-poppins font-medium text-center">
-          Please login to your account
+          Enter your email and password
         </p>
         {/* <!--Email input--> */}
         <div className="flex flex-col items-end gap-6 w-full md:w-72">

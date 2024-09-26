@@ -6,6 +6,7 @@ function ActionProvider({ children }) {
   const [confirmDeleteActivate, setConfirmDeleteActivate] = useState(false);
   const [updatingUser, setUpdatingUser] = useState(false);
   const [passwordUpdateClicked, setPasswordUpdateClicked] = useState(false);
+  const [isNightModeOn, setIsNightModeOn] = useState(false);
 
   function handleUpdatingUser(value) {
     setUpdatingUser(value);
@@ -13,6 +14,10 @@ function ActionProvider({ children }) {
 
   function handleDeleteActivate(value) {
     setConfirmDeleteActivate(value);
+  }
+
+  function toggleNightMode() {
+    setIsNightModeOn((value) => !value);
   }
 
   return (
@@ -24,6 +29,8 @@ function ActionProvider({ children }) {
         handleDeleteActivate,
         passwordUpdateClicked,
         setPasswordUpdateClicked,
+        isNightModeOn,
+        toggleNightMode,
       }}
     >
       {children}

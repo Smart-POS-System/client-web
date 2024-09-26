@@ -17,6 +17,13 @@ import View from "./pages/View";
 import Customers from "./pages/Customers";
 import ResetPassword from "./pages/ResetPassword";
 import CreateCustomer from "./pages/CreateCustomer";
+import NewLogin from "./pages/NewLogin";
+import RestrictAccess from "./pages/RestrictAccess";
+import Transaction from "./pages/Transactions";
+import AllProducts from "./pages/AllProducts";
+import CreateProduct from "./pages/CreateProduct";
+import CreateItem from "./pages/CreateItem";
+import AllItems from "./pages/AllItems";
 import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 import ShowStashedBills from "./components/cashier/ShowStashedBills";
 import CashierLayout from "./pages/CashierLayout";
@@ -52,15 +59,28 @@ function App() {
                 <Route path="stashedBills" element={<ShowStashedBills />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<AllUsers />} />
-                <Route path="create" element={<CreateUser />} />
+                <Route
+                  path="create"
+                  element={
+                    <RestrictAccess allowedRoles={["General Manager"]}>
+                      <CreateUser />
+                    </RestrictAccess>
+                  }
+                />
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="customers/register" element={<CreateCustomer />} />
+                <Route path="transactions" element={<Transaction />} />
+                <Route path="products" element={<AllProducts />} />
+                <Route path="items" element={<AllItems />} />
+                <Route path="create-product" element={<CreateProduct />} />
+                <Route path="create-item" element={<CreateItem />} />
               </Route>
-              <Route path="login" element={<Login />} />
+              <Route path="login" element={<NewLogin />} />
               <Route path="reset/:token" element={<ResetPassword />} />
               <Route path="*" element={<PageNotFound />} />
+              <Route path="not-found" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
           <Toaster

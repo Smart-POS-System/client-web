@@ -3,9 +3,14 @@ import {
   DesktopOutlined,
   FileOutlined,
   PieChartOutlined,
-  TeamOutlined,
+  PlusCircleOutlined,
+  ProductOutlined,
   UserOutlined,
   UserAddOutlined,
+  AreaChartOutlined,
+  TransactionOutlined,
+  UnorderedListOutlined,
+  AppstoreAddOutlined,
   DashboardOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
@@ -38,23 +43,15 @@ function NavigationBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const items = [
-    // getItem("Option 1", "1", <PieChartOutlined />),
-    // getItem("Option 2", "2", <DesktopOutlined />),
+    getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
           getItem("See All Users", "/users", <HiOutlineUsers />),
+
           getItem("Add New User", "/create", <UserAddOutlined />),
           getItem("My Profile", "/view", <UserOutlined />),
           getItem("Customers", "/customers", <HiOutlineUsers />),
         ])
-      : null,
-    // getItem("Team", "sub2", <TeamOutlined />, [
-    //   getItem("Team 1", "6"),
-    //   getItem("Team 2", "8"),
-    // ]),
-    // getItem("Files", "9", <FileOutlined />),
-    user?.role === "Cashier"
-      ? getItem("Dashboard", "/dashboard", <DashboardOutlined />)
       : null,
     user.role === "Cashier"
       ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
@@ -62,6 +59,13 @@ function NavigationBar() {
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
       : null,
+    getItem("Products", "sub2", <ProductOutlined />, [
+      getItem("See All Products", "/products", <UnorderedListOutlined />),
+      getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
+      getItem("See All Items", "/items", <UnorderedListOutlined />),
+      getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+    ]),
+    getItem("Transactions", "/transactions", <TransactionOutlined />),
 
     user?.role === "Cashier"
       ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)
@@ -108,16 +112,17 @@ function NavigationBar() {
     //   />
     // </Sider>
     <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
-      style={{
-        position: "sticky",
-        left: 0,
-        top: 0,
-        height: "100vh", // Full viewport height
-        overflow: "hidden", // Prevents scrolling
+      // theme="light"
+      breakpoint="lg"
+      collapsedWidth="0"
+      width={250} // Set the width here (adjust as needed)
+      onBreakpoint={(broken) => {
+        console.log(broken);
       }}
+      onCollapse={(collapsed, type) => {
+        console.log(collapsed, type);
+      }}
+      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
     >
       <div className="demo-logo-vertical" />
 
@@ -125,8 +130,8 @@ function NavigationBar() {
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold"
-        theme="dark"
+        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
+        theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}
         onClick={handleMenuClick}
