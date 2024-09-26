@@ -1,7 +1,15 @@
+import AdminDashboard from "../components/AdminDashboard";
+import { useUserData } from "../context/userContext";
+
 function Dashboard() {
+  const { user } = useUserData();
   return (
     <div>
-      <h1>Dashboard</h1>
+      {user?.role !== "Cashier" ? (
+        <AdminDashboard />
+      ) : (
+        <h1>Cashier Dashboard</h1>
+      )}
     </div>
   );
 }

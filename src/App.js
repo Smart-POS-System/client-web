@@ -15,6 +15,11 @@ import CreateUser from "./components/UserForm";
 import UpdateUser from "./pages/UpdateUser";
 import View from "./pages/View";
 import Customers from "./pages/Customers";
+import ResetPassword from "./pages/ResetPassword";
+import CreateCustomer from "./pages/CreateCustomer";
+import NewLogin from "./pages/NewLogin";
+import RestrictAccess from "./pages/RestrictAccess";
+import Transaction from "./pages/Transactions";
 import AllProducts from "./pages/AllProducts";
 import CreateProduct from "./pages/CreateProduct";
 import CreateItem from "./pages/CreateItem";
@@ -36,7 +41,6 @@ function App() {
     <UserProvider>
       <ActionProvider>
         <QueryClientProvider client={queryClient}>
-          {/*  <ReactQueryDevtools initialIsOpen={false} /> */}
           <BrowserRouter>
             <Routes>
               <Route
@@ -49,17 +53,28 @@ function App() {
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="users" element={<AllUsers />} />
-                <Route path="create" element={<CreateUser />} />
+                <Route
+                  path="create"
+                  element={
+                    <RestrictAccess allowedRoles={["General Manager"]}>
+                      <CreateUser />
+                    </RestrictAccess>
+                  }
+                />
                 <Route path="update/:userId" element={<UpdateUser />} />
                 <Route path="view" element={<View />} />
                 <Route path="customers" element={<Customers />} />
+                <Route path="customers/register" element={<CreateCustomer />} />
+                <Route path="transactions" element={<Transaction />} />
                 <Route path="products" element={<AllProducts />} />
                 <Route path="items" element={<AllItems />} />
                 <Route path="create-product" element={<CreateProduct />} />
                 <Route path="create-item" element={<CreateItem />} />
               </Route>
-              <Route path="login" element={<Login />} />
+              <Route path="login" element={<NewLogin />} />
+              <Route path="reset/:token" element={<ResetPassword />} />
               <Route path="*" element={<PageNotFound />} />
+              <Route path="not-found" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
           <Toaster
@@ -80,6 +95,7 @@ function App() {
                   backdropFilter: "blur(10px)",
                 },
               },
+
               error: {
                 duration: 5000,
                 style: {

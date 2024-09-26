@@ -1,52 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import { Image, Upload, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Upload, Image, message } from "antd";
 import ImgCrop from "antd-img-crop";
 import toast from "react-hot-toast";
 
 function ImageUpload({ onImageChange, reset, image }) {
   const [fileList, setFileList] = useState([]);
-  const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [existingImage, setExistingImage] = useState(image);
 
-  // Handle file upload
-  const handleChange = async ({ fileList }) => {
-    const latestFile = fileList.slice(-1)[0]; // Get the most recent file
+  useEffect(() => {
+    setExistingImage(image);
+  }, [image]);
+
+  useEffect(() => {
+    if (reset) {
+      setFileList([]);
+      setPreviewImage("");
+      setPreviewOpen(false);
+    }
+  }, [reset]);
+
+  const handleChange = async ({ fileList: newFileList }) => {
+    const latestFile = newFileList.slice(-1)[0];
     if (latestFile && latestFile.status === "done" && !latestFile.thumbUrl) {
-      latestFile.thumbUrl = await getBase64(latestFile.originFileObj);
+      latestFile.thumbUrl = await getBase64(latestFile.originFileObj).catch(
+        (error) => {
+          console.error("Error converting file to base64:", error);
+          toast.error("Failed to convert file for preview.");
+          return null;
+        }
+      );
     }
-    setFileList(fileList.slice(-1)); // Keep only the most recent file
-    onImageChange(latestFile?.originFileObj || null); // Send the file to the parent component
+    setFileList(newFileList.slice(-1));
+    onImageChange(latestFile?.originFileObj || null);
+    setPreviewImage(latestFile?.thumbUrl || "");
   };
 
-  // Handle file preview
   const handlePreview = async (file) => {
-    try {
-      let preview = file.url || file.preview;
-
-      if (!preview && file.originFileObj) {
-        preview = await getBase64(file.originFileObj);
-      }
-
-      if (typeof preview === "string") {
-        setPreviewImage(preview);
-        setPreviewOpen(true);
-      } else {
-        console.error("Preview is not a valid string:", preview);
-        toast.error("Preview is not a valid string");
-      }
-    } catch (error) {
-      console.error("Error in handlePreview:", error);
-      toast.error("Error in handlePreview");
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj).catch((error) => {
+        console.error("Error in handlePreview:", error);
+        toast.error("Preview conversion failed");
+        return null;
+      });
     }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
   };
 
-  // Handle file upload progress
-  const handleProgress = (event, file) => {
-    console.log(`File: ${file.name}, Progress: ${event.percent}%`);
-  };
-
-  // Convert file to base64
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -71,44 +74,48 @@ function ImageUpload({ onImageChange, reset, image }) {
   );
 
   return (
-    <>
-      <ImgCrop rotationSlider>
-        <Upload
-          customRequest={({ file, onSuccess }) => {
-            // Mock uploading, invoke onSuccess immediately
-            onSuccess("ok");
-          }}
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-          beforeUpload={beforeUpload}
-          accept="image/*"
-          progress={{
-            strokeColor: {
-              "0%": "#108ee9",
-              "100%": "#87d068",
-            },
-            strokeWidth: 3,
-            format: (percent) =>
-              percent && `${parseFloat(percent.toFixed(2))}%`,
-          }}
-          onProgress={handleProgress}
-        >
-          {fileList.length >= 1 ? null : uploadButton}
-        </Upload>
-      </ImgCrop>
-      {previewImage && (
-        <Image
-          preview={{
-            visible: previewOpen,
-            onVisibleChange: (visible) => setPreviewOpen(visible),
-            afterOpenChange: () => !previewOpen && setPreviewImage(""),
-          }}
-          src={previewImage}
-        />
+    <div className="flex flex-row gap-5">
+      <div className="flex flex-col items-center">
+        {existingImage ? <h4>Upload Image</h4> : null}
+
+        <ImgCrop rotationSlider>
+          <Upload
+            customRequest={({ file, onSuccess }) => {
+              onSuccess("ok");
+            }}
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            beforeUpload={beforeUpload}
+            accept="image/*"
+            showUploadList={{
+              showPreviewIcon: true,
+              showRemoveIcon: true,
+              showDownloadIcon: false,
+            }}
+          >
+            {fileList.length >= 1 ? null : uploadButton}
+          </Upload>
+        </ImgCrop>
+      </div>
+      {existingImage && !previewImage && (
+        <div className="flex flex-col items-center">
+          <h4>Existing Image</h4>
+          <Image
+            src={existingImage}
+            alt="Current Image"
+            style={{
+              width: 104,
+              height: 104,
+              objectFit: "cover",
+              marginTop: 8,
+            }}
+            onClick={() => setPreviewOpen(true)}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 }
 

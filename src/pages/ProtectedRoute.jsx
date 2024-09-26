@@ -1,21 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserData } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import HourGlass from "../components/HourGlass";
 
 function ProtectedRoute({ children }) {
-  const { user } = useUserData();
+  const { user, loading } = useUserData(); // Get loading state
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("rgf", user);
-    if (user.exp > Math.floor(Date.now() / 1000)) {
-      setIsAuthenticated((isAuthenticated) => true);
-    } else {
-      setIsAuthenticated((isAuthenticated) => false);
+    if (!loading) {
+      // Wait until loading is false
+      if (user) {
+        setIsAuthenticated(user.exp > Math.floor(Date.now() / 1000));
+      } else {
+        setIsAuthenticated(false);
+      }
     }
-  }, [user]);
+  }, [user, loading]);
 
   useEffect(() => {
     if (isAuthenticated === false) {
@@ -23,7 +25,8 @@ function ProtectedRoute({ children }) {
     }
   }, [isAuthenticated, navigate]);
 
-  if (isAuthenticated === null) {
+  if (loading || isAuthenticated === null) {
+    // Show loading indicator while loading
     return <HourGlass />;
   }
 

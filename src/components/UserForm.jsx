@@ -12,6 +12,9 @@ import { useAction } from "../context/actionContext";
 import useUpdateUser from "../hooks/useUpdateUser";
 import useImage from "../hooks/useImage";
 import PasswordUpdate from "./PasswordUpdate";
+import { useUserData } from "../context/userContext";
+import Address from "./Address";
+import useAddCustomer from "../hooks/useAddCustomer";
 
 function UserForm({
   user = {},
@@ -33,6 +36,8 @@ function UserForm({
   const { updatingUser } = useAction();
   const { isLoading: isUpdating, handleUpdateUser } = useUpdateUser();
   const { isLoading: isImageUploading, handleUpdateImage } = useImage();
+  const { user: currentUser } = useUserData();
+  const { isLoading: isAddingCustomer, handleAddCustomer } = useAddCustomer();
 
   useEffect(() => {
     if (user && updatingUser) {
@@ -42,7 +47,7 @@ function UserForm({
         email: user.email || "",
         phone: user.mobile || "",
       });
-      setImageFile(user.image || null);
+      setImageFile(user.image || "");
     }
   }, [user, updatingUser, reset]);
 
@@ -71,26 +76,25 @@ function UserForm({
 
   async function onSubmit(data) {
     const formattedPhoneNumber = data.phone.padStart(10, "0").slice(0, 10);
-    console.log("Formatted phone number:", data);
+    //console.log("Formatted phone number:", data);
     const newUser = {
       ...data,
       phone: formattedPhoneNumber,
     };
 
-    console.log(updatingUser);
-
-    if (updatingUser) {
-      console.log("Updating user with data:", newUser);
+    if (currentUser.role === "Cashier") {
+      //console.log("Adding address to user data:", newUser);
+      handleAddCustomer(newUser);
+    } else if (updatingUser) {
+      // console.log("Updating user with data:", newUser);
       handleUpdateUser(newUser);
       if (isImageRemoved) {
         handleUpdateImage(imageFile); // Handle the image update
       }
     } else {
-      console.log("Creating new user with data:", newUser);
+      // console.log("Creating new user with data:", newUser);
+      console.log("new user data", newUser);
       handleAddUser(newUser);
-      if (imageFile) {
-        handleUpdateImage(imageFile); // Handle the image upload
-      }
     }
   }
 
@@ -103,7 +107,11 @@ function UserForm({
       {!isLoggedUser && (
         <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
           <strong>
-            {updatingUser ? "Update User Details" : "Add New User"}
+            {updatingUser
+              ? "Update User Details"
+              : currentUser.role !== "Cashier"
+              ? "Add New User"
+              : "Add New Customer"}
           </strong>
         </h1>
       )}
@@ -113,45 +121,73 @@ function UserForm({
           className="space-y-4 min-w-[675px]:w-9/12"
         >
           {!isLoggedUser && (
-            <Name errors={errors} control={control} role={user?.name} />
+            <Name
+              errors={errors}
+              control={control}
+              role={user?.name}
+              currentUserRole={currentUser.role}
+            />
           )}
-          {!isLoggedUser && (
+          {!isLoggedUser && currentUser.role !== "Cashier" && (
             <Role errors={errors} control={control} role={user?.role} />
           )}
-          {!isLoggedUser && (
+          {!isLoggedUser && currentUser.role === "Cashier" && (
+            <Address errors={errors} control={control} />
+          )}
+          {!isLoggedUser && currentUser.role !== "Cashier" && (
             <Email errors={errors} control={control} role={user?.email} />
           )}
-          <Phone
-            errors={errors}
-            control={control}
-            phone={user?.mobile}
-            isLoggedUser={isLoggedUser}
-          />
-          <UserImage
-            onImageChange={onImageChange}
-            reset={resetImage}
-            image={imageFile}
-          />
-          {isLoggedUser && <PasswordUpdate />}
+          {!isLoggedUser && (
+            <Phone
+              errors={errors}
+              control={control}
+              phone={user?.mobile}
+              isLoggedUser={isLoggedUser}
+            />
+          )}
+          {!isLoggedUser && currentUser.role !== "Cashier" && (
+            <>
+              <UserImage
+                onImageChange={onImageChange}
+                reset={resetImage}
+                image={imageFile}
+              />
 
-          <div className="flex justify-center gap-4 mt-4">
-            {isLoggedUser ? (
-              <Button onClick={handleProfileUpdate}>Cancel</Button>
-            ) : (
+              <div className="flex justify-center gap-4 mt-4">
+                {isLoggedUser ? (
+                  <Button onClick={handleProfileUpdate}>Cancel</Button>
+                ) : (
+                  <Button type="default" htmlType="reset" onClick={handleClear}>
+                    Clear All
+                  </Button>
+                )}
+
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={!isValid || isLoading || isUpdating}
+                >
+                  Submit
+                </Button>
+              </div>
+            </>
+          )}
+          {!isLoggedUser && currentUser.role === "Cashier" && (
+            <div className="flex justify-center gap-4 mt-4">
               <Button type="default" htmlType="reset" onClick={handleClear}>
                 Clear All
               </Button>
-            )}
-
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={!isValid || isLoading || isUpdating}
-            >
-              Submit
-            </Button>
-          </div>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={!isValid || isLoading || isUpdating}
+              >
+                Submit
+              </Button>
+            </div>
+          )}
         </form>
+        {isLoggedUser && <PasswordUpdate />}
       </div>
     </>
   );
