@@ -148,7 +148,7 @@ function SalesPurchaseChart() {
     chart: {
       type: "line",
       height: 350,
-      zoom: { enabled: false },
+      zoom: { enabled: true },
     },
     stroke: {
       curve: "smooth",

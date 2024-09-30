@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
   PlusCircleOutlined,
   ProductOutlined,
   UserOutlined,
@@ -88,7 +85,7 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
-      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
+      style={{ backgroundColor: "#fcfcfc" }}
     >
       <div className="demo-logo-vertical" />
       <div className="items-center w-2/4 h-auto pt-8 m-auto">

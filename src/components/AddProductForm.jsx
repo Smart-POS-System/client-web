@@ -72,17 +72,19 @@ const AddProductForm = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
+      <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         <strong>Add New Product</strong>
       </h1>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 min-w-[675px]:w-9/12"
+          className="min-w-[675px]:w-9/12"
         >
-          <ProductName errors={errors} control={control} product_name={""} />
-          <UnitWeight errors={errors} control={control} unit_weight={""} />
-          <div className="flex justify-center gap-4 mt-4">
+          <div className="space-y-4">
+            <ProductName errors={errors} control={control} product_name={""} />
+            <UnitWeight errors={errors} control={control} unit_weight={""} />
+          </div>
+          <div className="flex justify-center gap-4 mt-8">
             <Button type="default" htmlType="reset" onClick={handleClear}>
               Clear All
             </Button>
@@ -95,4 +97,4 @@ const AddProductForm = () => {
     </>
   );
 };
-export default () => <AddProductForm />;
+export default AddProductForm;
