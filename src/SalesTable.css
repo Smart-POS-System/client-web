@@ -2,8 +2,8 @@
 
 /* Table header styles */
 .custom-table .ant-table-thead > tr > th {
-  background-color: #1e3a8a; /* Dark blue header */
-  color: #ffffff; /* White text */
+  background-color: #e6f4ff; /* Dark blue header */
+  color: #1677ff; /* White text */
   text-align: center;
   transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }

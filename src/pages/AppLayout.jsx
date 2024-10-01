@@ -10,7 +10,7 @@ import PasswordAlert from "../components/PasswordAlert";
 import Notifications from "../components/Notifications";
 import NightModeButton from "../components/NightModeButton";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 function AppLayout() {
   const {
@@ -80,7 +80,7 @@ function AppLayout() {
               padding: "20px",
               color: "#333333",
               overflowY: "auto", // Ensure Content can scroll if needed
-              maxHeight: "calc(100vh - 80px - 40px)",
+              maxHeight: "calc(100vh - 80px)",
             }}
           >
             <div

@@ -1,8 +1,35 @@
 import dayjs from "dayjs";
 import Chart from "react-apexcharts";
 import { purchases, sales } from "../helpers/lists";
+import { useEffect, useState } from "react";
+import axiosInstance from "../api/axiosConfig";
 
-function SalesPurchaseChart() {
+function SalesPurchaseChart({ startDate, endDate }) {
+  const [sales, setSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSalesData = async () => {
+      setLoading(true);
+      try {
+        const salesDataResponse = await axiosInstance.get(
+          `http://localhost:49164/daily-total-sales?startDate=${startDate}&endDate=${endDate}`
+        );
+        setSales(salesDataResponse.data);
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSalesData();
+  }, []);
+
+  console.log(sales);
+
   // Helper function to generate all dates between minDate and maxDate
   const generateDateRange = (startDate, endDate) => {
     const dateArray = [];
@@ -32,8 +59,8 @@ function SalesPurchaseChart() {
     return hourArray;
   };
 
-  const minDate = dayjs(sales[0].date).format("YYYY-MM-DD");
-  const maxDate = dayjs(sales[sales.length - 1].date).format("YYYY-MM-DD");
+  const minDate = dayjs(sales[0]?.date).format("YYYY-MM-DD");
+  const maxDate = dayjs(sales[sales.length - 1]?.date).format("YYYY-MM-DD");
 
   // Detect the data range
   const dateDifference = dayjs(maxDate).diff(dayjs(minDate), "day");
@@ -227,6 +254,8 @@ function SalesPurchaseChart() {
       },
     },
   };
+
+  console.log(salesData, purchasesData);
 
   // Series data
   const series = [

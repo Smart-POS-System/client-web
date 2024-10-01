@@ -106,7 +106,7 @@ function IncomeOverview() {
       </div>
       <div className="flex flex-col w-full gap-4">
         <div className="flex flex-row items-center justify-between w-full bg-slate-50 rounded-xl p-4 border border-blue-400">
-          <SalesPurchaseChart />
+          <SalesPurchaseChart startDate={startDate} endDate={endDate} />
         </div>
         <div className="flex flex-row items-center justify-between gap-4">
           <div className="w-1/2">
