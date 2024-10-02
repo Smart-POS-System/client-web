@@ -1,10 +1,20 @@
-import { Button, Input, Space } from "antd";
+import { Button, Image, Input, Modal, Space } from "antd";
 import React, { useState } from "react";
 import { ScanOutlined, SearchOutlined } from "@ant-design/icons";
 
 const AddSale = (props) => {
   const [barcode, setBarcode] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = () => {
     const newEntry = {
@@ -37,7 +47,7 @@ const AddSale = (props) => {
   return (
     <div>
       <div>
-        <div className="flex justify-between">
+        <div className="xl:flex block xl:justify-between ">
           <Space>
             <Space.Compact size="medium">
               <Input
@@ -55,8 +65,8 @@ const AddSale = (props) => {
               </Button>
             </Space.Compact>
           </Space>
-          <div className="px-5">
-            <Button type="primary">
+          <div className=" flex xl:justify-end pt-4 xl:pt-0 ">
+            <Button type="primary" onClick={showModal}>
               <ScanOutlined />
               Scan Barcode
             </Button>
@@ -69,6 +79,60 @@ const AddSale = (props) => {
           Scan Barcode
         </Button>
       </div> */}
+      {/* <Modal
+        // title="Scan the Barcode"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="flex justify-center p-12"
+      >
+        <div className="flex justify-center px-24 text-lg  font-semibold">
+          <h2 className="text-xl  font-semibold">Scan the Barcode</h2>
+        </div>
+        <div className="flex justify-center">
+          <Image
+            src={"/barcode-read.gif"} // Ensure this is the correct path to your image
+            alt="Rotating Graph"
+            width="200px"
+            className="flex justify-center"
+            // style={imageStyles}
+          ></Image>
+        </div>
+        
+      </Modal> */}
+      <Modal
+        open={isModalOpen}
+        onCancel={handleCancel}
+        className="flex justify-center p-12"
+        footer={[
+          <Button
+            key="cancel"
+            onClick={handleCancel}
+            className="mx-auto bg-red-500 text-white"
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="done"
+            onClick={handleOk}
+            className="mx-auto bg-green-500 text-white"
+          >
+            Done
+          </Button>,
+        ]}
+      >
+        <div className="flex justify-center px-24 text-lg font-semibold">
+          <h2 className="text-xl font-semibold">Scan the Barcode</h2>
+        </div>
+        <div className="flex justify-center">
+          <img
+            src={"/barcode-read.gif"} // Ensure this is the correct path to your image
+            alt="Rotating Graph"
+            width="200px"
+            className="flex justify-center"
+          />
+        </div>
+      </Modal>
     </div>
   );
 };

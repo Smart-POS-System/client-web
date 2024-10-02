@@ -63,12 +63,12 @@ function Cashier_NavBar() {
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
       : null,
-    getItem("Products", "sub2", <ProductOutlined />, [
-      getItem("See All Products", "/products", <UnorderedListOutlined />),
-      getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
-      getItem("See All Items", "/items", <UnorderedListOutlined />),
-      getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
-    ]),
+    // getItem("Products", "sub2", <ProductOutlined />, [
+    //   getItem("See All Products", "/products", <UnorderedListOutlined />),
+    //   getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
+    //   getItem("See All Items", "/items", <UnorderedListOutlined />),
+    //   getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+    // ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
 
     user?.role === "Cashier"
@@ -116,6 +116,7 @@ function Cashier_NavBar() {
     //   />
     // </Sider>
     <Sider
+      theme="light"
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
@@ -146,7 +147,7 @@ function Cashier_NavBar() {
       </div>
       <Menu
         className="mt-8 text-sm font-poppins font-semibold bg-inherit"
-        theme="dark"
+        theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}
         onClick={handleMenuClick}

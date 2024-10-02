@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "antd";
+import { Button, theme } from "antd";
 import { DisconnectOutlined } from "@ant-design/icons";
 import StashedContainer from "./StashedContainer";
 
@@ -89,53 +89,65 @@ function Stashed() {
     console.log("Removing stashed bill: ", key);
     setStashedBills((bills) => bills.filter((bill) => bill.id !== key));
   };
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
   return (
     <>
-      <div className="mb-4 flex justify-between items-center">
-        <div className=" font-bold text-xl mb-4 mr-4">Stashed Bills</div>
-        <div className="">
-          <input
-            type="text"
-            placeholder="Search by Bill ID"
-            value={searchId}
-            onChange={(e) => setSearchId(e.target.value)}
-            className="border rounded p-2 mr-2"
-          />
-          <input
-            type="text"
-            placeholder="Search by Customer"
-            value={searchCustomer}
-            onChange={(e) => setSearchCustomer(e.target.value)}
-            className="border rounded p-2 mr-2"
-          />
-          <Button
-            className=" p-2"
-            onClick={() => {
-              handleReset();
-            }}
-          >
-            Reset
-          </Button>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 pt-4 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredBills.length === 0 ? (
-          <div className="flex text-gray-400 content-center justify-center">
-            <DisconnectOutlined className="mx-2" />
-            <div className="mx-2">No Stashed bills found.</div>
-          </div>
-        ) : (
-          filteredBills.map((bill) => (
-            <StashedContainer
-              id={bill.id}
-              customer={bill.customer}
-              total={bill.total}
-              timestamp={bill.timestamp}
-              removeStashed={handleRemove}
+      <div
+        className="p-6 min-h-[360px] ml-1"
+        style={{
+          background: `linear-gradient(150deg, #ffffff, #ffffff)`,
+          minHeight: "100vh",
+          borderRadius: borderRadiusLG,
+        }}
+      >
+        <div className="mb-4 flex justify-between items-center">
+          <div className=" font-bold text-xl mb-4 mr-4">Stashed Bills</div>
+          <div className="">
+            <input
+              type="text"
+              placeholder="Search by Bill ID"
+              value={searchId}
+              onChange={(e) => setSearchId(e.target.value)}
+              className="border rounded p-2 mr-2"
             />
-          ))
-        )}
+            <input
+              type="text"
+              placeholder="Search by Customer"
+              value={searchCustomer}
+              onChange={(e) => setSearchCustomer(e.target.value)}
+              className="border rounded p-2 mr-2"
+            />
+            <Button
+              className=" p-2"
+              onClick={() => {
+                handleReset();
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 pt-4 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {filteredBills.length === 0 ? (
+            <div className="flex text-gray-400 content-center justify-center">
+              <DisconnectOutlined className="mx-2" />
+              <div className="mx-2">No Stashed bills found.</div>
+            </div>
+          ) : (
+            filteredBills.map((bill) => (
+              <StashedContainer
+                id={bill.id}
+                customer={bill.customer}
+                total={bill.total}
+                timestamp={bill.timestamp}
+                removeStashed={handleRemove}
+              />
+            ))
+          )}
+        </div>
       </div>
     </>
   );

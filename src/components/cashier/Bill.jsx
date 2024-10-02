@@ -119,7 +119,12 @@
 
 import React, { useState } from "react";
 import { Divider, Table, Typography, Button } from "antd";
-import { DeleteOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  MinusOutlined,
+  DeleteTwoTone,
+} from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 
@@ -210,7 +215,7 @@ const Bill = ({ value, setValue }) => {
           type="dashed"
           size="small"
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteTwoTone twoToneColor="#FF0000" />}
           onClick={() => deleteItem(record)}
         ></Button>
       ),
