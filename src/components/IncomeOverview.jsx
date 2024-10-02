@@ -3,9 +3,7 @@ import { Button, Select } from "antd";
 import { formattedDate } from "../helpers/formatDate";
 import DashboardCards from "./DashboardCards";
 import SalesPurchaseChart from "./SalesPurchaseChart";
-import { useState, useEffect } from "react";
-import { getSummarySalesAndPurchases } from "../api/api";
-import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import TopSellingProductsChart from "./TopSellingProducts";
 import MostPurchasedProductsChart from "./MostPurchasedProducts";
 
