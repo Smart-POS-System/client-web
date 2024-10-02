@@ -1,16 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Tag, Button } from "antd";
 import "./../SalesTable.css"; // Add custom CSS here
-import { salesDetails } from "../helpers/list2";
+import axiosInstance from "../api/axiosConfig";
+import BillDetails from "./BillDetails";
 
-const SalesTable = () => {
+const SalesTable = ({ startDate, endDate }) => {
+  const defaultStartDate = "2023-01-01";
+  const defaultendDate = "2023-12-31";
+
+  const [bills, setBills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [expandedRows, setExpandedRows] = useState([]);
 
-  const toggleDescription = (bill_id) => {
+  useEffect(() => {
+    const fetchBills = async () => {
+      setLoading(true);
+
+      try {
+        const billsResponse = await axiosInstance.get(
+          `http://localhost:49164/sales-transactions?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+        );
+
+        setBills(billsResponse.data);
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBills();
+  }, []);
+
+  const handleRowExpand = (expanded, record) => {
+    // If expanded is true, add the row ID to the expanded rows, otherwise remove it
     setExpandedRows((prevState) =>
-      prevState.includes(bill_id)
-        ? prevState.filter((id) => id !== bill_id)
-        : [...prevState, bill_id]
+      expanded
+        ? [...prevState, record.bill_id]
+        : prevState.filter((id) => id !== record.bill_id)
     );
   };
 
@@ -50,6 +79,7 @@ const SalesTable = () => {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
+      render: (amount) => amount.toFixed(2),
       sorter: (a, b) => a.amount - b.amount,
     },
     {
@@ -63,20 +93,11 @@ const SalesTable = () => {
       dataIndex: "payment_method",
       key: "payment_method",
       render: (payment_method) => (
-        <Tag color={payment_method === "cash" ? "green" : "blue"}>
+        <Tag color={payment_method === "Cash" ? "green" : "orange"}>
           {typeof payment_method === "string"
             ? payment_method.toUpperCase()
             : ""}
         </Tag>
-      ),
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (record) => (
-        <Button onClick={() => toggleDescription(record.bill_id)}>
-          {expandedRows.includes(record.bill_id) ? "Hide" : "View More"}
-        </Button>
       ),
     },
   ];
@@ -85,25 +106,22 @@ const SalesTable = () => {
     <div className="table-container">
       <Table
         columns={columns}
-        dataSource={salesDetails.map((item) => ({
+        dataSource={bills.map((item) => ({
           ...item,
           key: item.bill_id,
         }))}
         rowKey="bill_id"
         pagination={{
-          pageSize: 10,
-          position: ["bottomCenter"],
+          pageSize: 9,
+          position: ["bottomRight"],
         }}
         expandable={{
           expandedRowRender: (record) => (
-            <p style={{ margin: 0 }}>
-              {record.description
-                ? record.description
-                : "No additional information about this sale."}
-            </p>
+            <BillDetails items={record.items} amount={record.amount} />
           ),
           rowExpandable: (record) => true,
           expandedRowKeys: expandedRows,
+          onExpand: handleRowExpand,
         }}
         className="custom-table"
       />
