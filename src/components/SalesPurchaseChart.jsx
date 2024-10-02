@@ -214,7 +214,7 @@ function SalesPurchaseChart({ startDate, endDate }) {
       },
       min: yMin,
       max: yMax,
-      tickAmount: (yMax - yMin) / 100,
+      tickAmount: (yMax - yMin) / 200,
       labels: {
         formatter: function (value) {
           return Math.round(value);

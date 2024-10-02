@@ -1,50 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { products } from "../helpers/lists";
+import axiosInstance from "../api/axiosConfig";
 
-function TopSellingProductsChart() {
-  // Process the products to aggregate sales by product
-  const productSales = products.reduce((acc, item) => {
-    if (!item.product || typeof item.amount !== "number") return acc; // Ensure valid product and amount
-    acc[item.product] = (acc[item.product] || 0) + item.amount;
+function TopSellingProductsChart({ startDate, endDate }) {
+  const defaultStartDate = "2023-01-01";
+  const defaultendDate = "2023-12-31";
+
+  const [mostSoldProducts, setMostSoldProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTopSellingProducts = async () => {
+      setLoading(true);
+      try {
+        const topSellingProductsResponse = await axiosInstance.get(
+          `http://localhost:49164/top-selling-products?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+        );
+
+        setMostSoldProducts(topSellingProductsResponse.data);
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopSellingProducts();
+  }, []);
+
+  const colorpalatte = mostSoldProducts.reduce((acc, product, index) => {
+    const color =
+      ["#0090FF", "#00E396", "#FEB019", "#FF4560", "#775DD0"][index] ||
+      "#000000"; // Default to black if more than 4
+    acc[product.product_name] = color;
     return acc;
   }, {});
 
-  // Sort products by sales amount in descending order
-  const sortedProducts = Object.entries(productSales).sort(
-    (a, b) => b[1] - a[1]
-  );
-
-  // Separate the top 3 products and group the rest as "Others"
-  const top3Products = sortedProducts.slice(0, 3);
-  const otherProducts = sortedProducts.slice(3);
-
-  console.log(top3Products);
-  const colorpalatte = {
-    [top3Products[0][0]]: "#0090FF",
-    [top3Products[1][0]]: "#00E396",
-    [top3Products[2][0]]: "#FEB019",
-    Others: "#FF4560",
-  };
-
-  // Calculate "Others" total
-  const othersTotal = otherProducts.reduce(
-    (acc, [, amount]) => acc + amount,
-    0
-  );
-
   // Prepare labels and amounts for the chart
-  const productNames = [
-    ...top3Products.map(([name]) => name),
-    othersTotal > 0 ? "Others" : "",
-  ].filter(Boolean);
-  const productAmounts = [
-    ...top3Products.map(([, amount]) => amount),
-    othersTotal,
-  ].filter(Boolean);
+  const productNames = mostSoldProducts.map((product) => product.product_name);
+  const productAmounts = mostSoldProducts.map((product) =>
+    parseInt(product.total_quantity)
+  );
 
   // Calculate total sales for percentage calculations
-  const totalSales = productAmounts.reduce((a, b) => a + b, 0);
+  const totalUnitsSold = productAmounts.reduce((a, b) => a + b, 0);
 
   // Handle case when productSales array might be empty or undefined
   if (productNames.length === 0 || productAmounts.length === 0) {
@@ -69,7 +71,7 @@ function TopSellingProductsChart() {
       show: false,
     },
     fill: {
-      type: "gradient",
+      type: "solid",
     },
     colors: ["#0090FF", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
     dataLabels: {
@@ -77,13 +79,13 @@ function TopSellingProductsChart() {
       formatter: function (val, opts) {
         const seriesIndex = opts.seriesIndex;
         const percentage =
-          (opts.w.globals.series[seriesIndex] / totalSales) * 100;
+          (opts.w.globals.series[seriesIndex] / totalUnitsSold) * 100;
         return percentage.toFixed(1) + "%";
       },
     },
     tooltip: {
       y: {
-        formatter: (value) => `Rs. ${value}`,
+        formatter: (value) => `${value} units`,
       },
     },
     plotOptions: {
@@ -94,7 +96,7 @@ function TopSellingProductsChart() {
             total: {
               show: true,
               label: "Total",
-              formatter: () => `Rs. ${totalSales}`,
+              formatter: () => `${totalUnitsSold} units`,
             },
           },
         },
