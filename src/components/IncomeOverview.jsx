@@ -1,4 +1,8 @@
-import { CalendarOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  CalendarOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { Button, Select } from "antd";
 import { formattedDate } from "../helpers/formatDate";
 import DashboardCards from "./DashboardCards";
@@ -15,11 +19,11 @@ function IncomeOverview() {
   );
   const [endDate, setEndDate] = useState(todayFormatted);
   const [startDate, setStartDate] = useState(startDateFormatted);
-  // const { data, isLoading, error, refetch } = useQuery({
-  //   queryKey: ["salesAndPurchase", { startDate, endDate }],
-  //   queryFn: () => getSummarySalesAndPurchases(startDate, endDate),
-  //   enabled: true,
-  // });
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["salesAndPurchase", { startDate, endDate }],
+    queryFn: () => getSummarySalesAndPurchases(startDate, endDate),
+    enabled: true,
+  });
 
   function handleChange(value) {
     const today = new Date(); // Always get a fresh instance of today
@@ -48,9 +52,9 @@ function IncomeOverview() {
   // console.log("end date", endDate);
   // console.log("start date", startDate);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [refetch]);
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   // console.log(data);
 
@@ -91,9 +95,9 @@ function IncomeOverview() {
               ]}
             />
           </div>
-          <Button type="primary">
-            <ShoppingCartOutlined />
-            Go to Inventory
+          <Button type="primary" onClick={handleRefresh}>
+            {!isLoading ? <ReloadOutlined /> : <LoadingOutlined />}
+            Refresh
           </Button>
         </div>
       </div>

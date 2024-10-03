@@ -39,8 +39,8 @@ function PasswordUpdate() {
         Password Update Section
       </h1>
       <h1 className="text-sm font-poppins text-red-500 font-semibold mb-4">
-        Note: If you update your password, you will have to log out from the
-        system and log in with the new password.
+        Note: Once you updated your password, you will be logged out. Please log
+        in again with your new password.
       </h1>
       <div className="w-full md:w-1/2">
         <Controller

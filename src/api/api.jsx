@@ -87,7 +87,7 @@ export async function addUser(data) {
     }
     const response = await axiosInstance({
       method: "post",
-      url: `http://localhost:${PORT}/api/v1/users`,
+      url: `http://localhost:${PORT}/api/v1/users/`,
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -99,6 +99,7 @@ export async function addUser(data) {
       return response.data.data;
     }
   } catch (error) {
+    console.log("error", error);
     handleError(error);
   }
 }
@@ -173,6 +174,7 @@ export async function updateUserPassword(data) {
       return response.data.data;
     }
   } catch (error) {
+    // console.log("error", error.response.data.message);
     handleError(error);
   }
 }

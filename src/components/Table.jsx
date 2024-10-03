@@ -81,7 +81,7 @@ const CustomersTable = () => {
       loading={loading}
       pagination={{ pageSize: 10 }}
       rowKey="id"
-      className="custom-table" // Add the custom class
+      className="custom-table m-4" // Add the custom class
     />
   );
 };

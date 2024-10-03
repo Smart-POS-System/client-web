@@ -48,21 +48,21 @@ function DashboardCards({ startDate, endDate }) {
       />
       <Card
         title="Total Sales"
-        amount="Rs. 5000"
+        amount={5000}
         icon={<DollarOutlined />}
         colour={"bg-purple-300"}
         outerColour={"bg-purple-100"}
       />
       <Card
         title="Total Purchase"
-        amount="Rs. 5000"
+        amount={5000}
         icon={<ShoppingCartOutlined />}
         colour={"bg-orange-300"}
         outerColour={"bg-orange-100"}
       />
       <Card
         title="Total Return"
-        amount="Rs. 5000"
+        amount={5000}
         icon={<RetweetOutlined />}
         colour={"bg-yellow-300"}
         outerColour={"bg-yellow-100"}

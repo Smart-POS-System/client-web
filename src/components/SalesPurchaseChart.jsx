@@ -163,6 +163,35 @@ function SalesPurchaseChart({ startDate, endDate }) {
       type: "line",
       height: 350,
       zoom: { enabled: true },
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+        },
+        export: {
+          csv: {
+            filename: getDynamicFilename(),
+            columnDelimiter: ",",
+            headerCategory: "category",
+            headerValue: "value",
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toLocaleDateString();
+            },
+          },
+          svg: {
+            filename: getDynamicFilename(),
+          },
+          png: {
+            filename: getDynamicFilename(),
+          },
+        },
+      },
     },
     stroke: {
       curve: "smooth",
