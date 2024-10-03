@@ -10,6 +10,7 @@ function StashedContainer({
   total,
   timestamp,
   removeStashed,
+  proceedStashed,
 }) {
   const [billId, setCustomerId] = useState(23635);
   const [customerName, setCustomerName] = useState("_");
@@ -63,7 +64,10 @@ function StashedContainer({
     //   </div>
     // </div>
 
-    <div className="p-5 border-s border-e max-w-96 rounded-lg hover:shadow-xl">
+    <div
+      className="p-5 border  rounded-lg hover:shadow-xl"
+      style={{ borderColor: "#1677ff" }}
+    >
       <div className="flex flex-col md:flex-row">
         <div className="pr-2 min-w-0">
           <div className="flex text-lg">
@@ -71,7 +75,8 @@ function StashedContainer({
           </div>
           <div className="flex text-sm font-light text-gray-600">
             <div className="w-20">Customer:</div>
-            <div>{customer}</div>
+            <div>Guest</div>
+            {/* <div>{customer}</div> */}
           </div>
           <div className="flex text-gray-600">
             <div className="w-20 text-sm font-light">Total:</div>
@@ -109,9 +114,16 @@ function StashedContainer({
             </Popconfirm>
             <Popconfirm
               title={"Proceed to checkout?"}
-              okText="Yes"
+              onConfirm={() => {
+                proceedStashed(id);
+              }}
               cancelText="No"
             >
+              {/* <Popconfirm
+              title={"Proceed to checkout?"}
+              okText="Yes"
+              cancelText="No"
+            > */}
               <Button className="md:mr-2" size="small" type="primary">
                 Proceed
               </Button>
