@@ -104,10 +104,13 @@ import AddSale from "../../components/cashier/AddSale";
 import { Layout, theme } from "antd";
 import BillSider from "../../components/cashier/BIllSider";
 import ShowStashedBills from "../../components/cashier/ShowStashedBills";
+//import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const { Content, Sider } = Layout;
 
 const Cashier = () => {
+  const { t } = useTranslation(["cashier"]);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -136,7 +139,9 @@ const Cashier = () => {
               <AddSale setVariable={setBill} />
             </div>
             <div>
-              <div className="text-2xl my-4 font-semibold">Find Item</div>
+              <div className="text-2xl my-4 font-semibold">
+                {t("Find Item")}
+              </div>
               <div className="">
                 <SearchItem setVariable={setBill} />
               </div>
@@ -146,7 +151,7 @@ const Cashier = () => {
         </Content>
 
         <Sider
-          width={400}
+          width={500}
           style={{
             background: "white",
             marginLeft: "16px",

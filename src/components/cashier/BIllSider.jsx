@@ -15,8 +15,11 @@ import Bill from "./Bill";
 import Payment from "./Payment";
 import calculateTotalBill from "../../helpers/getBillSum";
 import Icon from "@ant-design/icons/lib/components/Icon";
+import { useTranslation } from "react-i18next";
+import LanguageSelector from "../selector/languageSel";
 
 const BillSider = ({ value, setValue }) => {
+  const { t } = useTranslation(["cashier"]); // Use the translation hook
   const [customer, setCustomer] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -37,11 +40,12 @@ const BillSider = ({ value, setValue }) => {
 
   return (
     <div>
+      <LanguageSelector />
       <Form layout="vertical">
         <div className="flex items-center mb-4">
           <hr className="flex-grow  mr-1 " />
           <SafetyCertificateTwoTone />
-          <h2 className="ml-1 font-semibold">Loyalty Programme</h2>
+          <h2 className="ml-1 font-semibold">{t("loyalty programme")}</h2>
         </div>
 
         <Form.Item hasFeedback validateStatus={phone}>
@@ -52,10 +56,10 @@ const BillSider = ({ value, setValue }) => {
               alignItems: "center",
             }}
           >
-            <label style={{ marginRight: 8 }}>Phone:</label>
+            <label style={{ marginRight: 8 }}>{t("Phone")}:</label>
             <Input
               className="w-3/4"
-              placeholder="Your phone number"
+              placeholder={t("phone number")}
               prefix={<PhoneOutlined />}
               value={customer}
               onChange={handleCustomerChange}
@@ -89,7 +93,7 @@ const BillSider = ({ value, setValue }) => {
         <div className="flex items-center mb-4">
           <hr className="flex-grow  mr-1 " />
           <DollarTwoTone />
-          <h2 className="ml-1 font-semibold">Discounts</h2>
+          <h2 className="ml-1 font-semibold">{t("Discounts")}</h2>
         </div>
         {/* Discount Field */}
         <Form.Item hasFeedback validateStatus="success" className=" ">
@@ -101,7 +105,7 @@ const BillSider = ({ value, setValue }) => {
               alignItems: "center",
             }}
           >
-            <label style={{ marginRight: 8 }}>Promo Code:</label>
+            <label style={{ marginRight: 8 }}>{t("Promo Code")}:</label>
             <Input
               className="w-3/4"
               placeholder="25%"

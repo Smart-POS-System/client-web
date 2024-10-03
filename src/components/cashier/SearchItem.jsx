@@ -493,8 +493,10 @@ import React, { useEffect, useState } from "react";
 import { Card, Input, Button, Row, Col, Space, Pagination } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import axiosInstance_product from "../../api/axiosConfig_Product";
+import { useTranslation } from "react-i18next";
 
 const SearchItem = (props) => {
+  const { t } = useTranslation(["cashier"]);
   const [products, setProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -591,16 +593,16 @@ const SearchItem = (props) => {
       {/* Search bar section */}
       <Space style={{ marginBottom: 16 }}>
         <Input
-          placeholder="Search by item name"
+          placeholder={t("search_items.searchPlaceholder")}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           onPressEnter={handleSearch}
           style={{ width: 200 }}
         />
         <Button type="primary" onClick={handleSearch} icon={<SearchOutlined />}>
-          Search
+          {t("search_items.searchButton")}
         </Button>
-        <Button onClick={handleReset}>Reset</Button>
+        <Button onClick={handleReset}>{t("search_items.resetButton")}</Button>
       </Space>
 
       {/* Responsive grid layout */}

@@ -445,10 +445,12 @@ import {
 import axiosInstance_sales from "../../api/axiosConfig_Sales";
 import { useUserData } from "../../context/userContext";
 import Stash from "./StashBill";
+import { useTranslation } from "react-i18next";
 
 const { Title, Text } = Typography;
 
 const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
+  const { t } = useTranslation(["cashier"]); // Use the translation hook
   const [amountReceived, setAmountReceived] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [cash, setCash] = useState(100);
@@ -570,9 +572,9 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               type="primary"
               style={{
                 backgroundColor:
-                  paymentMethod === "cash" ? "#1890ff" : "#ffffff", // Inverted background
-                color: paymentMethod === "cash" ? "#ffffff" : "#1890ff", // Inverted text color
-                borderColor: paymentMethod === "cash" ? "#1890ff" : "#1890ff", // Border color
+                  paymentMethod === "cash" ? "#1890ff" : "#ffffff",
+                color: paymentMethod === "cash" ? "#ffffff" : "#1890ff",
+                borderColor: paymentMethod === "cash" ? "#1890ff" : "#1890ff",
               }}
               onClick={() => {
                 setPaymentMethod("cash");
@@ -580,7 +582,7 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               icon={<DollarOutlined />}
               size="large"
             >
-              Cash
+              {t("payment.cash")}
             </Button>
           </Col>
           <Col>
@@ -588,9 +590,9 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               type="primary"
               style={{
                 backgroundColor:
-                  paymentMethod === "card" ? "#1890ff" : "#ffffff", // Inverted background
-                color: paymentMethod === "card" ? "#ffffff" : "#1890ff", // Inverted text color
-                borderColor: paymentMethod === "card" ? "#1890ff" : "#1890ff", // Border color
+                  paymentMethod === "card" ? "#1890ff" : "#ffffff",
+                color: paymentMethod === "card" ? "#ffffff" : "#1890ff",
+                borderColor: paymentMethod === "card" ? "#1890ff" : "#1890ff",
               }}
               onClick={() => {
                 setPaymentMethod("card");
@@ -598,101 +600,53 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               icon={<CreditCardOutlined />}
               size="large"
             >
-              Card
+              {t("payment.card")}
             </Button>
           </Col>
         </Row>
         <Row gutter={[16, 16]} className="mt-5">
           <Col span={12}>
-            <Text>Items:</Text>
+            <Text>{t("payment.items")}</Text>
           </Col>
           <Col span={12} className="grid justify-items-end">
             <Text>{itemCount}</Text>
           </Col>
           <Col span={12}>
-            <Text strong>Total Price:</Text>
+            <Text strong>{t("payment.total_price")}</Text>
           </Col>
           <Col span={12} className="grid justify-items-end">
             <Text strong style={{ fontSize: "18px" }}>
               {`$ ${sum.toFixed(2)}`}
             </Text>
           </Col>
-
           <Col span={12}>
-            <Text>Cash:</Text>
+            <Text>{t("payment.amount_received")}:</Text>
           </Col>
           <Col span={12} className="grid justify-items-end">
             <Input
               className="w-full"
-              placeholder="Enter Amount"
+              placeholder={t("payment.cash_placeholder")}
               value={amountReceived}
               onChange={handleInputChange}
               size="large"
-              // style={{ width: "100px" }}
               readOnly={paymentMethod === "card"}
-              type="number" // Set input type to number
-              min={0} // Optional: Set minimum value to 0
+              type="number"
+              min={0}
             />
           </Col>
-
           <Col span={12}>
-            <Text>Change:</Text>
+            <Text>{t("payment.change")}:</Text>
           </Col>
           <Col span={12} className="grid justify-items-end">
             <Text style={{ fontSize: "18px" }}>{calculateBalance()}</Text>
           </Col>
         </Row>
-
         <Divider />
-
         {/* Action buttons */}
         <Row gutter={[16, 16]} justify="center" style={{ marginTop: "24px" }}>
-          {/* <Col>
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#e0e0e0",
-              borderColor: "#e0e0e0",
-              color: "#000",
-              width: "100px",
-            }}
-            icon={<CreditCardOutlined />}
-            size="large"
-          >
-            Card
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#8e44ad",
-              borderColor: "#8e44ad",
-              color: "#fff",
-              width: "100px",
-            }}
-            icon={<DollarOutlined />}
-            size="large"
-          >
-            Cash
-          </Button>
-        </Col> */}
           <Col>
             <div>
-              {/* <Button
-              type="primary"
-              style={{
-                backgroundColor: "#00bcd4",
-                borderColor: "#00bcd4",
-                color: "#fff",
-                width: "100px",
-              }}
-              icon={<FileOutlined />}
-              size="large"
-            > */}
               <Stash func={handleStash} />
-              {/* Draft */}
-              {/* </Button> */}
             </div>
           </Col>
           <Col>
@@ -707,33 +661,19 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               size="large"
               onClick={handleCheckout}
             >
-              Checkout
+              {t("payment.checkout")}
             </Button>
           </Col>
         </Row>
       </div>
-      {/* <Modal
-        title="Are you sure you want to Hold the bill?"
-        open={isModalOpen}
-        // onOk={handleOk}
-        // onCancel={handleCancel}
-      >
-        <div className="flex justify-center">
-          <img
-            src={"/shopping-cart.gif"} // Ensure this is the correct path to your image
-            alt="Rotating Graph"
-            width="200px"
-            className="flex justify-center"
-          />
-        </div>
-        <p className="my-8">Checking Out ..</p>
-      </Modal> */}
+
+      {/* Modal for Checkout */}
       <Modal
-        title={null} // Remove the title for a cleaner look
+        title={null}
         open={isModalOpen}
-        footer={null} // Remove default buttons
-        closable={false} // Prevent closing
-        centered // Ensure the modal is centered on the page
+        footer={null}
+        closable={false}
+        centered
       >
         <div className="flex flex-col items-center">
           <ShoppingTwoTone
@@ -743,16 +683,20 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               marginBottom: "8px",
             }}
           />{" "}
-          <p className="text-lg font-semibold ">Checking Out...</p>
+          <p className="text-lg font-semibold">
+            {t("payment.processing_order")}
+          </p>
           <img
-            src={"/shopping-cart.gif"} // Ensure this is the correct path to your image
-            alt="Loading animation"
+            src={"/shopping-cart.gif"}
+            alt={t("payment.loading_animation")}
             width="150px"
             className="mb-4"
           />
-          <p className="text-lg font-semibold">Processing your order...</p>
+          <p className="text-lg font-semibold">
+            {t("payment.processing_order")}
+          </p>
           <p className="text-sm text-gray-500 mt-2">
-            Please wait while we complete the checkout.
+            {t("payment.please_wait")}
           </p>
           <LoadingOutlined
             style={{ fontSize: "24px", color: "#1890ff", marginTop: "8px" }}
@@ -760,12 +704,14 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
           />
         </div>
       </Modal>
+
+      {/* Modal for Stashing */}
       <Modal
-        title={null} // Remove the title for a cleaner look
+        title={null}
         open={StashModalOpen}
-        footer={null} // Remove default buttons
-        closable={false} // Prevent closing
-        centered // Ensure the modal is centered on the page
+        footer={null}
+        closable={false}
+        centered
       >
         <div className="flex flex-col items-center">
           <ShoppingTwoTone
@@ -775,16 +721,18 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
               marginBottom: "8px",
             }}
           />{" "}
-          <p className="text-lg font-semibold ">Stashing the Bill...</p>
+          <p className="text-lg font-semibold">{t("payment.stashing_bill")}</p>
           <img
-            src={"/warehouse.gif"} // Ensure this is the correct path to your image
-            alt="Loading animation"
+            src={"/warehouse.gif"}
+            alt={t("payment.loading_animation")}
             width="150px"
             className="mb-4"
           />
-          <p className="text-lg font-semibold">Processing your order...</p>
+          <p className="text-lg font-semibold">
+            {t("payment.processing_order")}
+          </p>
           <p className="text-sm text-gray-500 mt-2">
-            Please wait while we complete Stashing.
+            {t("payment.please_wait")}
           </p>
           <LoadingOutlined
             style={{ fontSize: "24px", color: "#1890ff", marginTop: "8px" }}

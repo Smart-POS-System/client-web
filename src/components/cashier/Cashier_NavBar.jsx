@@ -26,6 +26,7 @@ import Logo from "../Logo";
 import { useAction } from "../../context/actionContext";
 import UserData from "../UserData";
 import { useUserData } from "../../context/userContext";
+import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;
 
@@ -39,6 +40,7 @@ function getItem(label, key, icon, children) {
 }
 
 function Cashier_NavBar() {
+  const { t } = useTranslation(["cashier"]);
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUpdatingUser } = useAction();
@@ -47,21 +49,29 @@ function Cashier_NavBar() {
   const [collapsed, setCollapsed] = useState(false);
 
   const items = [
-    getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
+    getItem(t("cashier_nav.Dashboard"), "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
-      ? getItem("Users", "sub1", <UserOutlined />, [
-          getItem("See All Users", "/users", <HiOutlineUsers />),
+      ? getItem(t("cashier_nav.Users"), "sub1", <UserOutlined />, [
+          getItem(t("cashier_nav.See All Users"), "/users", <HiOutlineUsers />),
 
-          getItem("Add New User", "/create", <UserAddOutlined />),
-          getItem("My Profile", "/view", <UserOutlined />),
-          getItem("Customers", "/customers", <HiOutlineUsers />),
+          getItem(
+            t("cashier_nav.Add New User"),
+            "/create",
+            <UserAddOutlined />
+          ),
+          getItem(t("cashier_nav.My Profile"), "/view", <UserOutlined />),
+          getItem(t("cashier_nav.Customers"), "/customers", <HiOutlineUsers />),
         ])
       : null,
     user.role === "Cashier"
-      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      ? getItem(
+          t("cashier_nav.Add New Customer"),
+          "/customers/register",
+          <UserAddOutlined />
+        )
       : null,
     user?.role === "Cashier"
-      ? getItem("My Profile", "/view", <UserOutlined />)
+      ? getItem(t("cashier_nav.My Profile"), "/view", <UserOutlined />)
       : null,
     // getItem("Products", "sub2", <ProductOutlined />, [
     //   getItem("See All Products", "/products", <UnorderedListOutlined />),
@@ -69,10 +79,18 @@ function Cashier_NavBar() {
     //   getItem("See All Items", "/items", <UnorderedListOutlined />),
     //   getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
     // ]),
-    getItem("Transactions", "/transactions", <TransactionOutlined />),
+    getItem(
+      t("cashier_nav.Transactions"),
+      "/transactions",
+      <TransactionOutlined />
+    ),
 
     user?.role === "Cashier"
-      ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)
+      ? getItem(
+          t("cashier_nav.Stashed Bills"),
+          "/stashedBills",
+          <FileTextOutlined />
+        )
       : null,
   ];
 
