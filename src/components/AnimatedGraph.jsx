@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 
 function AnimatedGraph({ role }) {
-  console.log("Fuck", role);
   const containerStyles = {
     display: "flex",
     justifyContent: "center",
@@ -11,20 +10,20 @@ function AnimatedGraph({ role }) {
   };
 
   const imageStyles = {
-    width: role === "Cashier" ? "500px" : "700px", // Control the size of the image
+    width: role === "Cashier" ? "500px" : "500px", // Control the size of the image
     maxWidth: "100%", // Ensures the image is responsive
-    opacity: role === "Cashier" ? 0.9 : 1,
+    opacity: 1,
   };
 
   return (
     <div style={containerStyles}>
       {/* Rotating Graph Image Horizontally */}
       <motion.img
-        src={role !== "Cashier" ? "/graph.png" : "/cash.png"} // Ensure this is the correct path to your image
+        src={role !== "Cashier" ? "/posGif.gif" : "/cash.png"} // Ensure this is the correct path to your image
         alt="Rotating Graph"
         style={imageStyles}
-        initial={{ rotateY: 0 }} // Initial state of the rotation around Y-axis
-        animate={{ rotateY: 360 }} // Rotate around Y-axis to 360 degrees
+        //   initial={{ rotateY: 0 }} // Initial state of the rotation around Y-axis
+        //    animate={{ rotateY: 360 }} // Rotate around Y-axis to 360 degrees
         transition={{
           duration: 60, // Duration for a complete rotation
           ease: "linear", // Linear animation for smooth continuous rotation

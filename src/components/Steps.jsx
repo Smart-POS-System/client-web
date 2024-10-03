@@ -20,12 +20,12 @@ function Step({ isValidated }) {
           {
             title: "Email",
             status: !isValidated ? "process" : "finish",
-            icon: !isValidated ? <LoadingOutlined /> : <MailOutlined />,
+            icon: <MailOutlined />,
           },
           {
             title: "Password",
             status: email !== "" ? "process" : "wait",
-            icon: email !== "" ? <LoadingOutlined /> : <KeyOutlined />,
+            icon: <KeyOutlined />,
           },
           {
             title: "Logged In",

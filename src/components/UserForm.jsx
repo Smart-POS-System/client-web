@@ -94,6 +94,9 @@ function UserForm({
     } else {
       // console.log("Creating new user with data:", newUser);
       console.log("new user data", newUser);
+      if (imageFile) {
+        newUser.image = imageFile;
+      }
       handleAddUser(newUser);
     }
   }

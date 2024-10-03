@@ -19,6 +19,12 @@ function SalesPurchaseChart() {
     return dateArray;
   };
 
+  const getDynamicFilename = () => {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, "-");
+    return `Sales_And_Purchase_of_${formattedDate}`;
+  };
+
   // Helper function to generate all 24 hours in a day
   const generateHourRange = (date) => {
     const hourArray = [];
@@ -148,7 +154,36 @@ function SalesPurchaseChart() {
     chart: {
       type: "line",
       height: 350,
-      zoom: { enabled: false },
+      zoom: { enabled: true },
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: false,
+          zoom: false,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+        },
+        export: {
+          csv: {
+            filename: getDynamicFilename(),
+            columnDelimiter: ",",
+            headerCategory: "category",
+            headerValue: "value",
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toLocaleDateString();
+            },
+          },
+          svg: {
+            filename: getDynamicFilename(),
+          },
+          png: {
+            filename: getDynamicFilename(),
+          },
+        },
+      },
     },
     stroke: {
       curve: "smooth",

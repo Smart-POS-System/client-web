@@ -66,10 +66,10 @@ function AppLayout() {
               overflow: "hidden",
             }}
           >
-            <div className="w-11/12 flex flex-row items-center justify-between">
-              <div className="w-5/12">
+            <div className="w-11/12 flex flex-row items-center justify-end">
+              {/* <div className="w-5/12">
                 <HeaderSearch />
-              </div>
+              </div> */}
 
               <div className="flex flex-row items-center justify-between gap-6 mr-4">
                 <Notifications />
@@ -82,10 +82,11 @@ function AppLayout() {
             className="w-full"
             style={{
               flex: 1,
-              padding: "40px 40px",
+              padding: "20px",
               color: "#333333",
               overflowY: "auto", // Ensure Content can scroll if needed
               maxHeight: "calc(100vh - 80px - 40px)",
+              borderRadius: borderRadiusLG,
             }}
           >
             <div

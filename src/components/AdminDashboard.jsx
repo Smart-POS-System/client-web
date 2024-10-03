@@ -4,7 +4,7 @@ import UsersOverview from "./UsersOverview";
 
 const AdminDashboard = () => {
   return (
-    <div className="m-4 overflow-y-scroll">
+    <div className="m-4">
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         Dashboard
       </h1>

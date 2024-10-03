@@ -46,15 +46,15 @@ function NavigationBar() {
     getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
-          getItem("See All Users", "/users", <HiOutlineUsers />),
+          getItem("All Employee", "/users", <HiOutlineUsers />),
 
-          getItem("Add New User", "/create", <UserAddOutlined />),
-          getItem("My Profile", "/view", <UserOutlined />),
+          // getItem("New User", "/create", <UserAddOutlined />),
+          // getItem("My Profile", "/view", <UserOutlined />),
           getItem("Customers", "/customers", <HiOutlineUsers />),
         ])
       : null,
     user.role === "Cashier"
-      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      ? getItem("New Customer", "/customers/register", <UserAddOutlined />)
       : null,
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
