@@ -50,7 +50,11 @@ function TopSellingProductsChart({ startDate, endDate }) {
 
   // Handle case when productSales array might be empty or undefined
   if (productNames.length === 0 || productAmounts.length === 0) {
-    return <div>No product sales data available</div>;
+    return (
+      <div className="items-center text-center">
+        No product sales data available
+      </div>
+    );
   }
 
   const chartOptions = {

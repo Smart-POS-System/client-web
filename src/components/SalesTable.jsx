@@ -3,11 +3,9 @@ import { Table, Tag, Button } from "antd";
 import "./../SalesTable.css"; // Add custom CSS here
 import axiosInstance from "../api/axiosConfig";
 import BillDetails from "./BillDetails";
+import HourGlass from "./HourGlass";
 
-const SalesTable = ({ startDate, endDate }) => {
-  const defaultStartDate = "2023-01-01";
-  const defaultendDate = "2023-12-31";
-
+const SalesTable = ({ startDate, endDate, storeId }) => {
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +17,7 @@ const SalesTable = ({ startDate, endDate }) => {
 
       try {
         const billsResponse = await axiosInstance.get(
-          `http://localhost:49164/sales-transactions?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+          `http://localhost:49164/sales-transactions?startDate=${startDate}&endDate=${endDate}&storeId=${storeId}`
         );
 
         setBills(billsResponse.data);
@@ -30,9 +28,8 @@ const SalesTable = ({ startDate, endDate }) => {
         setLoading(false);
       }
     };
-
     fetchBills();
-  }, []);
+  }, [startDate, endDate, storeId]);
 
   const handleRowExpand = (expanded, record) => {
     // If expanded is true, add the row ID to the expanded rows, otherwise remove it
@@ -101,6 +98,10 @@ const SalesTable = ({ startDate, endDate }) => {
       ),
     },
   ];
+
+  if (loading) {
+    return <HourGlass />;
+  }
 
   return (
     <div className="table-container">
