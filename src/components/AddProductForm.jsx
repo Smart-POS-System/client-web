@@ -50,10 +50,6 @@ const AddProductForm = () => {
 
       const response = await savePromise;
 
-      if (response.data) {
-        console.log(response.data);
-      }
-
       reset({
         product_name: "",
         unit_weight: "",

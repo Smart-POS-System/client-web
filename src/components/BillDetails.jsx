@@ -29,8 +29,6 @@ const BillDetails = ({ items, amount }) => {
     },
   ];
 
-  console.log(items);
-
   return (
     <div className="table-container">
       <Table

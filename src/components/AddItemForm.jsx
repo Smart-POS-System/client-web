@@ -64,10 +64,6 @@ const AddItemForm = () => {
 
       const response = await savePromise;
 
-      if (response.data) {
-        console.log(response.data);
-      }
-
       reset({
         product_id: "",
         batch_no: "",

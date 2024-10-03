@@ -28,8 +28,6 @@ function SalesPurchaseChart({ startDate, endDate }) {
           return new Date(a.timestamp) - new Date(b.timestamp); // Sort in ascending order of date
         });
 
-        console.log(orderedSales[0]);
-
         setTotalSales(orderedSales);
       } catch (error) {
         setError(error);
@@ -42,14 +40,10 @@ function SalesPurchaseChart({ startDate, endDate }) {
     fetchSalesData();
   }, []);
 
-  console.log("sales: ", totalSales);
-
   const minDate = dayjs(totalSales[0]?.date).format("YYYY-MM-DD");
   const maxDate = dayjs(totalSales[totalSales.length - 1]?.date).format(
     "YYYY-MM-DD"
   );
-
-  console.log("Min and Max dates: ", minDate, maxDate);
 
   // Detect the data range
   const dateDifference = dayjs(maxDate).diff(dayjs(minDate), "day");
@@ -247,8 +241,6 @@ function SalesPurchaseChart({ startDate, endDate }) {
       },
     },
   };
-
-  console.log(salesData, purchasesData);
 
   // Series data
   const series = [

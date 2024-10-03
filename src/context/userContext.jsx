@@ -18,7 +18,6 @@ function UserProvider({ children }) {
         if (decodedUser.exp > Math.floor(Date.now() / 1000)) {
           setUser(decodedUser);
         } else {
-          console.log("Token expired");
           localStorage.removeItem("token");
         }
       } catch (error) {

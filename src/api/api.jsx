@@ -10,7 +10,6 @@ export async function loginUser({ email, password }) {
       password,
     });
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -19,8 +18,6 @@ export async function loginUser({ email, password }) {
 }
 
 export async function getUsers(pageNumber, itemsPerPage, name = "", role = "") {
-  console.log(pageNumber, itemsPerPage, name, role);
-
   try {
     const queryParams = new URLSearchParams({
       page: pageNumber,
@@ -43,7 +40,6 @@ export async function getUser(id) {
   try {
     const response = await axiosInstance.get(`/users/${id}`);
     if (response?.data) {
-      // console.log("fetched data", response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -55,7 +51,6 @@ export async function deleteUser(id) {
   try {
     const response = await axiosInstance.delete(`/users/${id}`);
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -67,7 +62,6 @@ export async function activateUser(id) {
   try {
     const response = await axiosInstance.patch(`/users/activate/${id}`);
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -76,7 +70,6 @@ export async function activateUser(id) {
 }
 
 export async function addUser(data) {
-  console.log("creating new user", data);
   try {
     const formData = new FormData();
     formData.append("name", data?.name);
@@ -92,7 +85,6 @@ export async function addUser(data) {
       );
       formData.append("image", file);
     }
-    console.log("create formData", formData);
     const response = await axiosInstance({
       method: "post",
       url: `http://localhost:${PORT}/api/v1/users`,
@@ -104,7 +96,6 @@ export async function addUser(data) {
     });
 
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -114,9 +105,6 @@ export async function addUser(data) {
 
 export async function updateUser(id, data) {
   try {
-    console.log("update id", id);
-    console.log("update api data", data);
-
     const response = await axiosInstance({
       method: "patch",
       url: data?.role
@@ -130,7 +118,6 @@ export async function updateUser(id, data) {
     });
 
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -140,7 +127,6 @@ export async function updateUser(id, data) {
 
 export async function uploadImage(id, image) {
   try {
-    console.log("upload image", image);
     const formData = new FormData();
     const file = new File([image], `employee_${id}_${Date.now()}.jpg`, {
       type: "image/jpeg",
@@ -158,7 +144,6 @@ export async function uploadImage(id, image) {
     });
 
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -168,10 +153,8 @@ export async function uploadImage(id, image) {
 
 export async function logoutUser() {
   try {
-    console.log("logout user");
     const response = await axiosInstance.post("/users/logout");
     if (response?.data) {
-      // console.log(response.data);
       return true;
     }
   } catch (error) {
@@ -181,14 +164,12 @@ export async function logoutUser() {
 
 export async function updateUserPassword(data) {
   try {
-    console.log("update password data", data);
     const response = await axios.patch(
       `http://localhost:${PORT}/api/v1/users/updatePassword`,
       data,
       { withCredentials: true }
     );
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -202,7 +183,6 @@ export async function forgotPassword(email) {
       email,
     });
     if (response?.data) {
-      // console.log(response.data);
       return response.data;
     }
   } catch (error) {
@@ -211,8 +191,6 @@ export async function forgotPassword(email) {
 }
 
 export async function resetPassword(token, data) {
-  console.log("reset password data", data);
-  console.log("reset password token", token);
   try {
     const response = await axiosInstance.patch(
       `/users/resetPassword/${token}`,
@@ -228,11 +206,9 @@ export async function resetPassword(token, data) {
 
 export async function addCustomer(data) {
   try {
-    console.log("add customer data", data);
     const response = await axiosInstance.post(`/customers`, data);
 
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -242,11 +218,9 @@ export async function addCustomer(data) {
 
 export async function checkMailAccess(email) {
   try {
-    console.log("add customer data", email);
     const response = await axiosInstance.post(`/users/checkMail`, email);
 
     if (response?.data) {
-      console.log(response.data.data);
       return response.data.data;
     }
   } catch (error) {
@@ -256,7 +230,6 @@ export async function checkMailAccess(email) {
 
 export async function getSummarySalesAndPurchases(startDate, endDate) {
   try {
-    console.log("fetching data", startDate, endDate);
   } catch (error) {
     handleError(error);
   }
@@ -296,8 +269,6 @@ export async function getPurchase(dateRange, inventory) {
 }
 
 export async function getProducts(pageNumber, itemsPerPage, name = "") {
-  console.log(pageNumber, itemsPerPage, name);
-
   try {
     const queryParams = new URLSearchParams({
       page: pageNumber,
