@@ -23,7 +23,6 @@ function PurchaseComponent() {
   function handleDateChange(dates, dateStrings) {
     setDateRange(dates);
     setFormattedDateRange(dateStrings);
-    console.log("Formatted Dates: ", dateStrings); //['2024-09-01', '2024-10-11']
   }
 
   function handleChangeInventory(value) {

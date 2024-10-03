@@ -6,7 +6,6 @@ import User from "./User.jsx";
 
 function UserList() {
   const { isLoading, users, error } = useUsers();
-  console.log("fucking users", users);
 
   if (isLoading) {
     return <HourGlass />;

@@ -43,25 +43,6 @@ const ItemList = () => {
     fetchItems();
   }, []);
 
-  // const handleDelete = async (item_id) => {
-  //   const oldItems = [...items];
-  //   console.log(item_id);
-
-  //   const updatedItems = oldItems.filter((item) => item.item_id !== item_id);
-  //   setItems(updatedItems);
-
-  //   try {
-  //     const deleteResponse = await axiosInstance.delete(
-  //       `http://localhost:49160/items/${item_id}`
-  //     );
-
-  //     console.log(deleteResponse.data);
-  //   } catch (error) {
-  //     setError(error.message);
-  //     setItems(oldItems);
-  //   }
-  // };
-
   const handleDelete = async (item_id) => {
     const oldItems = [...items];
     const updatedItems = oldItems.filter((item) => item.item_id !== item_id);

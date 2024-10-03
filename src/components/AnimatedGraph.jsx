@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 
 function AnimatedGraph({ role }) {
-  console.log("Fuck", role);
   const containerStyles = {
     display: "flex",
     justifyContent: "center",
