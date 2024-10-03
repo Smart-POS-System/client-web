@@ -1,45 +1,49 @@
 import dayjs from "dayjs";
 import Chart from "react-apexcharts";
-import { purchases, sales } from "../helpers/lists";
+import { purchases } from "../helpers/lists";
+import { useEffect, useState } from "react";
+import axiosInstance from "../api/axiosConfig";
+import { generateDateRange } from "../helpers/generateDateRange";
+import { generateHourRange } from "./../helpers/generateHourRange";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
 
-function SalesPurchaseChart() {
-  // Helper function to generate all dates between minDate and maxDate
-  const generateDateRange = (startDate, endDate) => {
-    const dateArray = [];
-    let currentDate = dayjs(startDate);
+function SalesPurchaseChart({ startDate, endDate }) {
+  const defaultStartDate = "2023-01-01";
+  const defaultendDate = "2023-12-31";
 
-    while (
-      currentDate.isBefore(endDate) ||
-      currentDate.isSame(endDate, "day")
-    ) {
-      dateArray.push(currentDate.format("YYYY-MM-DD"));
-      currentDate = currentDate.add(1, "day");
-    }
+  const [totalSales, setTotalSales] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return dateArray;
-  };
+  useEffect(() => {
+    const fetchSalesData = async () => {
+      setLoading(true);
+      try {
+        const salesDataResponse = await axiosInstance.get(
+          `http://localhost:49164/daily-total-sales?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+        );
 
-  const getDynamicFilename = () => {
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString("en-GB").replace(/\//g, "-");
-    return `Sales_And_Purchase_of_${formattedDate}`;
-  };
+        const orderedSales = salesDataResponse.data.sort((a, b) => {
+          return new Date(a.timestamp) - new Date(b.timestamp); // Sort in ascending order of date
+        });
 
-  // Helper function to generate all 24 hours in a day
-  const generateHourRange = (date) => {
-    const hourArray = [];
-    let currentHour = dayjs(date).startOf("day");
+        setTotalSales(orderedSales);
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    for (let i = 0; i < 24; i++) {
-      hourArray.push(currentHour.format("YYYY-MM-DD HH:mm"));
-      currentHour = currentHour.add(1, "hour");
-    }
+    fetchSalesData();
+  }, []);
 
-    return hourArray;
-  };
-
-  const minDate = dayjs(sales[0].date).format("YYYY-MM-DD");
-  const maxDate = dayjs(sales[sales.length - 1].date).format("YYYY-MM-DD");
+  const minDate = dayjs(totalSales[0]?.date).format("YYYY-MM-DD");
+  const maxDate = dayjs(totalSales[totalSales.length - 1]?.date).format(
+    "YYYY-MM-DD"
+  );
 
   // Detect the data range
   const dateDifference = dayjs(maxDate).diff(dayjs(minDate), "day");
@@ -59,7 +63,7 @@ function SalesPurchaseChart() {
 
     // Fill sales and purchases data for 24 hours
     salesData = hourRange.map((hour) => {
-      const saleEntry = sales.find(
+      const saleEntry = totalSales.find(
         (entry) => dayjs(entry.date).format("YYYY-MM-DD HH:mm") === hour
       );
       return { x: dayjs(hour).valueOf(), y: saleEntry ? saleEntry.amount : 0 };
@@ -83,7 +87,7 @@ function SalesPurchaseChart() {
     const dateRange = generateDateRange(minDate, maxDate);
 
     salesData = dateRange.map((date) => {
-      const saleEntry = sales.find(
+      const saleEntry = totalSales.find(
         (entry) => dayjs(entry.date).format("YYYY-MM-DD") === date
       );
       return { x: dayjs(date).valueOf(), y: saleEntry ? saleEntry.amount : 0 };
@@ -107,10 +111,13 @@ function SalesPurchaseChart() {
     const dateRange = generateDateRange(minDate, maxDate);
 
     salesData = dateRange.map((date) => {
-      const saleEntry = sales.find(
+      const saleEntry = totalSales.find(
         (entry) => dayjs(entry.date).format("YYYY-MM-DD") === date
       );
-      return { x: dayjs(date).valueOf(), y: saleEntry ? saleEntry.amount : 0 };
+      return {
+        x: dayjs(date).valueOf(),
+        y: saleEntry ? saleEntry.amount : 0,
+      };
     });
 
     purchasesData = dateRange.map((date) => {
@@ -128,13 +135,13 @@ function SalesPurchaseChart() {
     rotateLabels = -45;
   } else {
     // For yearly overview, show month/year
-    salesData = sales.map((entry) => ({
-      x: dayjs(entry.date).valueOf(),
+    salesData = totalSales.map((entry) => ({
+      x: dayjs.utc(entry.date).startOf("day").valueOf(), // Ensure date is treated as UTC and start of the day
       y: entry.amount,
     }));
 
     purchasesData = purchases.map((entry) => ({
-      x: dayjs(entry.date).valueOf(),
+      x: dayjs.utc(entry.date).startOf("day").valueOf(), // Ensure date is treated as UTC and start of the day
       y: entry.amount,
     }));
 
@@ -147,6 +154,7 @@ function SalesPurchaseChart() {
     ...salesData.map((s) => s.y),
     ...purchasesData.map((p) => p.y),
   ];
+
   const yMin = Math.floor(Math.min(...allAmounts) / 100) * 100;
   const yMax = Math.ceil(Math.max(...allAmounts) / 100) * 100;
 
@@ -229,7 +237,7 @@ function SalesPurchaseChart() {
       },
       min: yMin,
       max: yMax,
-      tickAmount: (yMax - yMin) / 100,
+      tickAmount: (yMax - yMin) / 200,
       labels: {
         formatter: function (value) {
           return Math.round(value);

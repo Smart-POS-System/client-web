@@ -5,7 +5,8 @@ import User from "./User.jsx";
 //import "../UserList.css";
 
 function UserList() {
-  const { isLoading, error, users } = useUsers();
+  const { isLoading, users, error } = useUsers();
+
   if (isLoading) {
     return <HourGlass />;
   }

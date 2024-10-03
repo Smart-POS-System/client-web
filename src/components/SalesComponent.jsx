@@ -1,44 +1,88 @@
 import { DatePicker, Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import SalesTable from "./SalesTable";
+import axiosInstance from "../api/axiosConfig";
 
 const { RangePicker } = DatePicker;
 
 function SalesComponent() {
+  const defaultStartDate = dayjs().subtract(1, "year");
+  const defaultEndDate = dayjs();
+
   const [isSelectStore, setIsSelectStore] = useState(false);
-  const [store, setStore] = useState("All Stores");
+  const [error, setError] = useState(null);
+
+  // Remove when integrating with backend !!!!!!!!
+  const stores = [
+    {
+      location_id: 0,
+      name: "All Stores",
+    },
+    {
+      location_id: 1,
+      name: "Pitakotte",
+    },
+    {
+      location_id: 2,
+      name: "Nugegoda High Level Road",
+    },
+    {
+      location_id: 3,
+      name: "Kandy City Center",
+    },
+    {
+      location_id: 4,
+      name: "Ratnapura Municipal Commercial Complex",
+    },
+    {
+      location_id: 5,
+      name: "Badulla Dharmaduta Road",
+    },
+  ];
+  // Remove when integrating with backend !!!!!!!!
+
+  // const [stores, setStores] = useState([]);
+  const [selectedStore, setSelectedStore] = useState({
+    location_id: 0,
+    name: "All Stores",
+  });
   const [cashier, setCashier] = useState("All Cashiers");
   const [dateRange, setDateRange] = useState([null, null]);
-  const [formattedDateRange, setFormattedDateRange] = useState([
-    dayjs().subtract(7, "day").format("YYYY-MM-DD"),
-    dayjs().format("YYYY-MM-DD"),
-  ]);
+
+  // useEffect(() => {
+  //   const fetchStores = async () => {
+  //     try {
+  //       const storesResponse = await axiosInstance.get(
+  //         "http://localhost:49162/stores"
+  //       );
+
+  //       setStores(storesResponse.data);
+  //     } catch (error) {
+  //       setError(error);
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   fetchStores();
+  // }, []);
 
   function handleDateChange(dates, dateStrings) {
-    setDateRange(dates);
-    setFormattedDateRange(dateStrings);
+    if (dates) {
+      setDateRange(dates);
+    } else {
+      setDateRange([null, null]);
+    }
   }
 
   function handleChangeStore(value) {
-    if (value === "All Stores") {
-      setIsSelectStore(false);
-    } else {
-      setIsSelectStore(true);
-    }
-    setStore(value);
-    setCashier("All Cashiers");
+    const selected = stores.find((store) => store.location_id === value);
+    setSelectedStore(selected);
   }
 
   function handleChangeCashier(value) {
     setCashier(value);
   }
-
-  const stores = [
-    { value: "Store 1", label: "Store 1" },
-    { value: "Store 2", label: "Store 2" },
-    { value: "Store 3", label: "Store 3" },
-  ];
 
   const cashiers = {
     "Store 1": ["Cashier 1", "Cashier 2", "Cashier 3"],
@@ -59,7 +103,7 @@ function SalesComponent() {
           <h4 className="font-semibold font-poppins text-sm">
             Select Date Range:
           </h4>
-          <RangePicker onChange={handleDateChange} />
+          <RangePicker onChange={handleDateChange} value={dateRange} />
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-start gap-4 w-full">
@@ -70,7 +114,10 @@ function SalesComponent() {
             defaultValue="All Stores"
             style={{ width: 120 }}
             onChange={handleChangeStore}
-            options={[{ value: "All Stores", label: "All Stores" }, ...stores]}
+            options={stores.map((store) => ({
+              value: store.location_id, // Using location_id as value
+              label: store.name, // Using name as label
+            }))}
           />
         </div>
 
@@ -85,7 +132,7 @@ function SalesComponent() {
               onChange={handleChangeCashier}
               options={[
                 { value: "All Cashiers", label: "All Cashiers" },
-                ...cashiers[store].map((cashier) => ({
+                ...cashiers[selectedStore].map((cashier) => ({
                   value: cashier,
                   label: cashier,
                 })),
@@ -96,7 +143,11 @@ function SalesComponent() {
       </div>
 
       <div className="mt-8 w-full">
-        <SalesTable />
+        <SalesTable
+          startDate={dateRange[0] ? dateRange[0].format("YYYY-MM-DD") : null}
+          endDate={dateRange[1] ? dateRange[1].format("YYYY-MM-DD") : null}
+          storeId={selectedStore.location_id}
+        />
       </div>
     </div>
   );

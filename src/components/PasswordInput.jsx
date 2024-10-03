@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useLogin from "../hooks/useLogin";
@@ -8,6 +8,11 @@ import { TERipple } from "tw-elements-react";
 import { useUserData } from "../context/userContext";
 
 function PasswordInput({ email, role, isValidated }) {
+  useEffect(() => {
+    const passordInput = document.getElementById("password");
+    passordInput.focus();
+  }, []);
+
   const {
     register,
     handleSubmit,

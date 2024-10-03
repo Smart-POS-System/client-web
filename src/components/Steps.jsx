@@ -9,7 +9,6 @@ import { useUserData } from "../context/userContext";
 
 function Step({ isValidated }) {
   const { email } = useUserData();
-  console.log("isValidate", isValidated);
 
   return (
     <div className="w-full mx-auto flex flex-row items-center justify-center">

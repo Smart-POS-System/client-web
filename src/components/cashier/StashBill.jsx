@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
+import { FileOutlined } from "@ant-design/icons";
 const Stash = ({ func }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -19,12 +20,14 @@ const Stash = ({ func }) => {
         size="large"
         onClick={showModal}
         style={{
-          backgroundColor: "#fff77d",
-          color: "#1890ff",
-          borderColor: "#1890ff",
+          backgroundColor: "#00bcd4",
+          borderColor: "#00bcd4",
+          color: "#fff",
+          width: "100px",
         }}
+        icon={<FileOutlined />}
       >
-        Hold Bill
+        Hold
       </Button>
       <Modal
         title="Are you sure you want to Hold the bill?"

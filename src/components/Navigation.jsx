@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
   PlusCircleOutlined,
   ProductOutlined,
   UserOutlined,
@@ -61,9 +58,11 @@ function NavigationBar() {
       : null,
     getItem("Products", "sub2", <ProductOutlined />, [
       getItem("See All Products", "/products", <UnorderedListOutlined />),
-      getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
-      getItem("See All Items", "/items", <UnorderedListOutlined />),
-      getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+      getItem("Add New Product", "/create-product", <PlusCircleOutlined />),
+    ]),
+    getItem("Items", "sub3", <ProductOutlined />, [
+      getItem("All Items", "/items", <UnorderedListOutlined />),
+      getItem("Add New Item", "/create-item", <AppstoreAddOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
 
@@ -122,7 +121,7 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
-      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
+      style={{ backgroundColor: "#fcfcfc" }}
     >
       <div className="demo-logo-vertical" />
 
@@ -130,7 +129,7 @@ function NavigationBar() {
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
+        className="mt-8 text-sm font-poppins bg-inherit"
         theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}

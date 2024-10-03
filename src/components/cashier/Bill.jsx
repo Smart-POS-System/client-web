@@ -117,16 +117,39 @@
 //   );
 // };
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Divider, Table, Typography, Button } from "antd";
-import { DeleteOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  MinusOutlined,
+  DeleteTwoTone,
+} from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 const Bill = ({ value, setValue }) => {
+  const location = useLocation();
+  const stashedBill = location.state?.stashedBill;
+  const navigate = useNavigate();
+  // Use effect to set value only once when component is loaded
+  useEffect(() => {
+    // If there is stashedBill in location, set it to the state
+    console.log("stashed bill:", stashedBill);
+    if (stashedBill) {
+      setValue(stashedBill.items.value); // Set state to stashed bill items
+    }
+
+    // Now, clear the location state by navigating to the same route without state
+    // This ensures that the location state is cleared on reload
+    navigate("/dashboard", { replace: true });
+  }, [stashedBill, navigate, setValue]);
+  const { t } = useTranslation(["cashier"]); // Use the translation hook
   // Function to calculate total sum
   const calculateTotalBill = (items) =>
-    items.reduce((total, item) => total + item.price * item.quantity, 0);
+    items?.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // Increment quantity
   const incrementQuantity = (record) => {
@@ -158,13 +181,13 @@ const Bill = ({ value, setValue }) => {
 
   const columns = [
     {
-      title: "Item Name",
+      title: t("item_name"), // Use the translation hook for item name
       dataIndex: "name",
       key: "name",
       render: (text) => <Text strong>{text}</Text>,
     },
     {
-      title: "Quantity",
+      title: t("quantity"), // Use the translation hook for quantity
       dataIndex: "quantity",
       key: "quantity",
       render: (text, record) => (
@@ -187,13 +210,13 @@ const Bill = ({ value, setValue }) => {
       ),
     },
     {
-      title: "Price",
+      title: t("price"), // Use the translation hook for price
       dataIndex: "price",
       key: "price",
       render: (text) => <Text>${text}</Text>,
     },
     {
-      title: "Total",
+      title: t("total"), // Use the translation hook for total
       dataIndex: "total",
       key: "total",
       render: (text, record) => (
@@ -210,7 +233,7 @@ const Bill = ({ value, setValue }) => {
           type="dashed"
           size="small"
           danger
-          icon={<DeleteOutlined />}
+          icon={<DeleteTwoTone twoToneColor="#FF0000" />}
           onClick={() => deleteItem(record)}
         ></Button>
       ),
@@ -225,7 +248,7 @@ const Bill = ({ value, setValue }) => {
         orientation="center"
         style={{ fontSize: "18px", margin: "16px 0" }}
       >
-        Order Details
+        {t("order_details")} {/* Translate "Order Details" */}
       </Divider>
 
       <Table
@@ -238,12 +261,12 @@ const Bill = ({ value, setValue }) => {
           <Table.Summary.Row>
             <Table.Summary.Cell colSpan={3} align="right">
               <Title level={4} style={{ margin: 0 }}>
-                Grand Total:
+                {t("grand_total")} {/* Translate "Grand Total" */}
               </Title>
             </Table.Summary.Cell>
             <Table.Summary.Cell colSpan={2} align="center">
               <Title level={4} style={{ margin: 0 }}>
-                {sum.toFixed(2)}
+                {sum.toFixed(2)} {/* Keep the total as it is */}
               </Title>
             </Table.Summary.Cell>
           </Table.Summary.Row>

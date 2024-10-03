@@ -3,12 +3,9 @@ import { Input } from "antd";
 import { useSearchParams } from "react-router-dom";
 import ItemList from "../components/ItemList";
 
-const { Search } = Input;
-
 const AllItems = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [limit, setLimit] = useState(10);
   const { Search } = Input;
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchSize, setSearchSize] = useState("medium");
 
   useEffect(() => {
@@ -39,11 +36,11 @@ const AllItems = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
+      <h1 className="text-2xl font-bold font-poppins md:text-left text-center mb-4">
         <strong>All Items</strong>
       </h1>
-      <div className="w-full min-[768px]:w-10/12 xl:w-8/12 items-center justify-center">
-        <div className="flex flex-col md:flex-row space-between items-center m-4 gap-x-6">
+      <div className="w-full min-[768px]:w-10/12 xl:w-8/12 items-center justify-center mb-4">
+        <div className="flex flex-col md:flex-row space-between items-center gap-x-6">
           <label className="text-sm font-semibold font-poppins whitespace-nowrap">
             <span>Search Item By Product Name</span>
           </label>
@@ -54,7 +51,6 @@ const AllItems = () => {
               enterButton="Search"
               size={searchSize}
               loading={false}
-              // onSearch={onSearchItem}
               onChange={handleInputChange}
             />
           </div>

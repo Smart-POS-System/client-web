@@ -17,7 +17,6 @@ function PasswordUpdate() {
   const { isLoading, handlePasswordUpdate } = useUpdatePassword();
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
     handlePasswordUpdate({
       currentPassword: data.currentPassword,
       password: data.password,

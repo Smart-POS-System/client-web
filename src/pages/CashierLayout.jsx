@@ -88,7 +88,7 @@ function CashierLayout() {
             </div>
           </Header>
           <Content
-            className="w-full"
+            className="w-full p-6 min-h-[360px] "
             style={{
               flex: 1,
 
@@ -96,15 +96,15 @@ function CashierLayout() {
               overflowY: "auto",
             }}
           >
-            <div
-              className="p-6 min-h-[360px] "
+            {/* <div
+              className="p-6 min-h-[360px]  "
               style={{
                 background: `linear-gradient(150deg, #ffffff, #ffffff)`,
                 borderRadius: borderRadiusLG,
               }}
-            >
-              <Outlet />
-            </div>
+            > */}
+            <Outlet />
+            {/* </div> */}
           </Content>
           <Footer className="text-center h-10 flex justify-center items-center">
             <h3 className="text-sm mb-6">

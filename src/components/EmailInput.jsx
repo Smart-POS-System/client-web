@@ -4,8 +4,14 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import useAccess from "../hooks/useAccess";
 import Step from "./Steps";
+import { useEffect, useRef } from "react";
 
 function EmailInput({ isValidated }) {
+  useEffect(() => {
+    const emailInput = document.getElementById("email");
+    emailInput.focus();
+  }, []);
+
   const {
     register,
     handleSubmit,
