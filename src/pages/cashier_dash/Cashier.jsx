@@ -118,7 +118,7 @@ const Cashier = () => {
 
   return (
     <>
-      <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ minHeight: "100vh", backgroundColor: "#e0e0e0" }}>
         <Content
           style={{
             margin: "0",

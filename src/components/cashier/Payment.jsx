@@ -478,7 +478,7 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
       discount,
       cashier_id: userData.fullUser.employee_id,
       store_id: 1,
-      customer_id: 1,
+      mobile: "0568549048",
       items: value,
       paymentmethod: paymentMethod,
     };
@@ -513,8 +513,8 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
       discount: 10,
       cashier_id: userData.fullUser.employee_id,
       store_id: 1,
-      customer_id: 1,
-      items: { value }, // Replace with actual items data
+      mobile: "0568549048",
+      items: value, // Replace with actual items data
       paymentmethod: paymentMethod,
       status: "stashed",
     };

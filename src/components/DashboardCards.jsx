@@ -7,8 +7,9 @@ import {
 import Card from "./Cards";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosConfig";
+import { Hourglass } from "react-loader-spinner";
 
-function DashboardCards({ startDate, endDate }) {
+function DashboardCards({ startDate, endDate, refresh }) {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -35,13 +36,13 @@ function DashboardCards({ startDate, endDate }) {
     };
 
     fetchTotalRevenue();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, refresh]);
 
   return (
     <>
       <Card
         title="Total Revenue"
-        amount={`Rs. ${totalRevenue}`}
+        amount={totalRevenue || 0}
         icon={<AccountBookOutlined />}
         colour={"bg-green-300"}
         outerColour={"bg-green-100"}

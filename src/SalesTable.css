@@ -2,37 +2,37 @@
 
 /* Table header styles */
 .custom-table .ant-table-thead > tr > th {
-  background-color: #e6f4ff;
-  color: #1677ff;
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  background-color: #e6f4ff !important;
+  color: #1677ff !important;
+  text-align: center !important;
+  transition: background-color 0.3s ease, color 0.3s ease !important; /* Smooth transition */
 }
 
 /* Table header hover effect */
 .custom-table .ant-table-thead > tr > th:hover {
   background-color: #3a4bbd; /* Lighter blue on hover */
-  color: #ffffff; /* Ensure text remains white */
-  cursor: pointer; /* Pointer cursor to indicate interactivity */
+  color: #ffffff !important; /* Ensure text remains white */
+  cursor: pointer !important; /* Pointer cursor to indicate interactivity */
 }
 
 /* Override Ant Design default sorting hover effect */
 .custom-table .ant-table-thead > tr > th.ant-table-column-has-sorters:hover {
-  background-color: #3a4bbd; /* Lighter blue on hover for sortable columns */
-  color: #ffffff; /* Ensure text remains white */
+  background-color: #3a4bbd !important; /* Lighter blue on hover for sortable columns */
+  color: #ffffff !important; /* Ensure text remains white */
 }
 
 /* Table header active or clicked state (sorted) */
 .custom-table .ant-table-thead > tr > th.ant-table-column-sort {
-  background-color: #4b5dcc; /* Darker blue when sorted */
-  color: #ffffff; /* White text */
+  background-color: #4b5dcc !important; /* Darker blue when sorted */
+  color: #ffffff !important; /* White text */
 }
 
 /* Table body styles */
 .custom-table .ant-table-tbody > tr > td {
-  background-color: #f3f4f6; /* Light gray background */
-  color: #1f2937; /* Dark text color */
-  text-align: center;
-  transition: background-color 0.3s ease; /* Smooth transition */
+  background-color: #f3f4f6 !important; /* Light gray background */
+  color: #1f2937 !important; /* Dark text color */
+  text-align: center !important;
+  transition: background-color 0.3s ease !important; /* Smooth transition */
 }
 
 /* Hover effect for table rows */
@@ -42,6 +42,6 @@
 
 /* Table border customization */
 .custom-table .ant-table {
-  border: 1px solid #d1d5db; /* Light gray border */
-  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #d1d5db !important; /* Light gray border */
+  border-radius: 8px !important; /* Rounded corners */
 }

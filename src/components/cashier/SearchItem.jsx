@@ -536,7 +536,7 @@ const SearchItem = (props) => {
       const response = await axiosInstance_product.get("/items");
       const productsData = response.data.map((item) => ({
         key: item.item_id,
-        name: item.product.product_name,
+        product_name: item.product.product_name,
         price: parseFloat(item.selling_price),
         quantity: 1, // Default quantity
         imageUrl: imageUrls[getRandomNumber(10)], // Default placeholder
@@ -614,7 +614,7 @@ const SearchItem = (props) => {
               className="shadow-lg rounded-md"
               cover={
                 <img
-                  alt={item.name}
+                  alt={item.product_name}
                   src={item.imageUrl}
                   style={{ height: "150px", objectFit: "cover" }}
                 />
@@ -623,7 +623,7 @@ const SearchItem = (props) => {
             >
               <div className="p-2">
                 <h3 className="text-lg font-semibold text-gray-700 truncate">
-                  {item.name}
+                  {item.product_name}
                 </h3>
                 <p className="text-blue-500 text-xl font-bold">${item.price}</p>
               </div>

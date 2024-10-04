@@ -494,8 +494,6 @@ function Stashed() {
           borderRadius: borderRadiusLG,
         }}
       >
-        <h1>{t("Welcome to React")}</h1>
-        <LanguageSelector />
         <div className="mb-4 flex justify-between items-center">
           <div className="font-bold text-xl mb-4 mr-4">Stashed Bills</div>
           <div>

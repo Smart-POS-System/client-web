@@ -2,34 +2,37 @@ import React, { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { products } from "../helpers/lists";
 import axiosInstance from "../api/axiosConfig";
+import { Hourglass } from "react-loader-spinner";
 
-function TopSellingProductsChart({ startDate, endDate }) {
-  const defaultStartDate = "2023-01-01";
-  const defaultendDate = "2023-12-31";
-
+function TopSellingProductsChart({ startDate, endDate, refresh }) {
   const [mostSoldProducts, setMostSoldProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log(
+      "Running useEffect in TopSellingProductsChart with new start and end dates: ",
+      startDate,
+      endDate
+    );
     const fetchTopSellingProducts = async () => {
       setLoading(true);
       try {
         const topSellingProductsResponse = await axiosInstance.get(
-          `http://localhost:49164/top-selling-products?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+          `http://localhost:49164/top-selling-products?startDate=${startDate}&endDate=${endDate}`
         );
 
         setMostSoldProducts(topSellingProductsResponse.data);
       } catch (error) {
         setError(error);
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchTopSellingProducts();
-  }, []);
+  }, [refresh, startDate, endDate]);
 
   const colorpalatte = mostSoldProducts.reduce((acc, product, index) => {
     const color =

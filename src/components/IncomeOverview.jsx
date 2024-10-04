@@ -19,11 +19,7 @@ function IncomeOverview() {
   );
   const [endDate, setEndDate] = useState(todayFormatted);
   const [startDate, setStartDate] = useState(startDateFormatted);
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["salesAndPurchase", { startDate, endDate }],
-    queryFn: () => getSummarySalesAndPurchases(startDate, endDate),
-    enabled: true,
-  });
+  const [refresh, setRefresh] = useState(false);
 
   function handleChange(value) {
     const today = new Date(); // Always get a fresh instance of today
@@ -52,11 +48,16 @@ function IncomeOverview() {
   // console.log("end date", endDate);
   // console.log("start date", startDate);
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [refetch]);
 
   // console.log(data);
+
+  function handleRefresh() {
+    setRefresh((refresh) => !refresh);
+    console.log("from handlerefresh", refresh);
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -96,7 +97,8 @@ function IncomeOverview() {
             />
           </div>
           <Button type="primary" onClick={handleRefresh}>
-            {!isLoading ? <ReloadOutlined /> : <LoadingOutlined />}
+            {/* {!isLoading ? <ReloadOutlined /> : <LoadingOutlined />} */}
+            <ReloadOutlined />
             Refresh
           </Button>
         </div>
@@ -107,18 +109,30 @@ function IncomeOverview() {
       {!isLoading && !error && (
         <> */}
       <div className="flex flex-row gap-4">
-        <DashboardCards startDate={startDate} endDate={endDate} />
+        <DashboardCards
+          startDate={startDate}
+          endDate={endDate}
+          refresh={refresh}
+        />
       </div>
       <div className="flex flex-col w-full gap-4">
         <div className="flex flex-row items-center justify-between w-full bg-slate-50 rounded-xl p-4 border border-blue-400">
-          <SalesPurchaseChart startDate={startDate} endDate={endDate} />
+          <SalesPurchaseChart
+            startDate={startDate}
+            endDate={endDate}
+            refresh={refresh}
+          />
         </div>
         <div className="flex flex-row items-center justify-between gap-4">
           <div className="w-1/2">
-            <TopSellingProductsChart />
+            <TopSellingProductsChart
+              startDate={startDate}
+              endDate={endDate}
+              refresh={refresh}
+            />
           </div>
           <div className="w-1/2">
-            <MostPurchasedProductsChart />
+            <MostPurchasedProductsChart refresh={refresh} />
           </div>
         </div>
       </div>

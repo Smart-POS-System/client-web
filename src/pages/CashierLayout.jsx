@@ -53,34 +53,26 @@ function CashierLayout() {
             width: "100%",
           }}
         />
-        {/* <NavigationBar
-          style={{
-            width: "100%",
-          }}
-        /> */}
         <Layout
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "#e0e0e0",
+            position: "sticky",
+            overflow: "hidden",
           }}
         >
           <Header
-            className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-center  "
+            className="p-0 md:h-20 h-14 w-full flex items-center"
             style={{
-              position: "sticky",
-              backgroundColor: "#f0f0f5",
+              backgroundColor: "#fcfcfc",
               color: "#333333",
               overflow: "hidden",
             }}
           >
-            <div className="w-11/12 flex flex-row items-center justify-between ">
-              <div className="w-5/12">
-                <HeaderSearch />
-              </div>
-
-              <div className="flex flex-row items-center justify-between gap-6 mr-4">
+            <div className="w-full flex items-center">
+              <div className="flex flex-row items-center gap-6 ml-auto mr-9">
                 <Notifications />
                 <NightModeButton />
                 <Profile />

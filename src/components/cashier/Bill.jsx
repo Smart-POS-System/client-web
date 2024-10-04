@@ -139,7 +139,7 @@ const Bill = ({ value, setValue }) => {
     // If there is stashedBill in location, set it to the state
     console.log("stashed bill:", stashedBill);
     if (stashedBill) {
-      setValue(stashedBill.items.value); // Set state to stashed bill items
+      setValue(stashedBill.items); // Set state to stashed bill items
     }
 
     // Now, clear the location state by navigating to the same route without state
@@ -148,8 +148,12 @@ const Bill = ({ value, setValue }) => {
   }, [stashedBill, navigate, setValue]);
   const { t } = useTranslation(["cashier"]); // Use the translation hook
   // Function to calculate total sum
-  const calculateTotalBill = (items) =>
-    items?.reduce((total, item) => total + item.price * item.quantity, 0);
+  const calculateTotalBill = (items) => {
+    return items?.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  };
 
   // Increment quantity
   const incrementQuantity = (record) => {
@@ -182,8 +186,8 @@ const Bill = ({ value, setValue }) => {
   const columns = [
     {
       title: t("item_name"), // Use the translation hook for item name
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "product_name",
+      key: "product_name",
       render: (text) => <Text strong>{text}</Text>,
     },
     {
@@ -240,7 +244,8 @@ const Bill = ({ value, setValue }) => {
     },
   ];
 
-  const sum = calculateTotalBill(value);
+  // const sum = calculateTotalBill(value);
+  console.log("Value : ", value);
 
   return (
     <>
@@ -266,7 +271,8 @@ const Bill = ({ value, setValue }) => {
             </Table.Summary.Cell>
             <Table.Summary.Cell colSpan={2} align="center">
               <Title level={4} style={{ margin: 0 }}>
-                {sum.toFixed(2)} {/* Keep the total as it is */}
+                ${calculateTotalBill(value).toFixed(2)}{" "}
+                {/* Keep the total as it is */}
               </Title>
             </Table.Summary.Cell>
           </Table.Summary.Row>

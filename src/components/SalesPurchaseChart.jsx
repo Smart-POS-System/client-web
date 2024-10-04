@@ -6,9 +6,10 @@ import axiosInstance from "../api/axiosConfig";
 import { generateDateRange } from "../helpers/generateDateRange";
 import { generateHourRange } from "./../helpers/generateHourRange";
 import utc from "dayjs/plugin/utc";
+import { Hourglass } from "react-loader-spinner";
 dayjs.extend(utc);
 
-function SalesPurchaseChart({ startDate, endDate }) {
+function SalesPurchaseChart({ startDate, endDate, refresh }) {
   const defaultStartDate = "2023-01-01";
   const defaultendDate = "2023-12-31";
 
@@ -17,18 +18,20 @@ function SalesPurchaseChart({ startDate, endDate }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log(
+      "Running useEffect in SalesPurchaseChart with new start and end dates: ",
+      startDate,
+      endDate
+    );
+
     const fetchSalesData = async () => {
       setLoading(true);
       try {
         const salesDataResponse = await axiosInstance.get(
-          `http://localhost:49164/daily-total-sales?startDate=${defaultStartDate}&endDate=${defaultendDate}`
+          `http://localhost:49164/daily-total-sales?startDate=${startDate}&endDate=${endDate}`
         );
 
-        const orderedSales = salesDataResponse.data.sort((a, b) => {
-          return new Date(a.timestamp) - new Date(b.timestamp); // Sort in ascending order of date
-        });
-
-        setTotalSales(orderedSales);
+        setTotalSales(salesDataResponse.data);
       } catch (error) {
         setError(error);
         console.log(error);
@@ -38,7 +41,7 @@ function SalesPurchaseChart({ startDate, endDate }) {
     };
 
     fetchSalesData();
-  }, []);
+  }, [refresh, startDate, endDate]);
 
   const minDate = dayjs(totalSales[0]?.date).format("YYYY-MM-DD");
   const maxDate = dayjs(totalSales[totalSales.length - 1]?.date).format(
@@ -157,6 +160,11 @@ function SalesPurchaseChart({ startDate, endDate }) {
 
   const yMin = Math.floor(Math.min(...allAmounts) / 100) * 100;
   const yMax = Math.ceil(Math.max(...allAmounts) / 100) * 100;
+
+  function getDynamicFilename() {
+    const timestamp = dayjs().format("YYYY-MM-DD_HH-mm-ss");
+    return `Sales_Purchases_Overview_${timestamp}`;
+  }
 
   const options = {
     chart: {

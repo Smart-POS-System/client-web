@@ -70,20 +70,20 @@ function Cashier_NavBar() {
           <UserAddOutlined />
         )
       : null,
-    user?.role === "Cashier"
-      ? getItem(t("cashier_nav.My Profile"), "/view", <UserOutlined />)
-      : null,
+    // user?.role === "Cashier"
+    //   ? getItem(t("cashier_nav.My Profile"), "/view", <UserOutlined />)
+    //   : null,
     // getItem("Products", "sub2", <ProductOutlined />, [
     //   getItem("See All Products", "/products", <UnorderedListOutlined />),
     //   getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
     //   getItem("See All Items", "/items", <UnorderedListOutlined />),
     //   getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
     // ]),
-    getItem(
-      t("cashier_nav.Transactions"),
-      "/transactions",
-      <TransactionOutlined />
-    ),
+    // getItem(
+    //   t("cashier_nav.Transactions"),
+    //   "/transactions",
+    //   <TransactionOutlined />
+    // ),
 
     user?.role === "Cashier"
       ? getItem(
