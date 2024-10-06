@@ -64,6 +64,12 @@ function NavigationBar() {
       getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
       getItem("See All Items", "/items", <UnorderedListOutlined />),
       getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+      getItem("See All Stocks", "/stocks", <UnorderedListOutlined />),
+      getItem("Add Specific Stock", "/create-stock", <PlusCircleOutlined />),
+    ]),
+    getItem("Expiry Stocks", "sub3", <TransactionOutlined />, [
+      getItem("Expiring Stocks", "/expiring", <TransactionOutlined />),
+      getItem("Expired Stocks", "/expired", <TransactionOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
 

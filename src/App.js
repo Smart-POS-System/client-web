@@ -24,6 +24,9 @@ import AllProducts from "./pages/AllProducts";
 import CreateProduct from "./pages/CreateProduct";
 import CreateItem from "./pages/CreateItem";
 import AllItems from "./pages/AllItems";
+import StockList from "./components/StockList";
+import ExpiringStocksTable from "./components/ExpiringStocksTable";
+import ExpiredStocksTable from "./components/ExpiredStocksTable";
 import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
 import ShowStashedBills from "./components/cashier/ShowStashedBills";
 import CashierLayout from "./pages/CashierLayout";
@@ -82,8 +85,11 @@ function App() {
                   <Route path="transactions" element={<Transaction />} />
                   <Route path="products" element={<AllProducts />} />
                   <Route path="items" element={<AllItems />} />
+                  <Route path="stocks" element={<StockList />} />
                   <Route path="create-product" element={<CreateProduct />} />
                   <Route path="create-item" element={<CreateItem />} />
+                  <Route path="expiring" element={<ExpiringStocksTable />} />
+                  <Route path="expired" element={<ExpiredStocksTable />} />
                 </Route>
                 <Route path="login" element={<NewLogin />} />
                 <Route path="reset/:token" element={<ResetPassword />} />
