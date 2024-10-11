@@ -1,26 +1,72 @@
 import React, { useEffect, useState } from "react";
-import HourGlass from "./HourGlass.jsx";
-import { Space, Table, Button, Popconfirm, Pagination } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Button,
+  Popconfirm,
+  Pagination,
+  Modal,
+  Input,
+  Divider,
+  message,
+  InputNumber,
+} from "antd";
+import {
+  BarcodeOutlined,
+  CloseSquareOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  SwapOutlined,
+} from "@ant-design/icons";
 import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
-import { useSearchParams } from "react-router-dom";
-import toast from "react-hot-toast";
+import RefreshButton from "./RefreshButton";
+import Search from "antd/es/input/Search";
+import { useUserData } from "../context/userContext";
+import BarcodeModal from "./BarcodeModal";
+import StockTransferModal from "./StockTransferModal";
 
 const { Column } = Table;
 
-const StockList = (location_id, page_size, current_page) => {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  const [location, setLocation] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [stocks, setStocks] = useState([]);
-  const [pageSize, setPageSize] = useState(5);
+// const handleMenuClick = (e) => {
+//   message.info("Click on menu item.");
+//   console.log("click", e);
+// };
+
+const StockList = () => {
+  // const [location, setLocation] = useState(1);
+  const [region, setRegion] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [stocks, setStocks] = useState();
+  const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalStocks, setTotalStocks] = useState();
   const [error, setError] = useState(null);
+  const [searchNameText, setSearchNameText] = useState("");
+  const [searchBarcodeText, setSearchBarcodeText] = useState("");
+  const [isBarcodeModalVisible, setIsBarcodeModalVisible] = useState(false);
+  const [isTransferModalVisible, setIsTransferModalVisible] = useState(false);
+  const [transferStock, setTransferStock] = useState(null);
+  // const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const { fullUser: user } = useUserData();
+
+  const fetchRegion = async () => {
+    const data = { location_id: user.location.location_id };
+    try {
+      const regionResponse = await axiosInstance_inventory.post(
+        "/region",
+        data
+      );
+      setRegion(regionResponse.data);
+    } catch (error) {
+      setError(error);
+      console.log(error);
+    }
+  };
 
   const fetchStocks = async () => {
     const data = {
-      location_id: location,
+      role: user.role,
+      location_id: user.location.location_id,
       page_size: pageSize,
       current_page: currentPage,
     };
@@ -29,6 +75,8 @@ const StockList = (location_id, page_size, current_page) => {
         "/stocks",
         data
       );
+
+      console.log(stocksResponse.data);
 
       setStocks(stocksResponse.data.stocks);
       setTotalStocks(stocksResponse.data.stockCount);
@@ -42,6 +90,7 @@ const StockList = (location_id, page_size, current_page) => {
 
   useEffect(() => {
     setLoading(true);
+    fetchRegion();
     fetchStocks();
   }, []);
 
@@ -50,51 +99,73 @@ const StockList = (location_id, page_size, current_page) => {
     fetchStocks();
   }, [currentPage]);
 
+  // console.log(user);
+
   const handleDelete = async (stock_id, quantity) => {
     const data = { stockId: stock_id, qty: quantity };
 
     try {
-      const deleteResponse = await axiosInstance_inventory.put(
-        "/removeStock",
-        data
-      );
+      await axiosInstance_inventory.put("/removeStock", data);
+
       const prevStocks = [...stocks];
       const updatedStocks = prevStocks.filter(
         (stock) => stock.stock_id !== stock_id
       );
       setStocks(updatedStocks);
-      console.log(deleteResponse.data);
     } catch (error) {
       setError(error);
     }
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchStocks();
+  };
+
   const handleCurrentPage = async (page) => {
     setLoading(true);
     setCurrentPage(page);
-    // const fetchStocks = async () => {
-    //   const data = {
-    //     location_id: location,
-    //     page_size: pageSize,
-    //     current_page: currentPage,
-    //   };
-    //   try {
-    //     const stocksResponse = await axiosInstance_inventory.post(
-    //       "/stocks",
-    //       data
-    //     );
+  };
 
-    //     setStocks(stocksResponse.data.stocks);
-    //     setTotalStocks(stocksResponse.data.stockCount);
-    //   } catch (error) {
-    //     setError(error);
-    //     console.log(error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+  const onNameSearch = (value) => {
+    console.log(value);
+    setSearchNameText("");
+  };
+  const onBarcodeSearch = (value) => {
+    console.log(value);
+    setSearchBarcodeText("");
+  };
 
-    // fetchStocks();
+  const handleClearFilters = () => {
+    setSearchNameText("");
+    setSearchBarcodeText("");
+  };
+
+  const handleBarcodeModalOk = (barcode) => {
+    setSearchBarcodeText(barcode);
+    setIsBarcodeModalVisible(false);
+  };
+  const handleBarcodeModalCancel = () => {
+    setIsBarcodeModalVisible(false);
+  };
+
+  const showTransferModal = (stock) => {
+    setTransferStock(stock);
+    setIsTransferModalVisible(true);
+  };
+
+  const handleTransferModalOk = () => {
+    console.log("Transfer Stock: ", transferStock);
+    setIsTransferModalVisible(false);
+  };
+
+  const handleTransferModalCancel = () => {
+    // setSelectedLocation(null);
+    setIsTransferModalVisible(false);
+  };
+
+  const handleTransferTo = (e) => {
+    console.log("Clicked location:", e);
   };
 
   if (error) {
@@ -106,21 +177,80 @@ const StockList = (location_id, page_size, current_page) => {
     );
   }
 
-  // const filterName = searchParams.get("name");
-  // const filteredProducts = filterName
-  //   ? products.filter((product) =>
-  //       product?.product_name?.toLowerCase().includes(filterName.toLowerCase())
-  //     )
-  //   : products;
-
   return (
     <div>
-      <div className=" pt-5">
-        <h2 className="text-lg font-poppins font-semibold">Available Stocks</h2>
+      <div className=" pt-5 flex justify-between">
+        <div>
+          <h2 className="text-lg font-poppins font-semibold">
+            Available Stocks
+          </h2>
+          <h2 className="text-md text-gray-500 font-poppins ">
+            All Regions
+            {user.role === "General Manager"
+              ? null
+              : ` / ${region.name} Region`}
+            {user.role === "Regional Manager"
+              ? null
+              : ` / ${user.location.name}`}
+          </h2>
+        </div>
+        <RefreshButton onRefresh={handleRefresh} />
+      </div>
+      <div className="pt-5 flex gap-5">
+        <Search
+          placeholder="Search by Product Name"
+          value={searchNameText}
+          onChange={(e) => {
+            setSearchNameText(e.target.value);
+          }}
+          onSearch={onNameSearch}
+        />
+        <Search
+          placeholder="Search by Barcode"
+          value={searchBarcodeText}
+          onChange={(e) => {
+            setSearchBarcodeText(e.target.value);
+          }}
+          onSearch={onBarcodeSearch}
+        />
+        <Button
+          className=" w-1/6"
+          onClick={() => {
+            setIsBarcodeModalVisible(true);
+          }}
+        >
+          <BarcodeOutlined />
+          {" Scan Barcode"}
+        </Button>
+        <Button
+          color="default"
+          className=" w-1/6"
+          onClick={() => {
+            handleClearFilters();
+          }}
+        >
+          <CloseSquareOutlined />
+          {" Clear Filters"}
+        </Button>
       </div>
       <div className=" pt-5">
+        <BarcodeModal
+          isVisible={isBarcodeModalVisible}
+          onOk={handleBarcodeModalOk}
+          onCancel={handleBarcodeModalCancel}
+        />
+        <StockTransferModal
+          transferStock={transferStock}
+          isVisible={isTransferModalVisible}
+          onOk={handleTransferModalOk}
+          onCancel={handleTransferModalCancel}
+        />
+
         <Table
           pagination={false}
+          bordered
+          size="middle"
+          pageSize={pageSize}
           dataSource={stocks}
           rowKey={(stock) => stock?.stock_id}
           loading={loading}
@@ -139,6 +269,25 @@ const StockList = (location_id, page_size, current_page) => {
             key="quantity"
           />
           <Column title="Expiry Date" dataIndex="exp" key="exp" />
+          {/* <Column title="Region" dataIndex="region" key="region" /> */}
+          <Column title="Location" dataIndex="location" key="location" />
+          <Column
+            title="Transfer Stock"
+            key="action"
+            width={"10%"}
+            render={(stock) => (
+              <Button
+                type="link"
+                onClick={(e) => {
+                  // e.preventDefault();
+                  console.log(stock);
+                  showTransferModal(stock);
+                }}
+              >
+                <SwapOutlined />
+              </Button>
+            )}
+          />
           <Column
             title="Remove Stock"
             key="action"
@@ -153,7 +302,6 @@ const StockList = (location_id, page_size, current_page) => {
                 <Button type="link" danger>
                   <DeleteOutlined />
                 </Button>
-                {/* <a className="hover:text-white font-semibold">Delete</a> */}
               </Popconfirm>
             )}
           />
@@ -164,7 +312,6 @@ const StockList = (location_id, page_size, current_page) => {
           current={currentPage}
           pageSize={pageSize}
           total={totalStocks}
-          // onChange={(page) => setCurrentPage(page)}
           onChange={(page) => handleCurrentPage(page)}
         />
       </div>

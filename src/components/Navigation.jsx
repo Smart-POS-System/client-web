@@ -13,6 +13,9 @@ import {
   AppstoreAddOutlined,
   DashboardOutlined,
   FileTextOutlined,
+  ClockCircleOutlined,
+  ClusterOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import { VideoCameraOutlined, UploadOutlined } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
@@ -67,11 +70,17 @@ function NavigationBar() {
       getItem("See All Stocks", "/stocks", <UnorderedListOutlined />),
       getItem("Add Specific Stock", "/create-stock", <PlusCircleOutlined />),
     ]),
-    getItem("Expiry Stocks", "sub3", <TransactionOutlined />, [
-      getItem("Expiring Stocks", "/expiring", <TransactionOutlined />),
-      getItem("Expired Stocks", "/expired", <TransactionOutlined />),
+    getItem("Expiry Stocks", "sub3", <ClockCircleOutlined />, [
+      getItem("Expiring Stocks", "/expiring", <UnorderedListOutlined />),
+      getItem("Expired Stocks", "/expired", <UnorderedListOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
+    user.role === "General Manager" || user.role === "Regional Manager"
+      ? getItem("Locations", "sub4", <ClusterOutlined />, [
+          getItem("Regions", "/regions", <ApartmentOutlined />),
+          getItem("Locations", "/locations", <ApartmentOutlined />),
+        ])
+      : null,
 
     user?.role === "Cashier"
       ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)

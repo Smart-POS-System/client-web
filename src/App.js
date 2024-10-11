@@ -33,6 +33,8 @@ import CashierLayout from "./pages/CashierLayout";
 import Layout from "./pages/Layout";
 import Stashed from "./components/cashier/Stashed";
 import { useTranslation } from "react-i18next";
+import Locations from "./components/Locations";
+import Regions from "./components/Regions";
 
 function App() {
   useEffect(() => {
@@ -90,6 +92,8 @@ function App() {
                   <Route path="create-item" element={<CreateItem />} />
                   <Route path="expiring" element={<ExpiringStocksTable />} />
                   <Route path="expired" element={<ExpiredStocksTable />} />
+                  <Route path="regions" element={<Regions />} />
+                  <Route path="locations" element={<Locations />} />
                 </Route>
                 <Route path="login" element={<NewLogin />} />
                 <Route path="reset/:token" element={<ResetPassword />} />

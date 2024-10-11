@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Pagination, Typography } from "antd";
+import { Table, Pagination, Button } from "antd";
 import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
-
-const { Title } = Typography;
+import { BarcodeOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import Search from "antd/es/transfer/search";
+import RefreshButton from "./RefreshButton";
+import { useUserData } from "../context/userContext";
 
 const columns = [
   { title: "Barcode", dataIndex: "barcode", width: "25%" },
@@ -23,18 +25,22 @@ const columns = [
 ];
 
 const ExpiredStocksTable = () => {
-  const pageSize = 2;
-  const [expiredStocks, setExpiredStocks] = useState([]);
+  const pageSize = 10;
+  const [location, setLocation] = useState(1);
+  const [expiredStocks, setExpiredStocks] = useState();
   const [stockCount, setStockCount] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const { fullUser: user } = useUserData();
 
   const fetchExpired = async () => {
     setLoading(true);
     const data = {
-      location_id: 1,
       type: "expired",
+      role: user.role,
+      location_id: location,
       page_size: pageSize,
       current_page: currentPage,
     };
@@ -71,18 +77,61 @@ const ExpiredStocksTable = () => {
     console.log("Deleting stock ", stockId, " from expired stocks");
     // Implement delete logic here
   };
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchExpired();
+  };
 
   return (
-    <div className="mb-5 border border-danger-400 bg-danger-100 rounded-lg overflow-hidden">
+    // <div className="mb-5 border border-danger-400 bg-danger-100 rounded-lg overflow-hidden">
+    <div className=" rounded-lg overflow-hidden">
+      <div className=" mb-5">
+        <div className=" pt-5 flex justify-between">
+          <h2 className="text-lg font-poppins font-semibold">Expired Stocks</h2>
+          <RefreshButton onRefresh={handleRefresh} />
+        </div>
+        <div className="pt-5 flex gap-5">
+          <Search
+            placeholder="Search by Product Name"
+            // value={searchNameText}
+            onChange={(e) => {
+              // setSearchNameText(e.target.value);
+            }}
+            // onSearch={onNameSearch}
+          />
+          <Search
+            placeholder="Search by Barcode"
+            // value={searchBarcodeText}
+            onChange={(e) => {
+              // setSearchBarcodeText(e.target.value);
+            }}
+            // onSearch={onBarcodeSearch}
+          />
+          <Button
+            className=" w-1/6"
+            onClick={() => {
+              // setIsBarcodeModalVisible(true);
+            }}
+          >
+            <BarcodeOutlined />
+            {" Scan Barcode"}
+          </Button>
+          <Button
+            color="default"
+            className=" w-1/6"
+            onClick={() => {
+              // handleClearFilters();
+            }}
+          >
+            <CloseSquareOutlined />
+            {" Clear Filters"}
+          </Button>
+        </div>
+      </div>
       <Table
         bordered
         pagination={false}
-        size="small"
-        title={() => (
-          <Title level={4} className="text-center">
-            Expired Stocks
-          </Title>
-        )}
+        size="middle"
         loading={loading}
         columns={columns}
         dataSource={expiredStocks}
