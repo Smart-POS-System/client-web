@@ -69,7 +69,7 @@ function MostPurchasedProductsChart() {
       show: false,
     },
     fill: {
-      type: "gradient",
+      type: "solid",
     },
     colors: ["#0090FF", "#00E396", "#FEB019", "#FF4560", "#775DD0"],
     dataLabels: {

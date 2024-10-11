@@ -1,11 +1,13 @@
-import { CalendarOutlined, ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  CalendarOutlined,
+  LoadingOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import { Button, Select } from "antd";
 import { formattedDate } from "../helpers/formatDate";
 import DashboardCards from "./DashboardCards";
 import SalesPurchaseChart from "./SalesPurchaseChart";
-import { useState, useEffect } from "react";
-import { getSummarySalesAndPurchases } from "../api/api";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import TopSellingProductsChart from "./TopSellingProducts";
 import MostPurchasedProductsChart from "./MostPurchasedProducts";
 
@@ -17,39 +19,42 @@ function IncomeOverview() {
   );
   const [endDate, setEndDate] = useState(todayFormatted);
   const [startDate, setStartDate] = useState(startDateFormatted);
-  // const { data, isLoading, error, refetch } = useQuery({
-  //   queryKey: ["salesAndPurchase", { startDate, endDate }],
-  //   queryFn: () => getSummarySalesAndPurchases(startDate, endDate),
-  //   enabled: true,
-  // });
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["salesAndPurchase", { startDate, endDate }],
+    queryFn: () => getSummarySalesAndPurchases(startDate, endDate),
+    enabled: true,
+  });
 
   function handleChange(value) {
-    const today = new Date();
-    setEndDate(formattedDate(today));
+    const today = new Date(); // Always get a fresh instance of today
+    setEndDate(formattedDate(today)); // Set the end date to today's date
 
     let newStartDate;
     if (value === "Today") {
-      newStartDate = formattedDate(today);
+      newStartDate = formattedDate(today); // Start and end are the same for today
     } else if (value === "Last 7 days") {
-      newStartDate = formattedDate(
-        new Date(today.setDate(today.getDate() - 7))
-      );
+      const sevenDaysAgo = new Date(); // Create a new Date object
+      sevenDaysAgo.setDate(today.getDate() - 7); // Set it to 7 days ago
+      newStartDate = formattedDate(sevenDaysAgo);
     } else if (value === "Last Month") {
-      newStartDate = formattedDate(
-        new Date(today.setMonth(today.getMonth() - 1))
-      );
+      const lastMonth = new Date(); // Create a new Date object
+      lastMonth.setMonth(today.getMonth() - 1); // Set it to last month
+      newStartDate = formattedDate(lastMonth);
     } else if (value === "Last Year") {
-      newStartDate = formattedDate(
-        new Date(today.setFullYear(today.getFullYear() - 1))
-      );
+      const lastYear = new Date(); // Create a new Date object
+      lastYear.setFullYear(today.getFullYear() - 1); // Set it to last year
+      newStartDate = formattedDate(lastYear);
     }
-    setStartDate(newStartDate);
-    //   refetch();
+
+    setStartDate(newStartDate); // Update the start date
   }
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [refetch]);
+  // console.log("end date", endDate);
+  // console.log("start date", startDate);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   // console.log(data);
 
@@ -90,9 +95,9 @@ function IncomeOverview() {
               ]}
             />
           </div>
-          <Button type="primary">
-            <ShoppingCartOutlined />
-            Go to Inventory
+          <Button type="primary" onClick={handleRefresh}>
+            {!isLoading ? <ReloadOutlined /> : <LoadingOutlined />}
+            Refresh
           </Button>
         </div>
       </div>
@@ -102,11 +107,11 @@ function IncomeOverview() {
       {!isLoading && !error && (
         <> */}
       <div className="flex flex-row gap-4">
-        <DashboardCards />
+        <DashboardCards startDate={startDate} endDate={endDate} />
       </div>
       <div className="flex flex-col w-full gap-4">
         <div className="flex flex-row items-center justify-between w-full bg-slate-50 rounded-xl p-4 border border-blue-400">
-          <SalesPurchaseChart />
+          <SalesPurchaseChart startDate={startDate} endDate={endDate} />
         </div>
         <div className="flex flex-row items-center justify-between gap-4">
           <div className="w-1/2">

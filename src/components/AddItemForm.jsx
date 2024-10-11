@@ -64,10 +64,6 @@ const AddItemForm = () => {
 
       const response = await savePromise;
 
-      if (response.data) {
-        console.log(response.data);
-      }
-
       reset({
         product_id: "",
         batch_no: "",
@@ -92,20 +88,22 @@ const AddItemForm = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
+      <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         <strong>Add Specific Item</strong>
       </h1>
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 min-w-[675px]:w-9/12"
+          className="min-w-[675px]:w-9/12"
         >
-          <Products errors={errors} control={control} product="" />
-          <Batch errors={errors} control={control} batch_no="" />
-          <BuyingPrice errors={errors} control={control} buying_price="" />
-          <SellingPrice errors={errors} control={control} selling_price="" />
-          <MfdExp errors={errors} control={control} mfdExp="" />
-          <div className="flex justify-center gap-4 mt-4">
+          <div className="space-y-4">
+            <Products errors={errors} control={control} product="" />
+            <Batch errors={errors} control={control} batch_no="" />
+            <BuyingPrice errors={errors} control={control} buying_price="" />
+            <SellingPrice errors={errors} control={control} selling_price="" />
+            <MfdExp errors={errors} control={control} mfdExp="" />
+          </div>
+          <div className="flex gap-4 mt-8">
             <Button type="default" htmlType="reset" onClick={handleClear}>
               Clear All
             </Button>

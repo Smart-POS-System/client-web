@@ -5,7 +5,6 @@ import ProductList from "../components/ProductList";
 
 const AllProducts = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [limit, setLimit] = useState(10);
   const { Search } = Input;
   const [searchSize, setSearchSize] = useState("medium");
 
@@ -30,22 +29,6 @@ const AllProducts = () => {
     };
   }, []);
 
-  function onChangePage(pageNumber) {
-    searchParams.set("page", pageNumber);
-    setSearchParams(searchParams);
-  }
-
-  function onSearchProduct(value) {
-    searchParams.set("name", value);
-    setSearchParams(searchParams);
-  }
-
-  function onShowSizeChange(current, size) {
-    searchParams.set("items", size);
-    setSearchParams(searchParams);
-    setLimit(size);
-  }
-
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchParams({ name: value });
@@ -53,11 +36,11 @@ const AllProducts = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
+      <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         <strong>All Products</strong>
       </h1>
-      <div className="w-full min-[768px]:w-10/12 xl:w-8/12 items-center justify-center">
-        <div className="flex flex-col md:flex-row space-between items-center m-4 gap-x-6">
+      <div className="w-full min-[768px]:w-10/12 xl:w-8/12 items-center mb-4 justify-center">
+        <div className="flex flex-col md:flex-row space-between items-center gap-x-6">
           <label className="text-sm font-semibold font-poppins whitespace-nowrap">
             <span>Search Product By Name</span>
           </label>

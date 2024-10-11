@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
   PlusCircleOutlined,
   ProductOutlined,
   UserOutlined,
@@ -49,15 +46,15 @@ function NavigationBar() {
     getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
-          getItem("See All Users", "/users", <HiOutlineUsers />),
+          getItem("All Employee", "/users", <HiOutlineUsers />),
 
-          getItem("Add New User", "/create", <UserAddOutlined />),
-          getItem("My Profile", "/view", <UserOutlined />),
+          // getItem("New User", "/create", <UserAddOutlined />),
+          // getItem("My Profile", "/view", <UserOutlined />),
           getItem("Customers", "/customers", <HiOutlineUsers />),
         ])
       : null,
     user.role === "Cashier"
-      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      ? getItem("New Customer", "/customers/register", <UserAddOutlined />)
       : null,
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
@@ -137,7 +134,7 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
-      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
+      style={{ backgroundColor: "#fcfcfc" }}
     >
       <div className="demo-logo-vertical" />
 
@@ -145,7 +142,7 @@ function NavigationBar() {
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
+        className="mt-8 text-sm font-poppins bg-inherit"
         theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}
