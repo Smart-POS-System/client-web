@@ -36,12 +36,13 @@ const StockList = () => {
   const [region, setRegion] = useState({});
   const [loading, setLoading] = useState(false);
   const [stocks, setStocks] = useState();
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalStocks, setTotalStocks] = useState();
   const [error, setError] = useState(null);
   const [searchNameText, setSearchNameText] = useState("");
   const [searchBarcodeText, setSearchBarcodeText] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [isBarcodeModalVisible, setIsBarcodeModalVisible] = useState(false);
   const [isTransferModalVisible, setIsTransferModalVisible] = useState(false);
   const [transferStock, setTransferStock] = useState(null);
@@ -52,6 +53,7 @@ const StockList = () => {
   const fetchRegion = async () => {
     const data = { location_id: user.location.location_id };
     try {
+      setLoading(true);
       const regionResponse = await axiosInstance_inventory.post(
         "/region",
         data
@@ -60,6 +62,8 @@ const StockList = () => {
     } catch (error) {
       setError(error);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,14 +73,17 @@ const StockList = () => {
       location_id: user.location.location_id,
       page_size: pageSize,
       current_page: currentPage,
+      product_name: searchNameText,
+      barcode: searchBarcodeText,
     };
     try {
+      setLoading(true);
+      console.log(data);
+
       const stocksResponse = await axiosInstance_inventory.post(
         "/stocks",
         data
       );
-
-      console.log(stocksResponse.data);
 
       setStocks(stocksResponse.data.stocks);
       setTotalStocks(stocksResponse.data.stockCount);
@@ -97,9 +104,7 @@ const StockList = () => {
   useEffect(() => {
     setLoading(true);
     fetchStocks();
-  }, [currentPage]);
-
-  // console.log(user);
+  }, [currentPage, isSearching]);
 
   const handleDelete = async (stock_id, quantity) => {
     const data = { stockId: stock_id, qty: quantity };
@@ -118,32 +123,35 @@ const StockList = () => {
   };
 
   const handleRefresh = () => {
+    setCurrentPage(currentPage);
     setLoading(true);
     fetchStocks();
   };
 
   const handleCurrentPage = async (page) => {
-    setLoading(true);
     setCurrentPage(page);
   };
 
   const onNameSearch = (value) => {
-    console.log(value);
-    setSearchNameText("");
+    setCurrentPage(1);
+    fetchStocks();
   };
   const onBarcodeSearch = (value) => {
-    console.log(value);
-    setSearchBarcodeText("");
+    setCurrentPage(1);
+    fetchStocks();
   };
 
   const handleClearFilters = () => {
     setSearchNameText("");
     setSearchBarcodeText("");
+    handleCurrentPage(1);
+    handleRefresh();
   };
 
   const handleBarcodeModalOk = (barcode) => {
     setSearchBarcodeText(barcode);
     setIsBarcodeModalVisible(false);
+    onBarcodeSearch();
   };
   const handleBarcodeModalCancel = () => {
     setIsBarcodeModalVisible(false);
@@ -155,18 +163,14 @@ const StockList = () => {
   };
 
   const handleTransferModalOk = () => {
-    console.log("Transfer Stock: ", transferStock);
     setIsTransferModalVisible(false);
   };
 
   const handleTransferModalCancel = () => {
-    // setSelectedLocation(null);
     setIsTransferModalVisible(false);
   };
 
-  const handleTransferTo = (e) => {
-    console.log("Clicked location:", e);
-  };
+  const handleTransferTo = (e) => {};
 
   if (error) {
     return (
@@ -178,73 +182,75 @@ const StockList = () => {
   }
 
   return (
-    <div>
-      <div className=" pt-5 flex justify-between">
-        <div>
-          <h2 className="text-lg font-poppins font-semibold">
-            Available Stocks
-          </h2>
-          <h2 className="text-md text-gray-500 font-poppins ">
-            All Regions
-            {user.role === "General Manager"
-              ? null
-              : ` / ${region.name} Region`}
-            {user.role === "Regional Manager"
-              ? null
-              : ` / ${user.location.name}`}
-          </h2>
+    <div className=" rounded-lg overflow-hidden">
+      <div className=" mb-5">
+        <div className=" pt-5 flex justify-between">
+          <div>
+            <h2 className="text-lg font-poppins font-semibold">
+              Available Stocks
+            </h2>
+            <h2 className="text-md text-gray-500 font-poppins ">
+              All Regions
+              {user.role === "General Manager"
+                ? null
+                : ` / ${region.name} Region`}
+              {user.role === "Regional Manager"
+                ? null
+                : ` / ${user.location.name}`}
+            </h2>
+          </div>
+          <RefreshButton onRefresh={handleRefresh} />
         </div>
-        <RefreshButton onRefresh={handleRefresh} />
-      </div>
-      <div className="pt-5 flex gap-5">
-        <Search
-          placeholder="Search by Product Name"
-          value={searchNameText}
-          onChange={(e) => {
-            setSearchNameText(e.target.value);
-          }}
-          onSearch={onNameSearch}
-        />
-        <Search
-          placeholder="Search by Barcode"
-          value={searchBarcodeText}
-          onChange={(e) => {
-            setSearchBarcodeText(e.target.value);
-          }}
-          onSearch={onBarcodeSearch}
-        />
-        <Button
-          className=" w-1/6"
-          onClick={() => {
-            setIsBarcodeModalVisible(true);
-          }}
-        >
-          <BarcodeOutlined />
-          {" Scan Barcode"}
-        </Button>
-        <Button
-          color="default"
-          className=" w-1/6"
-          onClick={() => {
-            handleClearFilters();
-          }}
-        >
-          <CloseSquareOutlined />
-          {" Clear Filters"}
-        </Button>
-      </div>
-      <div className=" pt-5">
-        <BarcodeModal
-          isVisible={isBarcodeModalVisible}
-          onOk={handleBarcodeModalOk}
-          onCancel={handleBarcodeModalCancel}
-        />
-        <StockTransferModal
-          transferStock={transferStock}
-          isVisible={isTransferModalVisible}
-          onOk={handleTransferModalOk}
-          onCancel={handleTransferModalCancel}
-        />
+        <div className="pt-5 flex gap-5">
+          <Search
+            placeholder="Search by Product Name"
+            value={searchNameText}
+            onChange={(e) => {
+              setSearchNameText(e.target.value);
+            }}
+            onSearch={onNameSearch}
+          />
+          <Search
+            placeholder="Search by Barcode"
+            value={searchBarcodeText}
+            onChange={(e) => {
+              setSearchBarcodeText(e.target.value);
+            }}
+            onSearch={onBarcodeSearch}
+          />
+          <Button
+            className=" w-1/6"
+            onClick={() => {
+              setIsBarcodeModalVisible(true);
+            }}
+          >
+            <BarcodeOutlined />
+            {" Scan Barcode"}
+          </Button>
+          <Button
+            color="default"
+            className=" w-1/6"
+            onClick={() => {
+              handleClearFilters();
+            }}
+          >
+            <CloseSquareOutlined />
+            {" Clear Filters"}
+          </Button>
+        </div>
+        <div className=" pt-5">
+          <BarcodeModal
+            isVisible={isBarcodeModalVisible}
+            onOk={handleBarcodeModalOk}
+            onCancel={handleBarcodeModalCancel}
+          />
+          <StockTransferModal
+            transferStock={transferStock}
+            isVisible={isTransferModalVisible}
+            onOk={handleTransferModalOk}
+            onCancel={handleTransferModalCancel}
+          />
+        </div>
 
         <Table
           pagination={false}
@@ -280,7 +286,6 @@ const StockList = () => {
                 type="link"
                 onClick={(e) => {
                   // e.preventDefault();
-                  console.log(stock);
                   showTransferModal(stock);
                 }}
               >

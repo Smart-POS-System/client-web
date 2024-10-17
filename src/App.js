@@ -34,6 +34,8 @@ import Stashed from "./components/cashier/Stashed";
 import { useTranslation } from "react-i18next";
 import Locations from "./components/Locations";
 import Regions from "./components/Regions";
+import AddStockForm from "./components/AddStockForm";
+import AddItemForm from "./components/AddItemForm";
 
 function App() {
   useEffect(() => {
@@ -89,6 +91,7 @@ function App() {
                   <Route path="stocks" element={<StockList />} />
                   <Route path="create-product" element={<CreateProduct />} />
                   <Route path="create-item" element={<CreateItem />} />
+                  <Route path="create-stock" element={<AddStockForm />} />
                   <Route path="expiring" element={<ExpiringStocksTable />} />
                   <Route path="expired" element={<ExpiredStocksTable />} />
                   <Route path="regions" element={<Regions />} />

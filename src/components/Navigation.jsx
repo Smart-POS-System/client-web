@@ -72,7 +72,9 @@ function NavigationBar() {
       getItem("Expired Stocks", "/expired", <UnorderedListOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
-    user.role === "General Manager" || user.role === "Regional Manager"
+    user.role === "General Manager" ||
+    user.role === "Regional Manager" ||
+    user.role === "Inventory Manager"
       ? getItem("Locations", "sub4", <ClusterOutlined />, [
           getItem("Regions", "/regions", <ApartmentOutlined />),
           getItem("Locations", "/locations", <ApartmentOutlined />),

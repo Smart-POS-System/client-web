@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Pagination, Typography, Button } from "antd";
 import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
 import { BarcodeOutlined, CloseSquareOutlined } from "@ant-design/icons";
-import Search from "antd/es/transfer/search";
+import Search from "antd/es/input/Search";
 import RefreshButton from "./RefreshButton";
 import Column from "antd/es/table/Column";
 import { useUserData } from "../context/userContext";

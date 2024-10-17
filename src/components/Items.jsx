@@ -12,8 +12,10 @@ const Items = ({ errors, control, item }) => {
       try {
         const itemsResponse = await axiosInstance.get(
           "http://localhost:49160/items"
+          // "http://localhost:3010/sample"
         );
         setItems(itemsResponse.data);
+        console.log(items);
       } catch (error) {
         console.log(error);
       }
@@ -41,13 +43,13 @@ const Items = ({ errors, control, item }) => {
               {...field}
               style={{
                 width: "100%",
-                borderColor: errors.product_id ? "red" : "green",
+                borderColor: errors.item_id ? "red" : "green",
               }}
-              placeholder="Select Item"
+              placeholder="Item ID - Product Name"
             >
               {items.map((item) => (
                 <Option key={item?.item_id} value={item?.item_id}>
-                  {/* {item?.product_name} */}
+                  {item?.item_id} - {item?.product.product_name}
                 </Option>
               ))}
             </Select>
