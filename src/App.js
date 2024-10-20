@@ -23,12 +23,12 @@ import AllProducts from "./pages/AllProducts";
 import CreateProduct from "./pages/CreateProduct";
 import CreateItem from "./pages/CreateItem";
 import AllItems from "./pages/AllItems";
-import Cashier_Dash from "./pages/cashier_dash/Cashier_Dash";
-import ShowStashedBills from "./components/cashier/ShowStashedBills";
-import CashierLayout from "./pages/CashierLayout";
 import Layout from "./pages/Layout";
 import Stashed from "./components/cashier/Stashed";
-import { useTranslation } from "react-i18next";
+import StockList from "./components/StockList";
+import ExpiredStocksTable from "./components/ExpiredStocksTable";
+import ExpiringStocksTable from "./components/ExpiringStocksTable";
+import AddStockForm from "./components/AddStockForm";
 
 function App() {
   useEffect(() => {
@@ -81,8 +81,18 @@ function App() {
                   <Route path="transactions" element={<Transaction />} />
                   <Route path="products" element={<AllProducts />} />
                   <Route path="items" element={<AllItems />} />
+                  <Route path="stock" element={<StockList />} />
                   <Route path="create-product" element={<CreateProduct />} />
                   <Route path="create-item" element={<CreateItem />} />
+                  <Route path="create-stock" element={<AddStockForm />} />
+                  <Route
+                    path="expired-stocks"
+                    element={<ExpiredStocksTable />}
+                  />
+                  <Route
+                    path="expiring-stocks"
+                    element={<ExpiringStocksTable />}
+                  />
                 </Route>
                 <Route path="login" element={<NewLogin />} />
                 <Route path="reset/:token" element={<ResetPassword />} />

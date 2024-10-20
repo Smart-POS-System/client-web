@@ -71,7 +71,7 @@ const AddProductForm = () => {
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         <strong>Add New Product</strong>
       </h1>
-      <div className="container mx-auto">
+      <div className="container">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="min-w-[675px]:w-9/12"

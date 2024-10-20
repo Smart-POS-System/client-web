@@ -14,12 +14,6 @@ function DashboardCards({ startDate, endDate, refresh }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(
-      "Running useEffect in DashboardCards with new start and end dates: ",
-      startDate,
-      endDate
-    );
-
     const fetchTotalRevenue = async () => {
       setLoading(true);
       try {

@@ -520,7 +520,7 @@ const SearchItem = (props) => {
 
   const handleSearch = () => {
     const filtered = products.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+      item.product_name.toLowerCase().includes(searchText.toLowerCase())
     );
     setFilteredData(filtered);
     setCurrentPage(1); // Reset to first page on new search

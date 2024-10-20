@@ -10,11 +10,6 @@ function TopSellingProductsChart({ startDate, endDate, refresh }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(
-      "Running useEffect in TopSellingProductsChart with new start and end dates: ",
-      startDate,
-      endDate
-    );
     const fetchTopSellingProducts = async () => {
       setLoading(true);
       try {
@@ -110,6 +105,14 @@ function TopSellingProductsChart({ startDate, endDate, refresh }) {
       },
     },
   };
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center bg-slate-50 min-h-[300px]">
+        <Hourglass />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center bg-slate-50">

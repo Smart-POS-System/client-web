@@ -42,6 +42,8 @@ function IncomeOverview() {
       newStartDate = formattedDate(lastYear);
     }
 
+    console.log(newStartDate);
+
     setStartDate(newStartDate); // Update the start date
   }
 
@@ -56,7 +58,6 @@ function IncomeOverview() {
 
   function handleRefresh() {
     setRefresh((refresh) => !refresh);
-    console.log("from handlerefresh", refresh);
   }
 
   return (

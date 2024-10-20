@@ -18,12 +18,6 @@ function SalesPurchaseChart({ startDate, endDate, refresh }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(
-      "Running useEffect in SalesPurchaseChart with new start and end dates: ",
-      startDate,
-      endDate
-    );
-
     const fetchSalesData = async () => {
       setLoading(true);
       try {
@@ -175,8 +169,8 @@ function SalesPurchaseChart({ startDate, endDate, refresh }) {
         show: true,
         tools: {
           download: true,
-          selection: false,
-          zoom: false,
+          selection: true,
+          zoom: true,
           zoomin: true,
           zoomout: true,
           pan: true,
@@ -290,6 +284,14 @@ function SalesPurchaseChart({ startDate, endDate, refresh }) {
       data: purchasesData,
     },
   ];
+
+  if (loading) {
+    return (
+      <div className="w-full flex items-center justify-center min-h-[350px]">
+        <Hourglass />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mt-4">

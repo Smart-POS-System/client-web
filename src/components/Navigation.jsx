@@ -8,16 +8,16 @@ import {
   TransactionOutlined,
   UnorderedListOutlined,
   AppstoreAddOutlined,
-  DashboardOutlined,
   FileTextOutlined,
+  FieldTimeOutlined,
+  AlertOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
-import { VideoCameraOutlined, UploadOutlined } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { Layout, Menu } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useAction } from "../context/actionContext";
-//import { useUserData } from "../context/userContext";
 import { useUserData } from "../context/userContext";
 
 const { Sider } = Layout;
@@ -63,6 +63,14 @@ function NavigationBar() {
     getItem("Items", "sub3", <ProductOutlined />, [
       getItem("All Items", "/items", <UnorderedListOutlined />),
       getItem("Add New Item", "/create-item", <AppstoreAddOutlined />),
+    ]),
+    getItem("Stocks", "sub4", <ProductOutlined />, [
+      getItem("All Stocks", "/stock", <UnorderedListOutlined />),
+      getItem("Add New Stock", "/create-stock", <AppstoreAddOutlined />),
+    ]),
+    getItem("Expiry Information", "sub5", <FieldTimeOutlined />, [
+      getItem("Expired Stocks", "/expired-stocks", <WarningOutlined />),
+      getItem("Expiring Stocks", "/expiring-stocks", <AlertOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
 

@@ -118,7 +118,7 @@ function UserForm({
           </strong>
         </h1>
       )}
-      <div className="container mx-auto p-4">
+      <div className="container p-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-4 min-w-[675px]:w-9/12"

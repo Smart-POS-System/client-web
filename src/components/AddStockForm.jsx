@@ -8,8 +8,11 @@ import { Button } from "antd";
 import MfdExp from "./MfdExp";
 import axiosInstance from "../api/axiosConfig";
 import toast from "react-hot-toast";
+import Item from "./Item";
+import Quantity from "./Quantity";
+import BarcodeNo from "./BarcodeNo";
 
-const AddItemForm = () => {
+const AddStockForm = () => {
   const {
     control,
     formState: { errors, isValid },
@@ -78,18 +81,16 @@ const AddItemForm = () => {
 
   function handleClear() {
     reset({
-      product_id: "",
-      batch_no: "",
-      buying_price: "",
-      selling_price: "",
-      mfdExp: ["", ""],
+      item_id: "",
+      quantity: "",
+      barcode_no: "",
     });
   }
 
   return (
     <>
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
-        <strong>Add Specific Item</strong>
+        <strong>Add Specific Stock</strong>
       </h1>
       <div className="container">
         <form
@@ -97,11 +98,9 @@ const AddItemForm = () => {
           className="min-w-[675px]:w-9/12"
         >
           <div className="space-y-4">
-            <Products errors={errors} control={control} product="" />
-            <Batch errors={errors} control={control} batch_no="" />
-            <BuyingPrice errors={errors} control={control} buying_price="" />
-            <SellingPrice errors={errors} control={control} selling_price="" />
-            <MfdExp errors={errors} control={control} mfdExp="" />
+            <Item errors={errors} control={control} item="" />
+            <Quantity errors={errors} control={control} quantity="" />
+            <BarcodeNo errors={errors} control={control} barcode_no="" />
           </div>
           <div className="flex gap-4 mt-8">
             <Button type="default" htmlType="reset" onClick={handleClear}>
@@ -117,4 +116,4 @@ const AddItemForm = () => {
   );
 };
 
-export default AddItemForm;
+export default AddStockForm;
