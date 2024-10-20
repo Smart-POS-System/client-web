@@ -9,7 +9,6 @@ import { useUserData } from "../context/userContext";
 
 function Step({ isValidated }) {
   const { email } = useUserData();
-  console.log("isValidate", isValidated);
 
   return (
     <div className="w-full mx-auto flex flex-row items-center justify-center">
@@ -20,12 +19,12 @@ function Step({ isValidated }) {
           {
             title: "Email",
             status: !isValidated ? "process" : "finish",
-            icon: !isValidated ? <LoadingOutlined /> : <MailOutlined />,
+            icon: <MailOutlined />,
           },
           {
             title: "Password",
             status: email !== "" ? "process" : "wait",
-            icon: email !== "" ? <LoadingOutlined /> : <KeyOutlined />,
+            icon: <KeyOutlined />,
           },
           {
             title: "Logged In",

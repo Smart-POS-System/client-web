@@ -3,7 +3,6 @@ import UserData from "./UserData";
 
 function MyDetails() {
   const { fullUser: user } = useUserData();
-  console.log("loggeduser", user);
 
   // if (isLoading) {
   //   return <HourGlass />;

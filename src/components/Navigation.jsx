@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
   PlusCircleOutlined,
   ProductOutlined,
   UserOutlined,
@@ -13,6 +10,9 @@ import {
   AppstoreAddOutlined,
   DashboardOutlined,
   FileTextOutlined,
+  ClockCircleOutlined,
+  ClusterOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import { VideoCameraOutlined, UploadOutlined } from "@ant-design/icons";
 import { HiOutlineUsers } from "react-icons/hi2";
@@ -46,15 +46,15 @@ function NavigationBar() {
     getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
     user?.role !== "Cashier"
       ? getItem("Users", "sub1", <UserOutlined />, [
-          getItem("See All Users", "/users", <HiOutlineUsers />),
+          getItem("All Employee", "/users", <HiOutlineUsers />),
 
-          getItem("Add New User", "/create", <UserAddOutlined />),
-          getItem("My Profile", "/view", <UserOutlined />),
+          // getItem("New User", "/create", <UserAddOutlined />),
+          // getItem("My Profile", "/view", <UserOutlined />),
           getItem("Customers", "/customers", <HiOutlineUsers />),
         ])
       : null,
     user.role === "Cashier"
-      ? getItem("Add New Customer", "/customers/register", <UserAddOutlined />)
+      ? getItem("New Customer", "/customers/register", <UserAddOutlined />)
       : null,
     user?.role === "Cashier"
       ? getItem("My Profile", "/view", <UserOutlined />)
@@ -64,8 +64,22 @@ function NavigationBar() {
       getItem("Add New Product", "/create-product", <AppstoreAddOutlined />),
       getItem("See All Items", "/items", <UnorderedListOutlined />),
       getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
+      getItem("See All Stocks", "/stocks", <UnorderedListOutlined />),
+      getItem("Add Specific Stock", "/create-stock", <PlusCircleOutlined />),
+    ]),
+    getItem("Expiry Stocks", "sub3", <ClockCircleOutlined />, [
+      getItem("Expiring Stocks", "/expiring", <UnorderedListOutlined />),
+      getItem("Expired Stocks", "/expired", <UnorderedListOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
+    user.role === "General Manager" ||
+    user.role === "Regional Manager" ||
+    user.role === "Inventory Manager"
+      ? getItem("Locations", "sub4", <ClusterOutlined />, [
+          getItem("Regions", "/regions", <ApartmentOutlined />),
+          getItem("Locations", "/locations", <ApartmentOutlined />),
+        ])
+      : null,
 
     user?.role === "Cashier"
       ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)
@@ -122,7 +136,7 @@ function NavigationBar() {
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
-      style={{ backgroundColor: "#f0f0f5", background: "#f7f7f7 !important" }}
+      style={{ backgroundColor: "#fcfcfc" }}
     >
       <div className="demo-logo-vertical" />
 
@@ -130,7 +144,7 @@ function NavigationBar() {
         <Logo />
       </div>
       <Menu
-        className="mt-8 text-sm font-poppins font-semibold bg-inherit"
+        className="mt-8 text-sm font-poppins bg-inherit"
         theme="light"
         mode="inline"
         selectedKeys={[selectedKey]}

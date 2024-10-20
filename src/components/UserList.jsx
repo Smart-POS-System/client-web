@@ -6,11 +6,11 @@ import User from "./User.jsx";
 
 function UserList() {
   const { isLoading, users, error } = useUsers();
-  console.log("fucking users", users);
 
   if (isLoading) {
     return <HourGlass />;
   }
+
   if (error) {
     return (
       <div className="text-blue-600 flex flex-col items-center font-poppins font-semibold text-xl bg-blue-100 border rounded-lg border-blue-200 p-4 text-center m-5">
@@ -20,13 +20,11 @@ function UserList() {
     );
   }
 
-  if (!users) {
+  if (!users.length) {
     return (
-      <div className="text-red-600 flex flex-col items-center font-poppins font-semibold text-xl bg-red-100 border rounded-lg border-red-200 p-4text-center m-5">
+      <div className="text-red-600 flex flex-col items-center font-poppins font-semibold text-xl bg-red-100 border rounded-lg border-red-200 p-4 text-center m-5">
         <img className="w-2/5 h-auto pt-5" src={"error.png"} alt="😥" />
-        <h2 className="p-5">
-          Something went wrong. Try refreshing or relogin to the page.
-        </h2>
+        <h2 className="p-5">No users found. Try refreshing or relogging.</h2>
       </div>
     );
   }

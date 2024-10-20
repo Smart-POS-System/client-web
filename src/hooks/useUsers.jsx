@@ -16,5 +16,10 @@ export function useUsers() {
 
   //console.log("Data", data);
   //console.log("Error", error);
-  return { isLoading, error, users: data?.data?.users };
+  return {
+    isLoading,
+    error,
+    users: data?.data?.users,
+    total: data?.data?.totalRecords,
+  };
 }

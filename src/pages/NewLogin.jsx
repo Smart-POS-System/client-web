@@ -16,15 +16,11 @@ function NewLogin() {
 
   return (
     <div className="h-screen w-full overflow-hidden relative">
-      <video
-        autoPlay
-        muted
-        loop
-        className="absolute z-10 w-full h-full object-cover"
-      >
-        <source src="/background.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      <img
+        src="/background.svg"
+        alt="background"
+        className="absolute z-0 w-full h-full object-cover"
+      />
 
       <div className="flex flex-col lg:flex-row items-center justify-center h-full w-full relative z-30 p-4 lg:p-0">
         <LoginComponent isValidated={isValidated} role={role} email={email} />

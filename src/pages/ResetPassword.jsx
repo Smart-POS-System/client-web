@@ -18,7 +18,6 @@ function ResetPassword() {
   const newPassword = watch("password");
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
     handlePasswordReset({
       password: data.password,
       passwordConfirm: data.passwordConfirm,

@@ -1,30 +1,30 @@
-/* Custom Table Styles for Customers Table */
-
 /* Table header styles */
+/* Ensure the table header has a light blue background */
+/* Ensure the table header has a darker blue background */
 .custom-table .ant-table-thead > tr > th {
-  background-color: #1e3a8a; /* Dark blue header */
-  color: #ffffff; /* White text */
+  background-color: #4682b4 !important; /* Steel blue header */
+  color: #ffffff !important; /* White text for contrast */
   text-align: center;
   transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
 }
 
 /* Table header hover effect */
 .custom-table .ant-table-thead > tr > th:hover {
-  background-color: #3a4bbd; /* Lighter blue on hover */
-  color: #ffffff; /* Ensure text remains white */
+  background-color: #5a9bd4 !important; /* Lighter blue on hover */
+  color: #ffffff !important; /* Keep text white */
   cursor: pointer; /* Pointer cursor to indicate interactivity */
 }
 
 /* Override Ant Design default sorting hover effect */
 .custom-table .ant-table-thead > tr > th.ant-table-column-has-sorters:hover {
-  background-color: #3a4bbd; /* Lighter blue on hover for sortable columns */
-  color: #ffffff; /* Ensure text remains white */
+  background-color: #5a9bd4 !important; /* Lighter blue for sortable columns on hover */
+  color: #ffffff !important; /* Keep text white */
 }
 
 /* Table header active or clicked state (sorted) */
 .custom-table .ant-table-thead > tr > th.ant-table-column-sort {
-  background-color: #4b5dcc; /* Darker blue when sorted */
-  color: #ffffff; /* White text */
+  background-color: #4169e1 !important; /* Royal blue when sorted */
+  color: #ffffff !important; /* White text */
 }
 
 /* Table body styles */

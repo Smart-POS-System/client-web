@@ -4,12 +4,12 @@ import UsersOverview from "./UsersOverview";
 
 const AdminDashboard = () => {
   return (
-    <div className="m-4 overflow-y-scroll">
+    <div>
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         Dashboard
       </h1>
       <div className="flex flex-col gap-10">
-        <IncomeOverview />
+        {/* <IncomeOverview /> */}
         <UsersOverview />
       </div>
     </div>

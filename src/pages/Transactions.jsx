@@ -34,7 +34,7 @@ const items = [
 
 function Transaction() {
   return (
-    <div className="m-4">
+    <div>
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
         View Transactions
       </h1>
