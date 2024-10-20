@@ -1,9 +1,9 @@
-import { Button, Flex } from "antd";
+import { Button, Flex, theme } from "antd";
 
 function InventoryOptions({ onClickAddStock }) {
-  // const {
-  //   token: { colorBgContainer, borderRadiusLG },
-  // } = theme.useToken();
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
 
   return (
     <div className="py-0">

@@ -9,6 +9,9 @@ import {
   UnorderedListOutlined,
   AppstoreAddOutlined,
   FileTextOutlined,
+  ClockCircleOutlined,
+  ClusterOutlined,
+  ApartmentOutlined,
   FieldTimeOutlined,
   AlertOutlined,
   WarningOutlined,
@@ -57,22 +60,34 @@ function NavigationBar() {
       ? getItem("My Profile", "/view", <UserOutlined />)
       : null,
     getItem("Products", "sub2", <ProductOutlined />, [
-      getItem("See All Products", "/products", <UnorderedListOutlined />),
+      getItem("All Products", "/products", <UnorderedListOutlined />),
       getItem("Add New Product", "/create-product", <PlusCircleOutlined />),
     ]),
     getItem("Items", "sub3", <ProductOutlined />, [
       getItem("All Items", "/items", <UnorderedListOutlined />),
       getItem("Add New Item", "/create-item", <AppstoreAddOutlined />),
     ]),
-    getItem("Stocks", "sub4", <ProductOutlined />, [
-      getItem("All Stocks", "/stock", <UnorderedListOutlined />),
+    getItem("Expiry Stocks", "sub4", <ClockCircleOutlined />, [
+      getItem("Expiring Stocks", "/expiring", <UnorderedListOutlined />),
+      getItem("Expired Stocks", "/expired", <UnorderedListOutlined />),
+    ]),
+    getItem("Stocks", "sub5", <ProductOutlined />, [
+      getItem("All Stock", "/stock", <UnorderedListOutlined />),
       getItem("Add New Stock", "/create-stock", <AppstoreAddOutlined />),
     ]),
-    getItem("Expiry Information", "sub5", <FieldTimeOutlined />, [
+    getItem("Expiry Information", "sub6", <FieldTimeOutlined />, [
       getItem("Expired Stocks", "/expired-stocks", <WarningOutlined />),
       getItem("Expiring Stocks", "/expiring-stocks", <AlertOutlined />),
     ]),
     getItem("Transactions", "/transactions", <TransactionOutlined />),
+    user.role === "General Manager" ||
+    user.role === "Regional Manager" ||
+    user.role === "Inventory Manager"
+      ? getItem("Locations", "sub7", <ClusterOutlined />, [
+          getItem("Regions", "/regions", <ApartmentOutlined />),
+          getItem("Locations", "/locations", <ApartmentOutlined />),
+        ])
+      : null,
 
     user?.role === "Cashier"
       ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)

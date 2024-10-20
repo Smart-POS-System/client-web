@@ -5,14 +5,15 @@ import BuyingPrice from "./BuyingPrice";
 import SellingPrice from "./SellingPrice";
 import { useForm } from "react-hook-form";
 import { Button } from "antd";
-import MfdExp from "./MfdExp";
-import axiosInstance from "../api/axiosConfig";
+import axiosInstance from "../api/axiosConfig_Product";
 import toast from "react-hot-toast";
-import Item from "./Item";
+import Items from "./Items";
+import Barcode from "./Barcode";
 import Quantity from "./Quantity";
-import BarcodeNo from "./BarcodeNo";
+import { useUserData } from "../context/userContext";
 
 const AddStockForm = () => {
+  const { fullUser: user } = useUserData();
   const {
     control,
     formState: { errors, isValid },
@@ -22,28 +23,36 @@ const AddStockForm = () => {
 
   async function onSubmit(data) {
     try {
+      console.log(user);
+
       // For now, add post to database logic here, but should be abstracted using api/api.js
       const formData = new FormData();
 
-      const formattedMFD = data?.mfdExp[0]?.toISOString().slice(0, 10);
-      const formattedEXP = data?.mfdExp[1]?.toISOString().slice(0, 10);
+      formData.append("item_id", data?.item_id);
+      formData.append("barcode", data?.barcode);
+      formData.append("quantity", data?.quantity);
+      formData.append("location_id", user.location.location_id);
+      formData.append("manager_id", user.employee_id);
 
-      formData.append("product_id", data?.product_id);
-      formData.append("buying_price", data?.buying_price);
-      formData.append("selling_price", data?.selling_price);
-      formData.append("mfd", formattedMFD);
-      formData.append("exp", formattedEXP);
-
-      if (data?.batch_no) {
-        formData.append("batch_no", data.batch_no);
+      // Log the FormData entries
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
       }
+
+      // Optionally, if you want to convert FormData to an object for easier logging
+      const formDataObject = {};
+      formData.forEach((value, key) => {
+        formDataObject[key] = value;
+      });
+      console.log("Form Data as Object:", formDataObject);
 
       const savePromise = axiosInstance({
         method: "post",
-        url: `http://localhost:49160/items`,
-        data: formData,
+        url: `http://localhost:3010/addStock`,
+        data: formDataObject,
         headers: {
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
         withCredentials: true,
       });
@@ -68,11 +77,11 @@ const AddStockForm = () => {
       const response = await savePromise;
 
       reset({
-        product_id: "",
-        batch_no: "",
-        buying_price: "",
-        selling_price: "",
-        mfdExp: ["", ""],
+        item_id: "",
+        barcode: "",
+        quantity: "",
+        location_id: "",
+        manager_id: "",
       });
     } catch (error) {
       console.log(error);
@@ -82,25 +91,27 @@ const AddStockForm = () => {
   function handleClear() {
     reset({
       item_id: "",
+      barcode: "",
       quantity: "",
-      barcode_no: "",
+      location_id: "",
+      manager_id: "",
     });
   }
 
   return (
     <>
       <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
-        <strong>Add Specific Stock</strong>
+        <strong>Add New Stock</strong>
       </h1>
-      <div className="container">
+      <div className="container mx-auto">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="min-w-[675px]:w-9/12"
         >
           <div className="space-y-4">
-            <Item errors={errors} control={control} item="" />
+            <Items errors={errors} control={control} item="" />
+            <Barcode errors={errors} control={control} barcode="" />
             <Quantity errors={errors} control={control} quantity="" />
-            <BarcodeNo errors={errors} control={control} barcode_no="" />
           </div>
           <div className="flex gap-4 mt-8">
             <Button type="default" htmlType="reset" onClick={handleClear}>

@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import PageNotFound from "./pages/PageNotFound";
-import AppLayout from "./pages/AppLayout";
 import { Suspense, useEffect } from "react";
 import { Tooltip, initTWE } from "tw-elements";
 import UserProvider from "./context/userContext";
@@ -29,6 +28,8 @@ import StockList from "./components/StockList";
 import ExpiredStocksTable from "./components/ExpiredStocksTable";
 import ExpiringStocksTable from "./components/ExpiringStocksTable";
 import AddStockForm from "./components/AddStockForm";
+import Locations from "./components/Locations";
+import Regions from "./components/Regions";
 
 function App() {
   useEffect(() => {
@@ -81,18 +82,14 @@ function App() {
                   <Route path="transactions" element={<Transaction />} />
                   <Route path="products" element={<AllProducts />} />
                   <Route path="items" element={<AllItems />} />
-                  <Route path="stock" element={<StockList />} />
+                  <Route path="stocks" element={<StockList />} />
                   <Route path="create-product" element={<CreateProduct />} />
                   <Route path="create-item" element={<CreateItem />} />
                   <Route path="create-stock" element={<AddStockForm />} />
-                  <Route
-                    path="expired-stocks"
-                    element={<ExpiredStocksTable />}
-                  />
-                  <Route
-                    path="expiring-stocks"
-                    element={<ExpiringStocksTable />}
-                  />
+                  <Route path="expiring" element={<ExpiringStocksTable />} />
+                  <Route path="expired" element={<ExpiredStocksTable />} />
+                  <Route path="regions" element={<Regions />} />
+                  <Route path="locations" element={<Locations />} />
                 </Route>
                 <Route path="login" element={<NewLogin />} />
                 <Route path="reset/:token" element={<ResetPassword />} />

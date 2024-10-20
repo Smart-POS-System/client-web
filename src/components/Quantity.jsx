@@ -17,10 +17,10 @@ const Quantity = ({ errors, control, quantity }) => {
           defaultValue={quantity}
           control={control}
           rules={{
-            required: false,
+            required: "Quantity is required",
             pattern: {
-              value: /^[0-9]*$/,
-              message: "Quantity can only contain numbers.",
+              value: /^(0(\.[0-9]{1,3})?|[1-9][0-9]*(\.[0-9]{1,3})?)$/,
+              message: "Quantity must be positive.",
             },
           }}
           render={({ field }) => (

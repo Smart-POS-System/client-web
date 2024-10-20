@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Popconfirm, Button } from "antd";
+import { Table, Popconfirm, Button, Form } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import InventoryOptions from "./InventoryOptions";

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table, Pagination, Typography } from "antd";
-// import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
+import { Table, Pagination, Typography, Button } from "antd";
+import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
+import { BarcodeOutlined, CloseSquareOutlined } from "@ant-design/icons";
+import Search from "antd/es/input/Search";
+import RefreshButton from "./RefreshButton";
+import Column from "antd/es/table/Column";
+import { useUserData } from "../context/userContext";
 
 const { Title } = Typography;
 
@@ -122,73 +127,143 @@ const expiringSoonStocks = [
 ];
 
 const ExpiringStocksTable = () => {
-  const pageSize = 5;
-  const [expiringStocks, setExpiringStocks] = useState(expiringSoonStocks);
+  const pageSize = 10;
+  const [location, setLocation] = useState(1);
+  const [expiringStocks, setExpiringStocks] = useState();
+  const [totalStocks, setTotalStocks] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchExpiring = async () => {
-  //     setLoading(true);
-  //     const data = {
-  //       location_id: 1,
-  //       type: "expiring",
-  //       pageSize: pageSize,
-  //       current_page: currentPage,
-  //     };
+  const { fullUser: user } = useUserData();
 
-  //     try {
-  //       const expiringResponse = await axiosInstance_inventory.post(
-  //         "/expires",
-  //         data
-  //       );
-  //       // console.log(expiringResponse.data);
+  // { "type":"expired", "role":"Inventory Manager", "location_id":1, "page_size":10, "current_page":1 }
 
-  //       setExpiringStocks(expiringResponse.data.stocks);
-  //     } catch (error) {
-  //       console.log(error);
-  //       setError("Failed to fetch expiring stocks.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  const fetchExpiring = async () => {
+    setLoading(true);
+    const data = {
+      type: "expiring",
+      role: user.role,
+      location_id: location,
+      page_size: pageSize,
+      current_page: currentPage,
+    };
 
-  //   fetchExpiring();
-  // }, []);
+    try {
+      const expiringResponse = await axiosInstance_inventory.post(
+        "/expires",
+        data
+      );
+      // console.log(expiringResponse.data);
+
+      setExpiringStocks(expiringResponse.data.stocks);
+      setTotalStocks(expiringResponse.data.expiringCount);
+      console.log(expiringResponse.data.stockCount);
+    } catch (error) {
+      console.log(error);
+      setError("Failed to fetch expiring stocks.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchExpiring();
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchExpiring();
+  }, [currentPage]);
 
   const handleDelete = (stockId) => {
     console.log("Deleting stock ", stockId, " from expiring stocks");
     // Implement delete logic here
   };
 
+  const handleRefresh = () => {
+    setLoading(true);
+    fetchExpiring();
+  };
+
   return (
     // <div className="mb-5 border border-amber-400 bg-amber-100 rounded-lg overflow-hidden">
-    <div className="mb-5 rounded-lg overflow-hidden">
-      <h1 className="text-2xl font-bold font-poppins mb-4 md:text-left text-center">
-        <strong>Expiring Stocks</strong>
-      </h1>
+    <div className=" rounded-lg overflow-hidden">
+      <div className=" mb-5">
+        <div className=" pt-5 flex justify-between">
+          <h2 className="text-lg font-poppins font-semibold">
+            Expiring Stocks
+          </h2>
+          <RefreshButton onRefresh={handleRefresh} />
+        </div>
+        <div className="pt-5 flex gap-5">
+          <Search
+            placeholder="Search by Product Name"
+            // value={searchNameText}
+            onChange={(e) => {
+              // setSearchNameText(e.target.value);
+            }}
+            // onSearch={onNameSearch}
+          />
+          <Search
+            placeholder="Search by Barcode"
+            // value={searchBarcodeText}
+            onChange={(e) => {
+              // setSearchBarcodeText(e.target.value);
+            }}
+            // onSearch={onBarcodeSearch}
+          />
+          <Button
+            className=" w-1/6"
+            onClick={() => {
+              // setIsBarcodeModalVisible(true);
+            }}
+          >
+            <BarcodeOutlined />
+            {" Scan Barcode"}
+          </Button>
+          <Button
+            color="default"
+            className=" w-1/6"
+            onClick={() => {
+              // handleClearFilters();
+            }}
+          >
+            <CloseSquareOutlined />
+            {" Clear Filters"}
+          </Button>
+        </div>
+      </div>
       <Table
-        // pagination={false}
-        columns={columns}
-        pagination={{
-          current: 1,
-          pageSize: 10,
-          showSizeChanger: false,
-          position: ["bottomRight"],
-          style: { display: "flex", justifyContent: "center" },
-        }}
-        pageSize={pageSize}
-        dataSource={expiringStocks}
-        rowKey={(stock) => stock?.stock_id}
+        bordered
+        size="middle"
+        pagination={false}
+        // pagination={{
+        //   current: 1,
+        //   pageSize: 10,
+        //   showSizeChanger: false,
+        //   position: ["bottomCenter"],
+        //   style: { display: "flex", justifyContent: "center" },
+        // }}
+        // size="medium"
         loading={loading}
-      />
-      {/* <Pagination
+        // columns={columns}
+        dataSource={expiringStocks}
+      >
+        <Column title="Barcode" dataIndex="barcode" width="25%" />
+        <Column title="Product Name" dataIndex="product_name" width="25%" />
+        <Column title="Batch Number" dataIndex="batch_no" width="15%" />
+        <Column title="Quantity" dataIndex="quantity" width="10%" />
+        <Column title="Expiry Date" dataIndex="exp" width="25%" />
+      </Table>
+      <Pagination
         className="py-5 justify-center"
+        total={totalStocks}
         current={currentPage}
         pageSize={pageSize}
         onChange={(page) => setCurrentPage(page)}
-      /> */}
+      />
     </div>
   );
 };

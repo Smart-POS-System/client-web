@@ -1,4 +1,4 @@
-import { Flex } from "antd";
+import { Flex, theme } from "antd";
 import CompactCard from "./CompactCard";
 
 function InventoryInfo() {
