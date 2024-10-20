@@ -76,7 +76,9 @@ function NavigationBar() {
     user.role === "Regional Manager" ||
     user.role === "Inventory Manager"
       ? getItem("Locations", "sub4", <ClusterOutlined />, [
-          getItem("Regions", "/regions", <ApartmentOutlined />),
+          user.role === "General Manager" || user.role === "Regional Manager"
+            ? getItem("Regions", "/regions", <ApartmentOutlined />)
+            : null,
           getItem("Locations", "/locations", <ApartmentOutlined />),
         ])
       : null,
