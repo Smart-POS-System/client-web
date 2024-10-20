@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "antd";
+import { Button, theme } from "antd";
 import Name from "./Name";
 import Role from "./Role";
 import Email from "./Email";
@@ -101,67 +101,95 @@ function UserForm({
   if (isLoading || isUpdating || isImageUploading) {
     return <HourGlass />;
   }
-
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
   return (
     <>
-      {!isLoggedUser && (
-        <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
-          <strong>
-            {updatingUser
-              ? "Update User Details"
-              : currentUser.role !== "Cashier"
-              ? "Add New User"
-              : "Add New Customer"}
-          </strong>
-        </h1>
-      )}
-      <div className="container mx-auto p-4">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 min-w-[675px]:w-9/12"
-        >
-          {!isLoggedUser && (
-            <Name
-              errors={errors}
-              control={control}
-              role={user?.name}
-              currentUserRole={currentUser.role}
-            />
-          )}
-          {!isLoggedUser && currentUser.role !== "Cashier" && (
-            <Role errors={errors} control={control} role={user?.role} />
-          )}
-          {!isLoggedUser && currentUser.role === "Cashier" && (
-            <Address errors={errors} control={control} />
-          )}
-          {!isLoggedUser && currentUser.role !== "Cashier" && (
-            <Email errors={errors} control={control} role={user?.email} />
-          )}
-          {!isLoggedUser && (
-            <Phone
-              errors={errors}
-              control={control}
-              phone={user?.mobile}
-              isLoggedUser={isLoggedUser}
-            />
-          )}
-          {!isLoggedUser && currentUser.role !== "Cashier" && (
-            <>
-              <UserImage
-                onImageChange={onImageChange}
-                reset={resetImage}
-                image={imageFile}
+      <div
+        className="p-6 min-h-[360px] ml-1 h-[800px]"
+        style={{
+          background: `linear-gradient(150deg, #ffffff, #ffffff)`,
+          borderRadius: borderRadiusLG,
+        }}
+      >
+        {!isLoggedUser && (
+          <h1 className="text-2xl font-bold font-poppins m-4 md:text-left text-center">
+            <strong>
+              {updatingUser
+                ? "Update User Details"
+                : currentUser.role !== "Cashier"
+                ? "Add New User"
+                : "Add New Customer"}
+            </strong>
+          </h1>
+        )}
+        <div className="container mx-auto p-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 min-w-[675px]:w-9/12"
+          >
+            {!isLoggedUser && (
+              <Name
+                errors={errors}
+                control={control}
+                role={user?.name}
+                currentUserRole={currentUser.role}
               />
+            )}
+            {!isLoggedUser && currentUser.role !== "Cashier" && (
+              <Role errors={errors} control={control} role={user?.role} />
+            )}
+            {!isLoggedUser && currentUser.role === "Cashier" && (
+              <Address errors={errors} control={control} />
+            )}
+            {!isLoggedUser && currentUser.role !== "Cashier" && (
+              <Email errors={errors} control={control} role={user?.email} />
+            )}
+            {!isLoggedUser && (
+              <Phone
+                errors={errors}
+                control={control}
+                phone={user?.mobile}
+                isLoggedUser={isLoggedUser}
+              />
+            )}
+            {!isLoggedUser && currentUser.role !== "Cashier" && (
+              <>
+                <UserImage
+                  onImageChange={onImageChange}
+                  reset={resetImage}
+                  image={imageFile}
+                />
 
-              <div className="flex justify-center gap-4 mt-4">
-                {isLoggedUser ? (
-                  <Button onClick={handleProfileUpdate}>Cancel</Button>
-                ) : (
-                  <Button type="default" htmlType="reset" onClick={handleClear}>
-                    Clear All
+                <div className="flex justify-center gap-4 mt-4">
+                  {isLoggedUser ? (
+                    <Button onClick={handleProfileUpdate}>Cancel</Button>
+                  ) : (
+                    <Button
+                      type="default"
+                      htmlType="reset"
+                      onClick={handleClear}
+                    >
+                      Clear All
+                    </Button>
+                  )}
+
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={!isValid || isLoading || isUpdating}
+                  >
+                    Submit
                   </Button>
-                )}
-
+                </div>
+              </>
+            )}
+            {!isLoggedUser && currentUser.role === "Cashier" && (
+              <div className="flex justify-center gap-4 mt-4">
+                <Button type="default" htmlType="reset" onClick={handleClear}>
+                  Clear All
+                </Button>
                 <Button
                   type="primary"
                   htmlType="submit"
@@ -170,24 +198,10 @@ function UserForm({
                   Submit
                 </Button>
               </div>
-            </>
-          )}
-          {!isLoggedUser && currentUser.role === "Cashier" && (
-            <div className="flex justify-center gap-4 mt-4">
-              <Button type="default" htmlType="reset" onClick={handleClear}>
-                Clear All
-              </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={!isValid || isLoading || isUpdating}
-              >
-                Submit
-              </Button>
-            </div>
-          )}
-        </form>
-        {isLoggedUser && <PasswordUpdate />}
+            )}
+          </form>
+          {isLoggedUser && <PasswordUpdate />}
+        </div>
       </div>
     </>
   );

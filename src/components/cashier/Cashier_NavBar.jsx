@@ -79,11 +79,11 @@ function Cashier_NavBar() {
     //   getItem("See All Items", "/items", <UnorderedListOutlined />),
     //   getItem("Add Specific Item", "/create-item", <PlusCircleOutlined />),
     // ]),
-    getItem(
-      t("cashier_nav.Transactions"),
-      "/transactions",
-      <TransactionOutlined />
-    ),
+    // getItem(
+    //   t("cashier_nav.Transactions"),
+    //   "/transactions",
+    //   <TransactionOutlined />
+    // ),
 
     user?.role === "Cashier"
       ? getItem(

@@ -112,7 +112,7 @@ function LanguageSelector() {
             alt={items.find((item) => item.key === selected).label.name}
             style={{ width: 20, marginRight: 8 }}
           />
-          select
+          {/* select */}
           {items.find((item) => item.key === selected).label.name}
           <DownOutlined />
         </Space>

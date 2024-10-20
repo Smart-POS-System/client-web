@@ -68,9 +68,10 @@ function CashierLayout() {
         >
           <Header
             className="p-0 md:h-20 h-14 w-full flex flex-row items-center justify-center  "
+            theme="light"
             style={{
               position: "sticky",
-              backgroundColor: "#f0f0f5",
+              backgroundColor: "#ffff",
               color: "#333333",
               overflow: "hidden",
             }}
@@ -91,7 +92,7 @@ function CashierLayout() {
             className="w-full p-6 min-h-[360px] "
             style={{
               flex: 1,
-
+              //background: "#fcfcfc",
               padding: "24px",
               overflowY: "auto",
             }}
@@ -104,6 +105,7 @@ function CashierLayout() {
               }}
             > */}
             <Outlet />
+
             {/* </div> */}
           </Content>
           <Footer className="text-center h-10 flex justify-center items-center">
