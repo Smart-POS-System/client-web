@@ -1,19 +1,27 @@
 import { DownOutlined, SwapOutlined } from "@ant-design/icons";
-import { Divider, Input, InputNumber, Modal, message } from "antd";
+import { Divider, Input, InputNumber, Modal } from "antd";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { axiosInstance_inventory } from "../api/axiosConfig_Inventory";
 
-const locations = [
-  { location_id: "1", name: "Mirigama" },
-  { location_id: "2", name: "Gampaha" },
-  { location_id: "3", name: "Moratuwa" },
-  { location_id: "4", name: "Piliyandala" },
-];
 
 const StockTransferModal = ({ transferStock, isVisible, onOk, onCancel }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [transferQuantity, setTransferQuantity] = useState(0);
+
+  const fetchLocations = async () => {
+    setIsLoading(true);
+    const locationResponse = await axiosInstance_inventory.get("/locations");
+    setLocations(locationResponse.data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchLocations();
+  }, []);
 
   useEffect(() => {
     setTransferQuantity(0);
@@ -25,15 +33,17 @@ const StockTransferModal = ({ transferStock, isVisible, onOk, onCancel }) => {
 
   const handleOk = () => {
     // Validation for required fields
-    if (!selectedLocation || transferQuantity <= 0) {
+    if (!selectedLocation.location_id || transferQuantity <= 0) {
       toast.error("Sending location and Transfering Quantity are required.");
       return;
     }
 
     // Call the onOk function with the selected values
     onOk({
-      selectedLocation,
-      transferQuantity,
+      stockId: transferStock.stock_id,
+      qty: transferQuantity,
+      src: transferStock.location_id,
+      dest: selectedLocation.location_id,
     });
     // Reset the state if needed
     setSelectedLocation(null);
@@ -41,13 +51,14 @@ const StockTransferModal = ({ transferStock, isVisible, onOk, onCancel }) => {
   };
 
   const handleLocationSelect = (location) => {
-    console.log(location);
-    setSelectedLocation(location.name);
+    // console.log(location);
+    setSelectedLocation(location);
     setIsOpen(false);
   };
   return (
     <Modal
       centered
+      loading={isLoading}
       visible={isVisible}
       okText="Transfer"
       onOk={handleOk}
@@ -96,7 +107,9 @@ const StockTransferModal = ({ transferStock, isVisible, onOk, onCancel }) => {
                   onClick={toggleDropdown}
                 >
                   <span className="m-0">
-                    {selectedLocation ? selectedLocation : "Select Location"}
+                    {selectedLocation
+                      ? selectedLocation.name
+                      : "Select Location"}
                   </span>
                   <DownOutlined />
                 </button>
@@ -109,7 +122,7 @@ const StockTransferModal = ({ transferStock, isVisible, onOk, onCancel }) => {
                       )
                       .map((location) => (
                         <div
-                          key={location.key}
+                          key={location.location_id}
                           className="p-2 hover:bg-gray-200 cursor-pointer"
                           onClick={() => handleLocationSelect(location)}
                         >
