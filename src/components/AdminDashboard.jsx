@@ -9,7 +9,7 @@ const AdminDashboard = () => {
         Dashboard
       </h1>
       <div className="flex flex-col gap-10">
-        {/* <IncomeOverview /> */}
+        <IncomeOverview />
         <UsersOverview />
       </div>
     </div>

@@ -10,6 +10,7 @@ import SalesPurchaseChart from "./SalesPurchaseChart";
 import { useEffect, useState } from "react";
 import TopSellingProductsChart from "./TopSellingProducts";
 import MostPurchasedProductsChart from "./MostPurchasedProducts";
+import { useQuery } from "react-query";
 
 function IncomeOverview() {
   const today = new Date();
