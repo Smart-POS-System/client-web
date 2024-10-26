@@ -128,6 +128,7 @@ const expiringSoonStocks = [
 
 const ExpiringStocksTable = () => {
   const pageSize = 10;
+  const [region, setRegion] = useState({});
   const [location, setLocation] = useState(1);
   const [expiringStocks, setExpiringStocks] = useState();
   const [totalStocks, setTotalStocks] = useState();
@@ -138,6 +139,23 @@ const ExpiringStocksTable = () => {
   const { fullUser: user } = useUserData();
 
   // { "type":"expired", "role":"Inventory Manager", "location_id":1, "page_size":10, "current_page":1 }
+
+  const fetchRegion = async () => {
+    const data = { location_id: user.location.location_id };
+    try {
+      setLoading(true);
+      const regionResponse = await axiosInstance_inventory.post(
+        "/region",
+        data
+      );
+      setRegion(regionResponse.data);
+    } catch (error) {
+      setError(error);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchExpiring = async () => {
     setLoading(true);
@@ -192,9 +210,20 @@ const ExpiringStocksTable = () => {
     <div className=" rounded-lg overflow-hidden">
       <div className=" mb-5">
         <div className=" pt-5 flex justify-between">
-          <h2 className="text-lg font-poppins font-semibold">
-            Expiring Stocks
-          </h2>
+          <div>
+            <h2 className="text-lg font-poppins font-semibold">
+              Expiring Stocks
+            </h2>
+            <h2 className="text-md text-gray-500 font-poppins ">
+              All Regions
+              {user.role === "General Manager"
+                ? null
+                : ` / ${region.name} Region`}
+              {user.role === "Regional Manager"
+                ? null
+                : ` / ${user.location.name}`}
+            </h2>
+          </div>
           <RefreshButton onRefresh={handleRefresh} />
         </div>
         <div className="pt-5 flex gap-5">

@@ -162,7 +162,14 @@ const StockList = () => {
     setIsTransferModalVisible(true);
   };
 
-  const handleTransferModalOk = () => {
+  const handleTransferModalOk = async ({ stockId, src, dest, qty }) => {
+    const data = { stockId: stockId, qty: qty, src: src, dest: dest };
+
+    try {
+      await axiosInstance_inventory.post("/sendStock", data);
+    } catch (error) {
+      setError(error);
+    }
     setIsTransferModalVisible(false);
   };
 
