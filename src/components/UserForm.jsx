@@ -83,8 +83,17 @@ function UserForm({
     };
 
     if (currentUser.role === "Cashier") {
-      //console.log("Adding address to user data:", newUser);
+      console.log("Adding address to user data:", newUser);
       handleAddCustomer(newUser);
+      reset({
+        name: "",
+        role: "",
+        email: "",
+        phone: "",
+        address: "", // Assuming there is an address field as well
+      });
+      setImageFile(null);
+      setIsImageRemoved(false);
     } else if (updatingUser) {
       // console.log("Updating user with data:", newUser);
       handleUpdateUser(newUser);

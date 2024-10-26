@@ -17,24 +17,54 @@ import calculateTotalBill from "../../helpers/getBillSum";
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../selector/languageSel";
+import axiosInstance from "../../api/axiosConfig";
+import { runes } from "runes2";
 
 const BillSider = ({ value, setValue }) => {
   const { t } = useTranslation(["cashier"]); // Use the translation hook
   const [customer, setCustomer] = useState("");
   const [phone, setPhone] = useState("");
+  const [validPhone, setValidPhone] = useState(false);
+  const [customerData, setCustomerData] = useState({});
 
   const sum = calculateTotalBill(value);
 
-  const handleCustomerChange = (e) => {
+  const handleCustomerChange = async (e) => {
     const inputValue = e.target.value;
     setCustomer(inputValue);
 
     // Backend logic or validation
-    if (inputValue === "077121212") {
-      // Example condition: when customer input is "0"
-      setPhone("success");
+    if (inputValue.length === 10) {
+      try {
+        // If the phone number is valid, make an API call to get user data
+        console.log(customer);
+        setValidPhone((validPhone) => true);
+        const response = await axiosInstance.get(
+          `customers/getCustomerByMobile`,
+          {
+            params: { mobile: inputValue }, // Send mobile number as query parameter
+          }
+        );
+        console.log(response);
+        console.log(validPhone);
+        if (response.status === 200) {
+          // Do something with the user data, for example, update the state
+          setCustomerData(response.data); // Assuming you have a state for storing customer data
+          setPhone("success");
+          console.log("customer data:", customerData.data);
+        } else if (response.data && validPhone) {
+          // Handle case when user data is not found
+          setPhone("warning");
+        } else {
+          setPhone("error");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setPhone("error"); // Handle error (e.g., invalid number or API error)
+      }
     } else {
-      setPhone("warning"); // Reset the validation status if the condition is not met
+      setValidPhone(false);
+      setPhone("warning");
     }
   };
 
@@ -64,30 +94,18 @@ const BillSider = ({ value, setValue }) => {
               value={customer}
               onChange={handleCustomerChange}
               size="medium"
+              type="number"
+              min={0}
+              count={{
+                show: true,
+                max: 10,
+                // strategy: (txt) => runes(txt).length,
+                // exceedFormatter: (txt, { max }) =>
+                //   runes(txt).slice(0, max).join(""),
+              }}
               style={{ backgroundColor: "#fafafa", flexGrow: 1 }} // Adjust the input to fill the remaining space
             />
           </div>
-          {/* <Input
-            placeholder="your phone number"
-            prefix={<PhoneOutlined />}
-            value={customer}
-            onChange={(e) => setCustormer(e.target.value)}
-            onPressEnter={handleCustomer(value)}
-            size="medium"
-            style={{ backgroundColor: "#fafafa" }} // Adjust the background color to match the design
-            suffix={
-              <Button
-                type="primary"
-                value={customer}
-                onChange={(e) => setCustormer(e.target.value)}
-                onPressEnter={handleCustomer(value)}
-              > */}
-          {/* {customer} */}
-          {/* <UserAddOutlined /> */}
-          {/* Add Customer */}
-          {/* </Button>
-            }
-          /> */}
         </Form.Item>
         {/* <hr className="mb-4" /> */}
         <div className="flex items-center mb-4">
@@ -110,52 +128,12 @@ const BillSider = ({ value, setValue }) => {
               className="w-3/4"
               placeholder="25%"
               prefix={<FireOutlined />}
-              // suffix={
-              //   <Button type="primary">
-              //     <FireFilled />
-              //   </Button>
-              // }
               size="medium"
               style={{ backgroundColor: "#fafafa" }} // Adjust the background color to match the design
             />
           </div>
         </Form.Item>
       </Form>
-      {/* <div className="flex justify-end">
-        <Space>
-          <Space.Compact size="medium" className="w-full">
-            <Input
-              className="w-full"
-              placeholder="Add Promo Code"
-              value={customer}
-              onChange={(e) => setCustormer(e.target.value)}
-              onPressEnter={handleCustomer(value)}
-            />
-
-            <Button
-              type="primary"
-              value={customer}
-              onChange={(e) => setCustormer(e.target.value)}
-              onPressEnter={handleCustomer(value)}
-            >
-              {/* {customer} */}
-      {/* <UserAddOutlined /> */}
-      {/* Add Customer */}
-      {/* </Button> */}
-      {/* </Space.Compact>
-        </Space>
-      </div> */}
-      {/* <div className="mt-5 w-full flex justify-end">
-        <Space>
-          <Space.Compact size="medium">
-            <Input placeholder="Add Promo Code" />
-
-            <Button type="primary">
-              <FireFilled />
-            </Button>
-          </Space.Compact>
-        </Space>
-      </div> */}
 
       <div className="mt-5">
         <div
@@ -181,7 +159,7 @@ const BillSider = ({ value, setValue }) => {
             // borderRadius: borderRadiusLG,
           }}
         >
-          <Payment sum={sum} value={value} />
+          <Payment customerData={customerData.data} sum={sum} value={value} />
         </div>
       </div>
     </div>

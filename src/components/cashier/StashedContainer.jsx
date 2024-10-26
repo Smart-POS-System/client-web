@@ -28,42 +28,6 @@ function StashedContainer({
   };
 
   return (
-    // <div className=" p-5 border-s border-e max-w-96 rounded-lg content-between hover:shadow-xl">
-    //   <div className="flex">
-    //     <div className=" pr-2 min-w-48">
-    //       <div className="flex text-lg">
-    //         {/* <div className=" font-bold w-20">Bill: </div> */}
-    //         <div className=" font-bold">{billId}</div>
-    //       </div>
-    //       <div className="flex text-sm font-light text-gray-600">
-    //         <div className=" w-20">Customer: </div>
-    //         <div>{customerName}</div>
-    //       </div>
-    //       <div className="flex text-gray-600">
-    //         <div className=" w-20 text-sm font-light">Total: </div>
-    //         <div className=" text-sm font-bold">Rs: {totalAmount}</div>
-    //       </div>
-    //       <div className="flex mt-6 text-xs font-light text-gray-400">
-    //         <div className=" min-w-16">Stashed on: </div>
-    //         <div>{stashedOn}</div>
-    //       </div>
-    //     </div>
-    //     <div className="flex flex-col min-w-28 items-center justify-center">
-    //       <div className=" w-20 h-20 mb-2">
-    //         <img className=" w-20 h-20" src={userProfile} alt="user profile" />
-    //       </div>
-    //       <div className="flex">
-    //         <Button className=" bg-slate-100 mr-2" size="small" type="danger">
-    //           Remove
-    //         </Button>
-    //         <Button className=" mr-2" size="small" type="primary">
-    //           Proceed
-    //         </Button>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-
     <div
       className="p-5 border  rounded-lg hover:shadow-xl"
       style={{ borderColor: "#1677ff" }}

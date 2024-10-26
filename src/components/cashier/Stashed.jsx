@@ -482,7 +482,7 @@ function Stashed() {
 
   useEffect(() => {
     handleLoad(); // Load bills data on component mount
-  }, [pendingBills]);
+  }, []);
 
   return (
     <>

@@ -542,6 +542,7 @@ const SearchItem = (props) => {
         imageUrl: imageUrls[getRandomNumber(10)], // Default placeholder
         // imageUrl: "/shoe.png", // Default placeholder
       }));
+      console.log(productsData);
       setProducts(productsData);
       setFilteredData(productsData);
     } catch (error) {

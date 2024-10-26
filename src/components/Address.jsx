@@ -10,7 +10,7 @@ function Address({ errors, control }) {
           htmlFor="address"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Address
+          Email Address
         </label>
         <Controller
           name="address"

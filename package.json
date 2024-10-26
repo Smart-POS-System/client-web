@@ -37,6 +37,7 @@
     "react-spinners": "^0.14.1",
     "react-spring": "^9.7.4",
     "recharts": "^2.12.7",
+    "runes2": "^1.1.4",
     "tw-elements": "^2.0.0",
     "tw-elements-react": "^1.0.0-alpha-end",
     "web-vitals": "^2.1.4"

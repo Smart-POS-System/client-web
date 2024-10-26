@@ -446,10 +446,18 @@ import axiosInstance_sales from "../../api/axiosConfig_Sales";
 import { useUserData } from "../../context/userContext";
 import Stash from "./StashBill";
 import { useTranslation } from "react-i18next";
+import axiosInstance from "../../api/axiosConfig";
 
 const { Title, Text } = Typography;
 
-const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
+const Payment = ({
+  sum,
+  value,
+  discount,
+  orderTax,
+  itemCount,
+  customerData,
+}) => {
   const { t } = useTranslation(["cashier"]); // Use the translation hook
   const [amountReceived, setAmountReceived] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
@@ -492,16 +500,14 @@ const Payment = ({ sum, value, discount, orderTax, itemCount }) => {
           icon: <DollarOutlined style={{ color: "#108ee9" }} />,
         });
         setIsModalOpen("true");
-        // return (
-        //   <Modal
-        //     title="Are you sure you want to Hold the bill?"
-        //     open="true"
-        //     // onOk={handleOk}
-        //     // onCancel={handleCancel}
-        //   >
-        //     <p className="my-8">checking out</p>
-        //   </Modal>
-        // );
+        console.log(data);
+        if (customerData && Object.keys(customerData).length > 0) {
+          const billResponse = await axiosInstance.post("/customers/sendBill", {
+            customerData,
+            data,
+          });
+        }
+
         setTimeout(() => window.location.reload(), 5000);
       }
     } catch (error) {

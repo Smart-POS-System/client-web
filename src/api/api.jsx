@@ -208,7 +208,7 @@ export async function resetPassword(token, data) {
 
 export async function addCustomer(data) {
   try {
-    const response = await axiosInstance.post(`/customers`, data);
+    const response = await axiosInstance.post(`/customers/addCustomer`, data);
 
     if (response?.data) {
       return response.data.data;

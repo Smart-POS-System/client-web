@@ -1,13 +1,17 @@
 import { Button, Image, Input, Modal, Space } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScanOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { axiosInstance_inventory } from "../../api/axiosConfig_Inventory";
+import axiosInstance_product from "../../api/axiosConfig_Product";
 
 const AddSale = (props) => {
   const { t } = useTranslation(["cashier"]);
   const [barcode, setBarcode] = useState("");
   const [quantity, setQuantity] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -21,21 +25,73 @@ const AddSale = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = () => {
-    const newEntry = {
-      name: barcode,
-      quantity: quantity,
-      address: "Sample Address", // Sample address or replace it with actual data
-      key: Date.now().toString(), // Unique key for each entry
+  useEffect(() => {
+    // Fetch all products on component mount
+    const fetchProducts = async () => {
+      try {
+        const response = await axiosInstance_product.get("/items"); // Replace with your endpoint
+        const productsData = response.data.map((item) => ({
+          key: item.item_id,
+          name: item.product.product_name,
+          price: parseFloat(item.selling_price),
+          // Add other properties as needed
+        }));
+        setProducts(productsData); // Set fetched products in state
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
     };
 
-    // Pass an array of data objects to `props.setVariable`
-    props.setVariable((prevData) => [...prevData, newEntry]);
+    fetchProducts();
+  }, []); // Empty dependency array means this runs once when the component mounts
+  const handleSubmit = async () => {
+    // Find the product that matches the barcode
+    console.log("Products from add:", products);
+    console.log("Barcode entered:", barcode);
 
-    // Clear input fields after submission
-    setBarcode("");
-    setQuantity("");
+    // Check if quantity is a valid number
+    if (isNaN(quantity) || quantity <= 0) {
+      alert("Please enter a valid quantity."); // Popup alert for invalid quantity
+      return; // Exit the function early if quantity is invalid
+    }
+
+    const matchedProduct = products.find(
+      (product) => product.key.toString() === barcode
+    );
+
+    if (matchedProduct) {
+      const newEntry = {
+        name: matchedProduct.name,
+        quantity: parseInt(quantity, 10), // Ensure quantity is stored as a number
+        address: "Sample Address", // Replace with actual data if needed
+        key: Date.now().toString(), // Unique key for each entry
+        price: matchedProduct.price, // Assuming price is available
+      };
+
+      // Update parent state with new entry
+      props.setVariable((prevData) => [...prevData, newEntry]);
+
+      // Clear input fields after submission
+      setBarcode("");
+      setQuantity("");
+    } else {
+      alert("No matching barcode found."); // Popup alert for no results
+    }
   };
+
+  // const newEntry = {
+  //   name: barcode,
+  //   quantity: quantity,
+  //   address: "Sample Address", // Sample address or replace it with actual data
+  //   key: Date.now().toString(), // Unique key for each entry
+  // };
+
+  // // Pass an array of data objects to `props.setVariable`
+  // props.setVariable((prevData) => [...prevData, newEntry]);
+
+  // // Clear input fields after submission
+  // setBarcode("");
+  // setQuantity("");
 
   return (
     <div>
