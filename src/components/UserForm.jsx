@@ -15,6 +15,7 @@ import PasswordUpdate from "./PasswordUpdate";
 import { useUserData } from "../context/userContext";
 import Address from "./Address";
 import useAddCustomer from "../hooks/useAddCustomer";
+import LocationInput from "./LocationInput";
 
 function UserForm({
   user = {},
@@ -76,7 +77,6 @@ function UserForm({
 
   async function onSubmit(data) {
     const formattedPhoneNumber = data.phone.padStart(10, "0").slice(0, 10);
-    //console.log("Formatted phone number:", data);
     const newUser = {
       ...data,
       phone: formattedPhoneNumber,
@@ -139,6 +139,9 @@ function UserForm({
           )}
           {!isLoggedUser && currentUser.role !== "Cashier" && (
             <Email errors={errors} control={control} role={user?.email} />
+          )}
+          {!isLoggedUser && currentUser.role !== "Cashier" && (
+            <LocationInput errors={errors} control={control} location="" />
           )}
           {!isLoggedUser && (
             <Phone
