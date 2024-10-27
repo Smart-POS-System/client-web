@@ -75,6 +75,7 @@ export async function addUser(data) {
     formData.append("name", data?.name);
     formData.append("email", data?.email);
     formData.append("role", data?.role);
+    formData.append("location_id", data?.location_id);
     formData.append("phone", data?.phone);
 
     if (data?.image) {
@@ -85,6 +86,7 @@ export async function addUser(data) {
       );
       formData.append("image", file);
     }
+
     const response = await axiosInstance({
       method: "post",
       url: `http://localhost:${PORT}/api/v1/users/`,
