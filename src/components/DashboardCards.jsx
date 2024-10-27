@@ -35,29 +35,29 @@ function DashboardCards({ startDate, endDate, refresh }) {
   return (
     <>
       <Card
-        title="Total Revenue"
-        amount={totalRevenue || 0}
-        icon={<AccountBookOutlined />}
-        colour={"bg-green-300"}
-        outerColour={"bg-green-100"}
-      />
-      <Card
         title="Total Sales"
-        amount={5000}
+        amount={totalRevenue || 0}
         icon={<DollarOutlined />}
         colour={"bg-purple-300"}
         outerColour={"bg-purple-100"}
       />
       <Card
+        title="Total Revenue"
+        amount={54671}
+        icon={<AccountBookOutlined />}
+        colour={"bg-green-300"}
+        outerColour={"bg-green-100"}
+      />
+      <Card
         title="Total Purchase"
-        amount={5000}
+        amount={3459}
         icon={<ShoppingCartOutlined />}
         colour={"bg-orange-300"}
         outerColour={"bg-orange-100"}
       />
       <Card
         title="Total Return"
-        amount={5000}
+        amount={1200}
         icon={<RetweetOutlined />}
         colour={"bg-yellow-300"}
         outerColour={"bg-yellow-100"}

@@ -41,7 +41,7 @@ const ExpiredStocksTable = () => {
   const { fullUser: user } = useUserData();
 
   const fetchRegion = async () => {
-    const data = { location_id: user.location.location_id };
+    const data = { location_id: user?.location?.location_id };
     try {
       setLoading(true);
       const regionResponse = await axiosInstance_inventory.post(
@@ -61,7 +61,7 @@ const ExpiredStocksTable = () => {
     setLoading(true);
     const data = {
       type: "expired",
-      role: user.role,
+      role: user?.role,
       location_id: location,
       page_size: pageSize,
       current_page: currentPage,

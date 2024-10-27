@@ -49,9 +49,10 @@ const StockList = () => {
   // const [selectedLocation, setSelectedLocation] = useState(null);
 
   const { fullUser: user } = useUserData();
+  console.log("user: ", user);
 
   const fetchRegion = async () => {
-    const data = { location_id: user.location.location_id };
+    const data = { location_id: user?.location?.location_id };
     try {
       setLoading(true);
       const regionResponse = await axiosInstance_inventory.post(
@@ -69,8 +70,8 @@ const StockList = () => {
 
   const fetchStocks = async () => {
     const data = {
-      role: user.role,
-      location_id: user.location.location_id,
+      role: user?.role,
+      location_id: user.location?.location_id,
       page_size: pageSize,
       current_page: currentPage,
       product_name: searchNameText,
@@ -98,7 +99,6 @@ const StockList = () => {
   useEffect(() => {
     setLoading(true);
     fetchRegion();
-    fetchStocks();
   }, []);
 
   useEffect(() => {
@@ -193,10 +193,10 @@ const StockList = () => {
               All Regions
               {user.role === "General Manager"
                 ? null
-                : ` / ${region.name} Region`}
+                : ` / ${region?.name} Region`}
               {user.role === "Regional Manager"
                 ? null
-                : ` / ${user.location.name}`}
+                : ` / ${user.location?.name}`}
             </h2>
           </div>
           <RefreshButton onRefresh={handleRefresh} />

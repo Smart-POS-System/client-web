@@ -44,7 +44,7 @@ function NavigationBar() {
 
   const items = [
     getItem("Dashboard", "/dashboard", <AreaChartOutlined />),
-    user?.role !== "Cashier"
+    user?.role !== "Cashier" && user?.role !== "Inventory Manager"
       ? getItem("Users", "sub1", <UserOutlined />, [
           getItem("All Employee", "/users", <HiOutlineUsers />),
 
@@ -75,13 +75,7 @@ function NavigationBar() {
       getItem("All Stock", "/stock", <UnorderedListOutlined />),
       getItem("Add New Stock", "/create-stock", <AppstoreAddOutlined />),
     ]),
-    getItem("Expiry Information", "sub6", <FieldTimeOutlined />, [
-      getItem("Expired Stocks", "/expired-stocks", <WarningOutlined />),
-      getItem("Expiring Stocks", "/expiring-stocks", <AlertOutlined />),
-    ]),
-    user.role === "General Manager" ||
-    user.role === "Regional Manager" ||
-    user.role === "Inventory Manager"
+    user.role === "General Manager" || user.role === "Regional Manager"
       ? getItem("Locations", "sub7", <ClusterOutlined />, [
           getItem("Regions", "/regions", <ApartmentOutlined />),
           getItem("Locations", "/locations", <ApartmentOutlined />),

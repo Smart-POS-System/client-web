@@ -87,7 +87,7 @@ function Locations() {
         {loading ? (
           <Skeleton className=" min-w-1/3" active={true} />
         ) : (
-          locations.map((location, index) => (
+          locations?.locations?.map((location, index) => (
             <div key={index} className=" p-0  ">
               <LocationCard location={location} />
             </div>

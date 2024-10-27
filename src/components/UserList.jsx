@@ -20,7 +20,7 @@ function UserList() {
     );
   }
 
-  if (!users.length) {
+  if (!users?.length) {
     return (
       <div className="text-red-600 flex flex-col items-center font-poppins font-semibold text-xl bg-red-100 border rounded-lg border-red-200 p-4 text-center m-5">
         <img className="w-2/5 h-auto pt-5" src={"error.png"} alt="😥" />

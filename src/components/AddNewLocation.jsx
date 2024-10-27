@@ -7,7 +7,7 @@ const AddNewLocation = ({ visible, onOk, onCancel, locations }) => {
 
   useEffect(() => {
     // Check if the region name already exists whenever newRegionName changes
-    const exists = locations.some(
+    const exists = locations?.locations?.some(
       (location) =>
         location.name.toLowerCase() === newLocationName.toLowerCase()
     );

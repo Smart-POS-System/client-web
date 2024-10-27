@@ -82,7 +82,7 @@ function App() {
                   <Route path="transactions" element={<Transaction />} />
                   <Route path="products" element={<AllProducts />} />
                   <Route path="items" element={<AllItems />} />
-                  <Route path="stocks" element={<StockList />} />
+                  <Route path="stock" element={<StockList />} />
                   <Route path="create-product" element={<CreateProduct />} />
                   <Route path="create-item" element={<CreateItem />} />
                   <Route path="create-stock" element={<AddStockForm />} />
