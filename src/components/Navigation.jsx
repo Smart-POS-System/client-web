@@ -79,7 +79,6 @@ function NavigationBar() {
       getItem("Expired Stocks", "/expired-stocks", <WarningOutlined />),
       getItem("Expiring Stocks", "/expiring-stocks", <AlertOutlined />),
     ]),
-    getItem("Transactions", "/transactions", <TransactionOutlined />),
     user.role === "General Manager" ||
     user.role === "Regional Manager" ||
     user.role === "Inventory Manager"
@@ -92,6 +91,7 @@ function NavigationBar() {
     user?.role === "Cashier"
       ? getItem("Stashed Bills", "/stashedBills", <FileTextOutlined />)
       : null,
+    getItem("Transactions", "/transactions", <TransactionOutlined />),
   ];
 
   useEffect(() => {

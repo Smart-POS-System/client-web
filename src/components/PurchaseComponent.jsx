@@ -56,7 +56,7 @@ function PurchaseComponent() {
       >
         <div className="flex flex-row items-center justify-start gap-4 w-full">
           <h4 className="font-semibold font-poppins text-sm">
-            Select Date Range :-
+            Select Date Range:
           </h4>
           <RangePicker onChange={handleDateChange} />
         </div>
